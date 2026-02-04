@@ -1,0 +1,31 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         NORTH STAR PROVENANCE                                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Built with North Star Framework Ecosystem
+
+FRAMEWORK VERSIONS:
+  Bootstrap: 2.0
+  North Star Blueprint: 6.0
+  Master Build Framework: 2.0
+
+PROJECT DETAILS:
+  Name: [Project Name]
+  Completed: [DATE]
+  Tier: [Space | Sky | Foundation]
+  Primary IDE: [IDE Name]
+
+LICENSE:
+  Framework: CC BY-NC-SA 4.0
+  Attribution: North Star Build
+  Repository: https://github.com/Navigata1/NorthStarBuild_6.0
+
+PURPOSE:
+  This file serves as provenance for reproducibility.
+  The build scaffolding has been removed.
+  For framework reference, see the repository above.
+
+To rebuild with the same framework:
+  1. Clone the framework repository
+  2. Follow NORTH_STAR_BOOTSTRAP.md
+  3. Reference the project's instruction file for decisions made

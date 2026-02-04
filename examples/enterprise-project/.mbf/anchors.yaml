@@ -1,0 +1,17 @@
+security:
+  - id: "auth_path"
+    patterns: ["/auth/", "/oauth/"]
+    adjustment: -0.30
+    reason: "Authentication logic requires careful review"
+    target: "path"
+  - id: "secrets_handling"
+    patterns: ["password", "secret", "api_key", "private_key", "token"]
+    adjustment: -0.40
+    reason: "Credential handling is security-critical"
+    target: "content"
+infrastructure:
+  - id: "ci_cd_changes"
+    patterns: [".github/workflows"]
+    adjustment: -0.20
+    reason: "CI/CD changes impact release safety"
+    target: "path"

@@ -1,0 +1,21 @@
+infrastructure:
+  - id: "ci_cd_changes"
+    patterns: [".github/workflows", "ci.yml", "release.yml"]
+    adjustment: -0.20
+    reason: "CI/CD changes impact release safety"
+    target: "path"
+  - id: "docker_changes"
+    patterns: ["Dockerfile", "docker-compose", "/containers/"]
+    adjustment: -0.25
+    reason: "Container changes can affect deployment"
+    target: "path"
+  - id: "infra_as_code"
+    patterns: ["terraform", "pulumi", "cloudformation", "kubernetes"]
+    adjustment: -0.30
+    reason: "Infrastructure as code requires review"
+    target: "content"
+  - id: "secrets_manager"
+    patterns: ["vault", "secrets manager", "key vault"]
+    adjustment: -0.30
+    reason: "Secrets management changes are high impact"
+    target: "content"

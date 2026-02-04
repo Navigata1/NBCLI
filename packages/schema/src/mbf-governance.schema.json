@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://northstarbuild.dev/schemas/mbf-governance.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "governance", "confidence"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "governance": {
+      "type": "object",
+      "required": ["profile"],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": ["starter", "professional", "enterprise"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "confidence": {
+      "type": "object",
+      "required": ["factors", "thresholds"],
+      "properties": {
+        "factors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["weight"],
+            "properties": {
+              "weight": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "thresholds": {
+          "type": "object",
+          "required": ["high", "medium", "low", "uncertain"],
+          "properties": {
+            "high": { "type": "number", "minimum": 0, "maximum": 1 },
+            "medium": { "type": "number", "minimum": 0, "maximum": 1 },
+            "low": { "type": "number", "minimum": 0, "maximum": 1 },
+            "uncertain": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "anchors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "https://northstarbuild.dev/schemas/anchors.schema.json#/definitions/anchorRule" }
+      }
+    },
+    "autonomy": {
+      "type": "object",
+      "properties": {
+        "default_level": { "type": "number", "minimum": 1, "maximum": 6 },
+        "escalation_paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["condition", "action"],
+            "properties": {
+              "condition": { "type": "string" },
+              "action": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

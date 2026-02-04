@@ -1,0 +1,20 @@
+{
+  "name": "@nsb/schema",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**",
+    "src/*.json"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs --dts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

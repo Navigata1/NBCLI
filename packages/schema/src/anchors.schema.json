@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://northstarbuild.dev/schemas/anchors.schema.json",
+  "type": "object",
+  "definitions": {
+    "anchorRule": {
+      "type": "object",
+      "required": ["id", "patterns", "adjustment", "reason"],
+      "properties": {
+        "id": { "type": "string" },
+        "patterns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "adjustment": { "type": "number" },
+        "reason": { "type": "string" },
+        "target": { "type": "string", "enum": ["path", "content", "any"] },
+        "match": { "type": "string", "enum": ["substring", "regex", "glob"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": {
+    "type": "array",
+    "items": { "$ref": "#/definitions/anchorRule" }
+  }
+}

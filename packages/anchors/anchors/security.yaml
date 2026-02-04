@@ -1,0 +1,31 @@
+security:
+  - id: "auth_path"
+    patterns: ["/auth/", "/authentication/", "/login/", "/oauth/"]
+    adjustment: -0.30
+    reason: "Authentication logic requires careful review"
+    target: "path"
+  - id: "secrets_handling"
+    patterns: ["password", "secret", "api_key", "private_key", "token"]
+    adjustment: -0.40
+    reason: "Credential handling is security-critical"
+    target: "content"
+  - id: "crypto_ops"
+    patterns: ["encrypt", "decrypt", "hash", "sign", "verify"]
+    adjustment: -0.25
+    reason: "Cryptographic operations need expert review"
+    target: "content"
+  - id: "raw_sql"
+    patterns: ["rawQuery", "execute(", "SELECT ", "UPDATE ", "DELETE "]
+    adjustment: -0.35
+    reason: "Raw SQL may be vulnerable to injection"
+    target: "content"
+  - id: "env_files"
+    patterns: [".env", "config/secrets", "credentials"]
+    adjustment: -0.45
+    reason: "Environment files contain sensitive configuration"
+    target: "path"
+  - id: "permission_changes"
+    patterns: ["chmod", "chown", "setuid", "capabilities"]
+    adjustment: -0.30
+    reason: "Permission changes affect security posture"
+    target: "content"

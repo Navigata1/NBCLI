@@ -1,0 +1,16 @@
+data:
+  - id: "schema_migration"
+    patterns: ["migration", "schema", "ALTER TABLE", "DROP TABLE"]
+    adjustment: -0.25
+    reason: "Schema changes require careful review"
+    target: "content"
+  - id: "pii_handling"
+    patterns: ["ssn", "social security", "passport", "credit card"]
+    adjustment: -0.40
+    reason: "PII handling is regulated"
+    target: "content"
+  - id: "data_exports"
+    patterns: ["export", "backup", "dump"]
+    adjustment: -0.20
+    reason: "Data export operations are sensitive"
+    target: "content"

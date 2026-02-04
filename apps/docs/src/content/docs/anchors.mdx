@@ -1,0 +1,16 @@
+---
+title: Anchors
+---
+
+Anchors are deterministic rules that adjust confidence when sensitive paths or content are detected.
+
+Example anchor rule:
+
+```yaml
+security:
+  - id: "auth_path"
+    patterns: ["/auth/"]
+    adjustment: -0.30
+    reason: "Authentication logic requires careful review"
+    target: "path"
+```

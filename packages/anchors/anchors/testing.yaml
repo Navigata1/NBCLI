@@ -1,0 +1,11 @@
+testing:
+  - id: "test_coverage"
+    patterns: ["coverage", "lcov", "nyc"]
+    adjustment: -0.10
+    reason: "Coverage changes may affect quality reporting"
+    target: "content"
+  - id: "snapshot_update"
+    patterns: [".snap", "snapshot"]
+    adjustment: -0.15
+    reason: "Snapshot updates should be reviewed"
+    target: "path"

@@ -1,0 +1,34 @@
+version: "1.0"
+governance:
+  profile: "starter"
+confidence:
+  factors:
+    specification_clarity:
+      weight: 0.25
+      description: "How clear is the task?"
+    solution_certainty:
+      weight: 0.25
+      description: "How confident in the approach?"
+    reversibility:
+      weight: 0.20
+      description: "How easy to undo if wrong?"
+    scope_containment:
+      weight: 0.15
+      description: "How isolated is the change?"
+    precedent_available:
+      weight: 0.15
+      description: "Have similar changes been done before?"
+  thresholds:
+    high: 0.80
+    medium: 0.50
+    low: 0.30
+    uncertain: 0.0
+autonomy:
+  default_level: 2
+  escalation_paths:
+    - condition: "confidence < 0.30"
+      action: "require_human_approval"
+    - condition: "anchor_triggered"
+      action: "explain_and_confirm"
+tools:
+  enabled: ["claude"]
