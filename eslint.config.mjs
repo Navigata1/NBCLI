@@ -5,7 +5,15 @@ import prettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**', '.turbo/**', 'coverage/**'],
+    ignores: [
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/.turbo/**',
+      '**/coverage/**',
+      '**/.next/**',
+      '**/.astro/**',
+      '**/playwright-report/**',
+    ],
   },
   js.configs.recommended,
   {
@@ -15,6 +23,20 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+      },
+      globals: {
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        process: 'readonly',
+        console: 'readonly',
+        Buffer: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        NodeJS: 'readonly',
       },
     },
     plugins: {

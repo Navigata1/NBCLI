@@ -13,7 +13,7 @@ import { generateCursorRules } from '../generators/cursor-rules.js';
 import { ensureDir, fileExists, writeFileSafe } from '../utils/files.js';
 import { log } from '../utils/logger.js';
 import { printBanner } from '../utils/banner.js';
-import { colors, icons, gradients } from '../utils/theme.js';
+import { colors, icons } from '../utils/theme.js';
 
 const TOOL_CHOICES = [
   { name: 'Claude Code (CLAUDE.md)', value: 'claude' },
