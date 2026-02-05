@@ -1,6 +1,19 @@
 {
   "name": "@nsb/mcp-server",
   "version": "0.1.0",
+  "description": "HTTP API server for NorthStarBuild governance checks",
+  "license": "MIT",
+  "author": "Navigata1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "directory": "packages/mcp-server"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "keywords": ["ai", "governance", "mcp", "server", "api"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

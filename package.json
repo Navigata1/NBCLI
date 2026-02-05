@@ -2,6 +2,16 @@
   "name": "northstarbuild",
   "private": true,
   "packageManager": "pnpm@10.26.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "author": "Navigata1",
+  "keywords": ["ai", "governance", "cli", "claude", "cursor", "codex", "agents"],
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"

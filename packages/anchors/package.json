@@ -1,6 +1,19 @@
 {
   "name": "@nsb/anchors",
   "version": "0.1.0",
+  "description": "Built-in anchor rule libraries for NorthStarBuild",
+  "license": "MIT",
+  "author": "Navigata1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "directory": "packages/anchors"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "keywords": ["ai", "governance", "anchors", "rules"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

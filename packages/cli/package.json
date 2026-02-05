@@ -1,18 +1,31 @@
 {
   "name": "@nsb/cli",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "CLI tool for AI governance - generate instruction files for Claude, Cursor, and Codex",
+  "license": "MIT",
+  "author": "Navigata1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "keywords": ["ai", "governance", "cli", "claude", "cursor", "codex", "agents"],
+  "main": "dist/cli.js",
+  "types": "dist/cli.d.ts",
   "bin": {
-    "northstarbuild": "dist/index.js",
-    "nsb": "dist/index.js"
+    "northstarbuild": "dist/cli.js",
+    "nsb": "dist/cli.js"
   },
   "files": [
     "dist/**",
     "templates/**"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs --dts --banner \"#!/usr/bin/env node\"",
+    "build": "tsup",
     "test": "vitest run",
     "test:e2e": "vitest run --dir tests/e2e",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -22,8 +35,20 @@
     "@nsb/anchors": "workspace:*",
     "@nsb/core": "workspace:*",
     "@nsb/schema": "workspace:*",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "cli-table3": "^0.6.5",
     "commander": "^12.0.0",
+    "figures": "^6.1.0",
+    "gradient-string": "^3.0.0",
     "inquirer": "^10.2.0",
+    "ora": "^8.1.1",
     "yaml": "^2.5.1"
+  },
+  "devDependencies": {
+    "@types/gradient-string": "^1.1.6",
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.0",
+    "vitest": "^2.1.8"
   }
 }

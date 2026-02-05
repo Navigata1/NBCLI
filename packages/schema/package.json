@@ -1,6 +1,19 @@
 {
   "name": "@nsb/schema",
   "version": "0.1.0",
+  "description": "JSON Schema validators for NorthStarBuild governance configs",
+  "license": "MIT",
+  "author": "Navigata1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "directory": "packages/schema"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "keywords": ["ai", "governance", "json-schema", "validation"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

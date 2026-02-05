@@ -1,6 +1,19 @@
 {
   "name": "@nsb/core",
   "version": "0.1.0",
+  "description": "Core engine for NorthStarBuild - SSAP calculator and anchor matching",
+  "license": "MIT",
+  "author": "Navigata1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://northstarbuild.dev",
+  "bugs": {
+    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+  },
+  "keywords": ["ai", "governance", "ssap", "anchor", "rules"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
