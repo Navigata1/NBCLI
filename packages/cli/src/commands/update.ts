@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'fs';
 import { parse, stringify } from 'yaml';
 import { getBuiltInAnchors } from '@nsb/anchors';
 import { DEFAULT_TOOLS } from '../generators/registry';
-import { generateToolFiles } from '../utils/generate';
+import { checkGeneratedFiles, generateToolFiles } from '../utils/generate';
 import { getPlannedWrites, setDryRun, writeFileSafe } from '../utils/files';
 import { buildReport, renderPreview } from '../utils/preview';
 import { log } from '../utils/logger';
@@ -23,6 +23,7 @@ export const updateCommand = new Command('update')
   .description('Regenerate tool instructions from current configuration')
   .option('-t, --tools <tools>', 'comma separated: claude,cursor,codex,skill')
   .option('--dry-run', 'show what would change without writing files', false)
+  .option('--check', 'verify generated files are unedited + in sync with config (exit 1 on drift)', false)
   .action((options) => {
     const root = process.cwd();
     const configPath = path.resolve(root, '.mbf', 'mbf-governance.yaml');
@@ -56,6 +57,19 @@ export const updateCommand = new Command('update')
 
     const tools = parseTools(options.tools);
     const resolvedTools = tools.length ? tools : config.tools?.enabled ?? DEFAULT_TOOLS;
+
+    if (options.check) {
+      const { ok, issues } = checkGeneratedFiles(root, config, anchors, resolvedTools);
+      if (ok) {
+        log.success(`Generated files in sync + unedited (${resolvedTools.length} tools).`);
+        return;
+      }
+      log.error('Generated-file drift (content-hash check failed):');
+      issues.forEach((i) => console.log(`  - ${i}`));
+      log.dim('Run `nsb update` to regenerate, or revert hand-edits.');
+      process.exitCode = 1;
+      return;
+    }
 
     if (options.dryRun) {
       log.info('Anchor merge summary:');

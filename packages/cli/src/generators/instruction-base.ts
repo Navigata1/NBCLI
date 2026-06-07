@@ -37,7 +37,24 @@ export const buildInstructionBody = (config: GovernanceConfig, anchors: AnchorCo
   const sections: string[] = [];
 
   sections.push(
-    `You are operating under the North Star Build governance system (MBF-GS), profile "${config.governance.profile}".`,
+    `You are operating under North Star Build (NBB) governance, profile "${config.governance.profile}".
+North Star is a methodology (NBB v6.5 / MBF v2.5, source of truth: Navigata1/NBB):
+NS = HOW (Blueprint) | MBF = WHAT (62 categories) | BRIDGE = NAVIGATE.
+Values, in strict priority: DEPTH > FOCUS > ACCURACY (never speed). Governance is co-equal with power.
+
+## North Star bootstrap (ignition)
+1. This file is your ignition key -- start here every session; check for an existing project
+   instruction file before generating a new one (enhance, never blind-overwrite).
+2. Determine tier (Foundation -> Sky -> Space): sets quality gates + autonomy caps.
+3. Build ONE vertical slice end-to-end (UI -> API -> Data -> Tests -> working).
+4. Reference on demand: methodology -> Blueprint, technology -> MBF, navigation -> BRIDGE. Do NOT front-load.
+5. Confidence before action; clean exit (remove scaffolding, leave a provenance note).
+
+## Load discipline (tokenomics, measured)
+Tier 1 (always): this file + the project instruction file. Tier 2 (on demand): the ONE Blueprint Part
+/ MBF Category you need. Tier 3 (lookup only): deep tables. Never co-resident full Blueprint + MBF;
+unload on topic change. The full framework is ~258k tokens and exceeds a 200k window -- lazy-load is
+mandatory, not optional.`,
   );
 
   sections.push(

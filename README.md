@@ -53,7 +53,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb init` | Scaffold `.mbf/` governance + generate instruction files. `--dry-run` previews with a ready/warning/blocked verdict. |
 | `nsb preview` | Read-only resolution: config, tools, MCP/auth, planned writes, verdict (no model run) |
 | `nsb validate` | Validate `.mbf` config + anchors against the JSON Schema |
-| `nsb update` | Regenerate instruction files; merge custom anchors. `--dry-run` shows the diff. |
+| `nsb update` | Regenerate instruction files; merge custom anchors. `--dry-run` diff; `--check` drift guard. |
 | `nsb doctor` | Environment + config + hook-profile + run-ledger diagnostics |
 | `nsb model-route` | Recommend a model tier + effort/fast flags for a task (recommends, never executes) |
 | `nsb budget` | Spend vs caps; `record` / `verify` the tamper-evident run ledger |
