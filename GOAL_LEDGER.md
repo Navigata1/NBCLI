@@ -34,12 +34,13 @@ Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetr
   Cedar path-only). The `evaluate_change` MCP tool already answers "is this allowed?" at runtime.
 - **v2.16 — Opt-in sinks** (PR #12, shipped): `sinks` config + `nsb audit sync --webhook` (OFF by
   default; payload redaction). Offline claim re-scoped honestly to "offline by default".
-- **v2.17 — Sandbox/isolation**: `nsb worktree --backend docker` + `nsb workflow validate` / reference runner.
+- **v2.17 — Sandbox/isolation** (PR #13, shipped): `nsb sandbox run` (Docker, network-off by default,
+  `--print` needs no Docker) + `nsb workflow validate`. The workflow executor stays deferred (harness runs models).
 - **v2.18 — Supply-chain trust + plugins**: minisign signing (`audit export --sign`, `nsb verify`) + signed `nsb plugin`.
 
 ## Still deferred (honest, documented)
 ACP-native handshake runtime (reached via MCP) · network telemetry/compression (rejected; local stats only) ·
-workflow **executor** (NBCLI emits the plan + a reference runner; the harness runs models).
+workflow **executor** (NBCLI emits + validates the plan; the harness runs models).
 
 ## Owner-controlled
 The release tag + npm publish (then the GitHub Action / Homebrew / `npm i -g` install paths go live).

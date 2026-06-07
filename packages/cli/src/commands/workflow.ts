@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import path from 'path';
+import { existsSync, readFileSync } from 'fs';
 import { stringify } from 'yaml';
 import { writeFileSafe } from '../utils/files';
 import { log } from '../utils/logger';
@@ -63,14 +64,72 @@ export function buildWorkflowPlan(name: string, goal: string): WorkflowPlan {
   };
 }
 
+/** Lint a workflow plan spec (shape + caps). Pure + testable. */
+export function validateWorkflowPlan(plan: unknown): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!plan || typeof plan !== 'object') return { valid: false, errors: ['plan is not an object'] };
+  const p = plan as Partial<WorkflowPlan>;
+  if (typeof p.name !== 'string' || !p.name) errors.push('name: required non-empty string');
+  if (typeof p.goal !== 'string' || !p.goal) errors.push('goal: required non-empty string');
+  if (typeof p.concurrency_cap !== 'number' || p.concurrency_cap < 1) errors.push('concurrency_cap: positive number required');
+  if (typeof p.total_agent_cap !== 'number' || p.total_agent_cap < 1) errors.push('total_agent_cap: positive number required');
+  if (
+    typeof p.concurrency_cap === 'number' &&
+    typeof p.total_agent_cap === 'number' &&
+    p.concurrency_cap > p.total_agent_cap
+  ) {
+    errors.push('concurrency_cap must not exceed total_agent_cap');
+  }
+  if (!Array.isArray(p.stages) || p.stages.length === 0) {
+    errors.push('stages: non-empty array required');
+  } else {
+    p.stages.forEach((s, i) => {
+      if (!s || typeof s.id !== 'string' || !s.id) errors.push(`stages[${i}].id: required`);
+      if (!s || typeof s.description !== 'string') errors.push(`stages[${i}].description: required`);
+      if (!s || typeof s.parallel !== 'boolean') errors.push(`stages[${i}].parallel: boolean required`);
+    });
+  }
+  return { valid: errors.length === 0, errors };
+}
+
 export const workflowCommand = new Command('workflow')
-  .description('Emit a bounded parallel sub-agent plan (typed IO, caps, adversarial verify)')
-  .argument('[action]', 'plan | show', 'show')
+  .description('Emit/validate a bounded parallel sub-agent plan (typed IO, caps, adversarial verify)')
+  .argument('[action]', 'plan | show | validate', 'show')
   .option('-n, --name <name>', 'workflow name', 'review')
   .option('-g, --goal <goal>', 'one-line goal', 'Review the current diff for correctness and risk')
+  .option('-f, --file <file>', 'validate: path to a plan JSON (default .mbf/workflows/<name>.json)')
   .action((action: string, options) => {
     printMini();
     const root = process.cwd();
+
+    if (action === 'validate') {
+      const file = options.file
+        ? path.resolve(root, options.file)
+        : path.resolve(root, '.mbf', 'workflows', `${options.name}.json`);
+      if (!existsSync(file)) {
+        log.error(`No plan at ${path.relative(root, file)}`);
+        process.exitCode = 1;
+        return;
+      }
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(readFileSync(file, 'utf-8'));
+      } catch {
+        log.error('Plan is not valid JSON.');
+        process.exitCode = 1;
+        return;
+      }
+      const result = validateWorkflowPlan(parsed);
+      if (result.valid) {
+        log.success(`Plan valid: ${path.relative(root, file)}`);
+      } else {
+        log.error(`Plan invalid (${result.errors.length} issue(s)):`);
+        result.errors.forEach((e) => console.log(`  - ${e}`));
+        process.exitCode = 1;
+      }
+      return;
+    }
+
     const plan = buildWorkflowPlan(options.name, options.goal);
 
     if (action === 'plan') {
