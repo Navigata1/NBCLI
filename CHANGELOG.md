@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.22.0 - 2026-06-07 — NBB re-alignment Slice 4: protocols + memory
+
+### Added
+- **`nsb protocols emit`** → `.mbf/integrations/`: `mcp.json` (wires `nsb-mcp` into any MCP/ACP host),
+  `memory-backend.json` (swappable Working/Episodic/Semantic/Procedural interface, local-json default),
+  `PROTOCOLS.md` (MCP/ACP/A2A/AG-UI/A2UI guidance).
+- **ACP via MCP** (owner decision): ACP/IDE hosts (Zed/JetBrains/Kimi) reach NBCLI governance through
+  its MCP server; NBCLI is a tool/governance provider, not a model-running agent.
+
+### Changed
+- Version 2.21.0 → 2.22.0. **Version-line flag RESOLVED** (owner): the CLI line continues forward,
+  independent of NBB's methodology version (v6.5/v2.5, pinned + enforced).
+
+### Honest boundaries
+- A2A / AG-UI / A2UI are **emitted guidance**, not runtimes (labeled in `PROTOCOLS.md` + the crosswalk).
+
 ## 2.21.0 - 2026-06-07 — NBB re-alignment Slice 3: portability output
 
 ### Added

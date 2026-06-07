@@ -50,10 +50,10 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 
 | NBB doctrine (`docs/protocols/*`) | NBCLI mechanism | Status |
 |---|---|---|
-| **ACP** (IDE <-> agent, LSP-style; Zed/JetBrains/Kimi) | extend `packages/cli/src/commands/adapters.ts` with ACP-native integration | SLICE 4 |
-| **MCP** = privilege boundary (least privilege) | `packages/mcp-server` reflects the unified governance | PARTIAL -> Slice 4 |
-| **A2A / AG-UI / A2UI** | emitted guidance + scaffolding per `protocols/README.md` (honest: emitted-guidance, not runtime) | SLICE 4 |
-| **Swappable memory backend** (Working/Episodic/Semantic/Procedural; `MEMORY_BACKEND.md`) | emit the backend interface config into generated projects | SLICE 4 |
+| **ACP** (IDE <-> agent, LSP-style; Zed/JetBrains/Kimi) | reached VIA MCP: hosts consume `nsb-mcp` (`nsb protocols emit` -> `.mbf/integrations/mcp.json`); NBCLI is a tool/governance provider, not a driven agent | REAL (Slice 4, via MCP) |
+| **MCP** = privilege boundary (least privilege) | `packages/mcp-server` (6 tools) is the unified-governance privilege boundary; wired via `mcp.json` | REAL (Slice 4) |
+| **A2A / AG-UI / A2UI** | `nsb protocols emit` -> `PROTOCOLS.md` guidance (honest: emitted-guidance, NOT a runtime) | REAL -- emitted guidance (Slice 4) |
+| **Swappable memory backend** (Working/Episodic/Semantic/Procedural; `MEMORY_BACKEND.md`) | `nsb protocols emit` -> `.mbf/integrations/memory-backend.json` (4 types, local-json default) | REAL (Slice 4) |
 
 ## Skills supply chain (Slice 5)
 
