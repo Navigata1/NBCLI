@@ -19,7 +19,10 @@ op run --no-masking -- node ./scripts/release.ts   # avoid; prefer masked
 ```
 
 - Store `op://vault/item/field` references in config/env; resolve via `op run --`.
-- The `secrets_handling` and `env_files` anchors lower confidence on changes that touch credentials.
+- The `env_files` (path) and `secrets_handling` anchors flag credential changes. `secrets_handling`
+  matches key literals (`api_key`, `private_key`, `-----BEGIN`, …) plus assignment forms
+  (`password`/`secret`/`token`/`api_key` `= "…"`); a bare identifier like a lone `token` variable is
+  intentionally **not** matched, to keep enforcement low-false-positive.
 - `nsb preview` reports whether the `op` CLI is present and whether `op://` references appear in config.
 
 ## Permission model & least privilege
@@ -60,6 +63,26 @@ user's intent. Anchors raise scrutiny on content that looks like injected direct
 NBCLI runs fully offline (no telemetry, no network). Model execution is delegated to your harness;
 choose a local/offline model there if required. There is no opt-out needed because there is nothing
 to opt out of.
+
+## Enforcement (git + agent hooks)
+
+`nsb hooks install` turns advisory governance into **enforced** governance:
+
+- **git pre-commit** runs `nsb check --staged` and blocks risky **commits** (exit 1).
+- **Claude Code PreToolUse** runs `nsb check --hook` and blocks an **agent's**
+  Write/Edit/MultiEdit/NotebookEdit to risky paths (exit 2 — the edit never lands).
+
+The verdict follows the hook profile: **strict** blocks on any *enforced* anchor, **standard** blocks
+an enforced security-category match or high-risk (**enforced** adjustment ≤ −0.40), **minimal** warns
+only. Only `enforce`-flagged anchors block; advisory anchors never do. Use `strict` for
+regulated/security-sensitive repos.
+
+**Scope & limitations (honest):** enforcement is **local** (developer machine + agent harness) — it
+does not enforce on a server you don't control. The tool-name matcher covers Write/Edit/MultiEdit/
+NotebookEdit; **Bash-driven writes** (`echo >`, `sed -i`) are inherently out of scope for a
+tool-name hook. Both hooks **fail closed**: if `nsb` is not on PATH they block (exit 1/2) rather
+than silently allow, and an unparsable PreToolUse payload blocks under strict/standard. `nsb check`
+is deterministic and offline.
 
 ## Run ledger integrity (limitations)
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.7.0 - 2026-06-07 — Enforcement
+
+The advisory → **enforced** leap: governance can now deterministically block risky changes.
+
+### Added
+- **`nsb check [paths] [--staged] [--hook] [--profile] [--warn-only]`** — runs the risk anchors over
+  files or staged changes and **exits nonzero to block** (exit 2 in Claude Code `--hook` mode).
+- **`nsb hooks install | uninstall | status`** — installs a real **git pre-commit** hook
+  (`nsb check --staged`) and a **Claude Code PreToolUse** hook (`nsb check --hook`), so risky commits
+  AND an agent's edits are blocked per the hook profile.
+- **`evaluateChange(matches, profile)`** in `@nsb/core` — deterministic block/warn/allow decision
+  (strict blocks any anchor; standard blocks security/high-risk; minimal warns). Unit-tested.
+- **`pnpm dogfood`** readiness gate (`scripts/dogfood-readiness.mjs`) + `DOGFOOD_READINESS.md` +
+  `GOAL_LEDGER.md`.
+
+### Changed
+- Hook profiles now **drive enforcement** (the verdict), not just instruction text, once hooks are installed.
+- Version 2.6.0 → 2.7.0 (single-sourced + test-enforced).
+- Docs (README/SECURITY/CAPABILITY) document enforcement and its scope (local: git + agent harness).
+
 ## 2.6.0 - 2026-06-07 — Hardening
 
 ### Added

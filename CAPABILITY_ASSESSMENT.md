@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.6.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.7.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **126 tests** green (core 39, schema 17, cli 61, mcp-server 9); `build`,
+Verification baseline: **155 tests** green (core 48, schema 17, cli 81, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -21,7 +21,8 @@ Verification baseline: **126 tests** green (core 39, schema 17, cli 61, mcp-serv
 |---|---|---|
 | Global `--dry-run` readiness preview (ready/warning/blocked) | ✅ | `nsb init --dry-run`, `nsb preview`; unit-tested verdict logic; no writes, no model run |
 | Portable one-source-of-truth → AGENTS.md/CLAUDE.md/SKILL.md/Cursor | ✅ | generator registry; e2e + unit tests |
-| Hook profiles `minimal\|standard\|strict` + env-var disabling | 🟡 | rendered into instructions + in schema/profiles; agent must honor; selection is REAL |
+| Hook profiles `minimal\|standard\|strict` (drive enforcement) | ✅ | select the block/warn verdict in `nsb check` + hooks; rendered into instructions; decision unit-tested |
+| **Enforced governance** (git pre-commit + Claude PreToolUse hooks) | ✅ | `nsb hooks install` + `nsb check` deterministically **block** risky changes (exit 1 / exit 2); only `enforce`-flagged anchors block (precision-tested: `/auth/` ≠ `author/`); covers Write/Edit/MultiEdit/NotebookEdit (Bash writes out of scope); **fails closed** if `nsb` missing or payload unparsable. Local scope (machine + agent harness) |
 | `model-route` (Opus 4.8 orchestration, cheap subtasks, fast/effort) | ✅ (recommender) | deterministic + unit-tested; **recommends**, does not execute models |
 | `workflow` bounded parallel sub-agent plan (typed IO, caps, adversarial verify) | 🟡 plan / ⛔ executor | emits a valid plan spec (tested); the executor is the harness's job, not NBCLI's |
 | Real MCP (stdio) adapter | ✅ | `nsb-mcp` via `@modelcontextprotocol/sdk`; live `initialize`+`tools/list` verified |
@@ -68,7 +69,7 @@ Verification baseline: **126 tests** green (core 39, schema 17, cli 61, mcp-serv
   be reviewed against the current model list before relying on them.
 - **MCP SDK `^1.29.0`** and **ACP** maturity are point-in-time; re-verify before publishing.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.6.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.7.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

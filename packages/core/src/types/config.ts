@@ -33,6 +33,13 @@ export interface AnchorRule {
   reason: string;
   target?: AnchorTarget;
   match?: AnchorMatchType;
+  /**
+   * When true, this anchor is "block-worthy" and drives enforcement
+   * (`nsb check` / hooks). When false/absent it is advisory — it still informs
+   * confidence scoring but never blocks. Reserve `enforce` for high-precision,
+   * low-false-positive rules (e.g. path-based auth/env/CI, precise PII/secret literals).
+   */
+  enforce?: boolean;
 }
 
 export type AnchorCollection = Record<string, AnchorRule[]>;
