@@ -1,6 +1,6 @@
 {
   "name": "@nsb/schema",
-  "version": "2.14.0",
+  "version": "2.15.0",
   "description": "JSON Schema validators for NorthStarBuild governance configs",
   "license": "MIT",
   "author": "Navigata1",
