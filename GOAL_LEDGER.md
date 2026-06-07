@@ -57,8 +57,7 @@ enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slic
   prompt-injection posture; enforced `hard_stops` anchors + the NBB safety floor emitted into every instruction file. (.claude/settings.json deny-list -> Slice 3; .mbf vocab aliasing deferred.)
 - **Slice 3 — Portability output** (PR #18, shipped): `nsb init` emits NBB bootstrap trio + governance layer with
   content-hash `--check`; all 10 generators carry NBB doctrine (update `generators.test.ts`).
-- **Slice 4 — Protocols + memory:** ACP-native `adapters.ts`; unified MCP boundary; A2A/AG-UI/A2UI
-  scaffolding + swappable memory-backend config (honest runtime-vs-emitted labels).
+- **Slice 4 — Protocols + memory** (PR #19, shipped): `nsb protocols emit` -> mcp.json (wires nsb-mcp) + memory-backend.json + PROTOCOLS.md. ACP reached VIA MCP (no adapters.ts change); A2A/AG-UI/A2UI = emitted guidance, not runtimes.
 - **Slice 5 — Skills supply-chain parity:** `skill.ts` -> NBB `vet_skill.sh` default-deny gate;
   emit/reference NBB skill set + `SKILLS_REGISTRY.md`; carry UNPINNED honesty markers.
 - **Slice 6 — Dogfood self-application (G4):** run NBCLI generators on its own config -> root
@@ -66,7 +65,7 @@ enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slic
 - **Slice 7 — Distribution + honest assessment:** version bump (see flag), CHANGELOG + MIGRATION,
   `CAPABILITY_ASSESSMENT.md` refresh, `docs/DRIFT_GUARD.md`.
 
-**VERSION-LINE FLAG (accuracy):** the brief says "keep the 2.5.x line / version to 2.5.x", but the
+**VERSION-LINE FLAG (RESOLVED 2026-06-07 — owner chose FORWARD):** the brief says "keep the 2.5.x line / version to 2.5.x", but the
 LIVE NBCLI CLI is **2.18.0** (14 shipped PRs). Going to 2.5.x would be a backward npm/semver jump and
 break the single-source version test — not viable. NBCLI's CLI version (2.x, forward) is INDEPENDENT of
 NBB's methodology version (v6.5/v2.5, pinned + enforced). Default: continue the CLI line FORWARD
