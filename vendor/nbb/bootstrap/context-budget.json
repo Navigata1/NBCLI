@@ -1,0 +1,112 @@
+{
+  "note": "tokens are an estimate (chars/4); bytes are exact. Regenerate with scripts/measure_context_budget.py",
+  "reference_window_tokens": 200000,
+  "components": {
+    "core_always_resident": {
+      "path": "CLAUDE.md",
+      "bytes": 8165,
+      "est_tokens": 2032
+    },
+    "bridge_navigation": {
+      "path": "BRIDGE.md",
+      "bytes": 61632,
+      "est_tokens": 12659
+    },
+    "bootstrap_deep": {
+      "path": "NORTH_STAR_BOOTSTRAP.md",
+      "bytes": 85835,
+      "est_tokens": 16330
+    },
+    "blueprint_full": {
+      "path": "north-star-blueprint/NORTH_STAR_BLUEPRINT_v6.5.md",
+      "bytes": 1031632,
+      "est_tokens": 189482
+    },
+    "mbf_full": {
+      "path": "master-build-framework/MASTER_BUILD_FRAMEWORK_v2.5.md",
+      "bytes": 169383,
+      "est_tokens": 39869
+    }
+  },
+  "blueprint_parts": [
+    {
+      "part": "PART I: FOUNDATION & PHILOSOPHY",
+      "bytes": 111480,
+      "est_tokens": 21022
+    },
+    {
+      "part": "PART II: PRIMITIVE EXECUTION FRAMEWORK",
+      "bytes": 108425,
+      "est_tokens": 19847
+    },
+    {
+      "part": "PART III: DOCUMENTATION & WORKFLOW",
+      "bytes": 105447,
+      "est_tokens": 19446
+    },
+    {
+      "part": "PART IV: AI ORCHESTRATION & INTELLIGENCE",
+      "bytes": 121317,
+      "est_tokens": 21514
+    },
+    {
+      "part": "PART V: AGENT COMPOSITION & ORCHESTRATION",
+      "bytes": 60356,
+      "est_tokens": 10637
+    },
+    {
+      "part": "PART VI: MCP & TOOL ORCHESTRATION",
+      "bytes": 57897,
+      "est_tokens": 9788
+    },
+    {
+      "part": "PART VII: DESIGN MASTERY SYSTEM",
+      "bytes": 78728,
+      "est_tokens": 14204
+    },
+    {
+      "part": "PART VIII: CODE ARCHITECTURE & PATTERNS",
+      "bytes": 61001,
+      "est_tokens": 11172
+    },
+    {
+      "part": "PART IX: TESTING & VERIFICATION FRAMEWORK",
+      "bytes": 44698,
+      "est_tokens": 8633
+    },
+    {
+      "part": "PART X: SECURITY & AUTHENTICATION",
+      "bytes": 53952,
+      "est_tokens": 9874
+    },
+    {
+      "part": "PART XI: DEVOPS & DEPLOYMENT",
+      "bytes": 67470,
+      "est_tokens": 12428
+    },
+    {
+      "part": "PART XII: FUTURE-PROOFING & EVOLUTION",
+      "bytes": 56577,
+      "est_tokens": 10229
+    },
+    {
+      "part": "PART XIII: QUICK REFERENCE & INDEXES",
+      "bytes": 30624,
+      "est_tokens": 6048
+    },
+    {
+      "part": "PART XIV: HUMAN-AGENT COLLABORATION",
+      "bytes": 31056,
+      "est_tokens": 5842
+    }
+  ],
+  "reference_build": {
+    "task": "start a project",
+    "before_load_all_tokens": 258340,
+    "after_tier1_core_tokens": 2032,
+    "pct_of_window_before": 129.2,
+    "pct_of_window_after": 1.02,
+    "always_resident_reduction_pct": 99.21,
+    "full_exceeds_window": true
+  }
+}

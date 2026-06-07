@@ -17,7 +17,7 @@ NBCLI/
 ├── examples/        # sample governed projects
 ├── docs/            # strategy, blueprint, and research docs
 ├── scripts/         # release + scan (encoding/secrets) tooling
-├── BRIDGE.md · NORTH_STAR_BOOTSTRAP.md · north-star-blueprint/ · master-build-framework/
+├── BRIDGE.md · NORTH_STAR_BOOTSTRAP.md · vendor/nbb/ (NBB v6.5 doctrine) · superseded/ (legacy v6.0)
 └── BASELINE.md · CAPABILITY_ASSESSMENT.md · MIGRATION.md · SECURITY.md
 ```
 
@@ -27,7 +27,7 @@ NBCLI/
 pnpm install
 pnpm build          # turbo build all packages
 pnpm typecheck
-pnpm test           # vitest across packages (236 tests)
+pnpm test           # vitest across packages (241 tests)
 pnpm lint
 pnpm scan           # encoding (mojibake/U+FFFD) + secret scan
 ```

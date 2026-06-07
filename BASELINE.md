@@ -34,8 +34,8 @@ The methodology itself lives as large hand-authored Markdown assets in-repo:
 - **`NORTH_STAR_BOOTSTRAP.md`** — the "ignition key" (tiers, 5-level confidence calibration,
   1–7 autonomy dial, load balancing, self-cleaning scaffolding). *Banner says v1.3; provenance says 2.0.*
 - **`BRIDGE.md`** v2.0 — navigation/routing between Blueprint and MBF.
-- **`north-star-blueprint/`** — North Star Blueprint v6.0 ("HOW to build"), 14 parts (I–XIII + appendix).
-- **`master-build-framework/`** — MBF v2.0 ("WHAT to build with"), 56 categories / 8 tiers, 4 segment files.
+- **`superseded/north-star-blueprint-v6.0/`** (archived) -- legacy Blueprint v6.0 ("HOW"). Canonical now: NBB v6.5 (vendor/nbb/).
+- **`superseded/master-build-framework-v2.0/`** (archived) -- legacy MBF v2.0 ("WHAT"). Canonical now: NBB v2.5.
 - **`docs/`** — strategic positioning ("Agent Governance Standard", OWASP/NIST/EU mappings, MVP plans).
 
 **"North Star v1 vs v2" is not cleanly defined.** Version numbers run on independent axes:

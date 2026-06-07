@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.19.0 - 2026-06-07 — NBB re-alignment Slice 1: canonical sync + dedupe
+
+### Added
+- **`nsb sync` / `nsb sync --check`** — NBB (`Navigata1/NBB`) is the single source of truth.
+  `vendor/nbb/` holds a PINNED doctrine subset of NBB @ `2820283…` with a `MANIFEST.json` (per-file
+  sha256 + pinned SHA). `--check` (offline) fails on any drift and is wired into `pnpm dogfood`, so
+  NBB<->NBCLI drift can never silently recur. Bare `nsb sync` refreshes vendor/nbb from NBB@pinned_sha
+  (git + network; maintainer op).
+- `vendor/nbb/` — 13 doctrine files (NBB_CORE, HARD_STOPS, governance, TOKENOMICS + context-budget,
+  protocols, SKILLS_REGISTRY, vet_skill) + `vendor/nbb/LICENSE` (CC BY-NC-SA) + README.
+
+### Changed
+- **DEDUPE:** stale legacy methodology (Blueprint v6.0, MBF v2.0) moved to `superseded/`; canonical
+  methodology is now NBB v6.5 / v2.5. Doc pointers repointed to NBB / `vendor/nbb/`.
+- **License seam:** root `NOTICE` + a `LICENSE` header document MIT (engine) vs CC BY-NC-SA (NBB
+  methodology in `vendor/nbb/`, `superseded/`, and emitted text). Owner-confirm flag retained.
+- Version 2.18.0 → 2.19.0 (see MIGRATION; CLI line is independent of NBB methodology v6.5/v2.5).
+
 ## 2.18.0 - 2026-06-07 — Supply-chain trust + plugins (capstone)
 
 ### Added

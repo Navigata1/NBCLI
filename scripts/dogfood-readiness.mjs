@@ -5,6 +5,8 @@ import { execSync } from 'node:child_process';
 
 const steps = [
   ['build', 'pnpm build'],
+  // NBB drift guard: vendor/nbb must match its MANIFEST + the pinned SHA (offline).
+  ['nbb-sync', 'node packages/cli/dist/cli.js sync --check'],
   ['typecheck', 'pnpm typecheck'],
   ['lint', 'pnpm lint'],
   ['test', 'pnpm test'],
