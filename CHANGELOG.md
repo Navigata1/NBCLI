@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.9.0 - 2026-06-07 — Eval harness
+
+### Added
+- **`nsb eval`** — runs the governance engine over labeled fixtures and reports accuracy, block
+  precision/recall, and false negatives/positives; exits nonzero on any false negative or below
+  `--min-accuracy` (default 1.0). Loads a bundled fixture set + optional project `.mbf/eval/*.json`.
+- **`scoreEval`** in `@nsb/core` — pure precision/recall/accuracy scoring (block = positive class).
+- A bundled labeled fixture set that doubles as the enforcement behavioral spec (lookalikes like
+  `author/`, `.envconfig`, `immigrations/`, bare `token` all expected to NOT block).
+
+### Changed
+- Version 2.8.0 → 2.9.0.
+
 ## 2.8.0 - 2026-06-07 — Portability moat
 
 ### Added

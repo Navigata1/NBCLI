@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.8.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.9.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **159 tests** green (core 48, schema 17, cli 85, mcp-server 9); `build`,
+Verification baseline: **183 tests** green (core 52, schema 17, cli 105, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -60,6 +60,7 @@ Verification baseline: **159 tests** green (core 48, schema 17, cli 85, mcp-serv
 | UTF-8 byte-safe; mojibake/U+FFFD scan | ✅ | `pnpm scan` (all tracked text files clean), in CI |
 | Secret scan | ✅ | high-signal provider/key scanner (all tracked files clean), in CI |
 | Build / test / lint / typecheck green | ✅ | all gates; typecheck was previously broken and is now enforced |
+| Governance eval harness (`nsb eval`) | ✅ | labeled fixtures → accuracy / block precision / recall; bundled set scores 100% (unit-tested, per-fixture); exits nonzero on any false negative |
 | Monolithic distributable | ✅ | `build:standalone` → single file, run from `/tmp` with no node_modules |
 | npm provenance on release | 🟡 | release workflow adds `--provenance` + `id-token: write`; **not run** this pass (Jon-owned) |
 
@@ -71,8 +72,11 @@ Verification baseline: **159 tests** green (core 48, schema 17, cli 85, mcp-serv
 - **Adapter file paths** (`GEMINI.md`, `.github/copilot-instructions.md`, `.windsurf/rules/`,
   `.clinerules/`) follow each tool's documented convention as of mid-2026; tools evolve, so confirm
   the path your tool version actually reads. NBCLI generates the file — auto-loading is the tool's job.
+- The bundled `nsb eval` fixtures are **authored** — a spec + regression guard for the engine's
+  intended classification, not an independent third-party benchmark. Add your own labeled cases at
+  `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.8.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.9.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·
