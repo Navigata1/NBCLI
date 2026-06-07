@@ -123,7 +123,7 @@ No auth, rate limiting, CORS, TLS, or body `try/catch`.
    README / README_REPO / QUICK_START / Bootstrap / BRIDGE assert **CC BY-NC-SA 4.0**. The MIT
    `LICENSE` file is the controlling artifact → standardize docs on **MIT**, preserve attribution.
 2. **Repo-identity drift.** Bootstrap fetch URLs, provenance template, submission links point to
-   `NorthStarBuild_6.0`; the actual repo is `_2.0` (→ now `NBCLI`).
+   `NorthStarBuild_6.0`; the actual repo is `_2.0` (→ corrected to `NBCLI` in this edition).
 3. **Dual lockfiles.** Both `package-lock.json` (npm) and `pnpm-lock.yaml` committed; pnpm is
    authoritative everywhere → remove the npm lockfile.
 4. **Version drift.** `0.1.0` hardcoded in 2 source spots + 5 package.jsons; brand says "2.0".

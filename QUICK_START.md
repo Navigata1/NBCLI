@@ -1,52 +1,51 @@
-# Quick Start Guide (North Star Build 2.0)
+# Quick Start — NBCLI (NorthStar Bootstrap CLI)
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                        NORTH STAR BUILD — QUICK START                         │
-│                       Governed autonomy in 5 minutes                          │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+> Governed autonomy in 5 minutes.
 
-## 1) Install the CLI
+## 1) Install
 
 ```bash
-npm i -g @nsb/cli
+npm i -g @nsb/cli          # bins: northstarbuild, nsb
 ```
 
-## 2) Initialize Governance
+## 2) Preview, then initialize
 
 ```bash
-nsb init --profile professional --tools claude,cursor,codex
+nsb init --dry-run --yes   # see the resolved plan + verdict (writes nothing)
+nsb init --profile professional --tools claude,cursor,codex,skill
 ```
 
-This creates:
-- `.mbf/mbf-governance.yaml`
-- `.mbf/anchors.yaml`
-- `CLAUDE.md`, `.cursor/rules/mbf.mdc`, `AGENTS.md`
+Creates `.mbf/{mbf-governance,anchors,custom-anchors}.yaml`, plus `CLAUDE.md`, `AGENTS.md`,
+`.cursor/rules/mbf.mdc`, and `.claude/skills/north-star/SKILL.md`.
 
-## 3) Validate Configuration
+## 3) Validate & diagnose
 
 ```bash
 nsb validate
+nsb doctor                 # env + hook profile + run-ledger integrity
 ```
 
-## 4) Regenerate Instructions (After edits)
+## 4) Use the governed-autonomy surface
 
 ```bash
-nsb update
+nsb model-route --kind plan --risk high      # which model + effort for a task
+nsb budget                                   # spend vs caps
+nsb skill eval                               # score the generated skill
+nsb workflow show                            # bounded parallel sub-agent plan
+nsb-mcp                                       # start the MCP (stdio) server
+```
+
+## 5) Regenerate after edits
+
+```bash
+nsb update                 # --dry-run to preview the diff
 ```
 
 ---
 
-## Optional: Use the Framework Documents
+## Optional: the methodology documents
 
-For deep methodology and tool selection guidance:
-
-- `NORTH_STAR_BOOTSTRAP.md` — ignition key
-- `BRIDGE.md` — routing layer
-- `north-star-blueprint/` — HOW to build
-- `master-build-framework/` — WHAT to build with
-
----
+`NORTH_STAR_BOOTSTRAP.md` (ignition key) · `BRIDGE.md` (routing) · `north-star-blueprint/` (HOW) ·
+`master-build-framework/` (WHAT).
 
 Build with intention. Ship with confidence.

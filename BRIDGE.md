@@ -19,7 +19,7 @@
 │  │       (HOW to build)        (Navigation)      (WHAT to build with)  │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
 │                                                                              │
-│  LICENSE: CC BY-NC-SA 4.0                                                   │
+│  LICENSE: MIT License                                                   │
 │  For commercial licensing: See repository for contact information           │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -774,7 +774,7 @@ NORTH STAR vs ALTERNATIVES
 □ Contributing guidelines written
 □ Discord/community link active
 □ Analytics tracking (stars, forks, clones)
-□ License clearly stated (CC BY-NC-SA 4.0)
+□ License clearly stated (MIT License)
 □ Commercial licensing path documented
 ```
 

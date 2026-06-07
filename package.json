@@ -23,7 +23,8 @@
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "format": "prettier -w .",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "scan": "node scripts/scan-encoding.mjs && node scripts/scan-secrets.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
