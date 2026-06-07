@@ -9,9 +9,11 @@ const config: GovernanceConfig = {
 };
 const anchors: AnchorCollection = {};
 
+const ALL = ['claude', 'cursor', 'codex', 'grok', 'skill', 'windsurf', 'cline', 'gemini', 'copilot', 'aider', 'junie'];
+
 describe('portability adapters', () => {
-  it('registry exposes all eight adapters with output paths', () => {
-    for (const tool of ['claude', 'cursor', 'codex', 'skill', 'windsurf', 'cline', 'gemini', 'copilot']) {
+  it('registry exposes every adapter with an output path', () => {
+    for (const tool of ALL) {
       expect(ALL_TOOLS).toContain(tool);
       expect(getGenerator(tool)?.relPath).toBeTruthy();
     }
@@ -30,5 +32,12 @@ describe('portability adapters', () => {
     expect(getGenerator('copilot')?.relPath).toContain('copilot-instructions.md');
     expect(getGenerator('windsurf')?.relPath).toContain('.windsurf');
     expect(getGenerator('cline')?.relPath).toContain('.clinerules');
+    expect(getGenerator('aider')?.relPath).toBe('CONVENTIONS.md');
+    expect(getGenerator('junie')?.relPath).toContain('.junie');
+  });
+
+  it('grok and codex both target AGENTS.md (Grok reads it natively — no GROK.md)', () => {
+    expect(getGenerator('grok')?.relPath).toBe('AGENTS.md');
+    expect(getGenerator('codex')?.relPath).toBe('AGENTS.md');
   });
 });

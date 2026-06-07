@@ -62,7 +62,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb worktree` | Isolated parallel runs via real `git worktree` (create / list / remove) |
 | `nsb check` | Enforce risk anchors over files / staged changes — exit nonzero to **block** |
 | `nsb hooks` | Install/remove enforcement hooks (git pre-commit + Claude Code PreToolUse) |
-| `nsb adapters` | List instruction-file adapters (Claude/Cursor/Codex/SKILL/Windsurf/Cline/Gemini/Copilot) |
+| `nsb adapters` | List/detect adapters — 11 adapters (10 files; codex+grok share AGENTS.md) incl. Grok/Aider/Junie (`--detect` scans the repo) |
 | `nsb eval` | Score the governance engine against labeled fixtures (accuracy / precision / recall) |
 | `nsb audit` | Report / verify / export the run ledger (JSON/CSV for SIEM) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
