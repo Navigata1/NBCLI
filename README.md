@@ -138,9 +138,8 @@ not a prompt generator. Enforcement is local (your machine + agent harness) and 
 ## MCP
 
 `nsb-mcp` is a genuine [Model Context Protocol](https://modelcontextprotocol.io) server over stdio
-(built on `@modelcontextprotocol/sdk`) exposing `check_confidence`, `verify_autonomy`, and
-`log_decision`. A legacy plain-HTTP API (`startServer`) remains for backward compatibility — it is
-**unauthenticated and unencrypted, binds to loopback (127.0.0.1) only, and must never be exposed to
+(built on `@modelcontextprotocol/sdk`) exposing `check_confidence`, `verify_autonomy`, `log_decision`, `evaluate_change`, `list_anchors`, and `audit_query`. A legacy plain-HTTP API (`startServer`) remains for backward compatibility — it is
+**unauthenticated and unencrypted, binds to loopback (127.0.0.1) only (set `NSB_HTTP_TOKEN` to require a bearer token), and must never be exposed to
 a network**. Prefer the stdio MCP server.
 
 Example MCP client config:

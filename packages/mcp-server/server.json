@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.navigata1/north-star-build",
+  "description": "NorthStar Build governance over MCP: SSAP confidence scoring, allow/warn/block enforcement verdicts, anchor-policy introspection, and a tamper-evident audit ledger.",
+  "version": "2.14.0",
+  "repository": {
+    "url": "https://github.com/Navigata1/NBCLI",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registry_type": "npm",
+      "identifier": "@nsb/mcp-server",
+      "version": "2.14.0",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

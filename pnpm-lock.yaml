@@ -148,6 +148,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.29.0(zod@3.25.76)
+      '@nsb/anchors':
+        specifier: workspace:*
+        version: link:../anchors
       '@nsb/core':
         specifier: workspace:*
         version: link:../core

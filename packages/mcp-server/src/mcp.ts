@@ -2,13 +2,16 @@ import path from 'path';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
-import type { ConfidenceThresholds } from '@nsb/core';
+import type { ConfidenceThresholds, LedgerKind } from '@nsb/core';
 import { checkConfidence, type CheckConfidenceInput } from './tools/check-confidence';
 import { verifyAutonomy } from './tools/verify-autonomy';
 import { logDecision } from './tools/log-decision';
+import { evaluateChangeTool, type EvaluateChangeInput } from './tools/evaluate-change';
+import { listAnchors } from './tools/list-anchors';
+import { auditQuery } from './tools/audit-query';
 
 export const MCP_SERVER_NAME = 'north-star-build';
-export const MCP_SERVER_VERSION = '2.13.0';
+export const MCP_SERVER_VERSION = '2.14.0';
 
 // Real MCP tool definitions (JSON Schema), wrapping the same pure governance
 // functions the legacy HTTP server exposes.
@@ -65,6 +68,36 @@ export const MCP_TOOLS = [
       },
     },
   },
+  {
+    name: 'evaluate_change',
+    description:
+      'Return the allow/warn/block enforcement verdict for proposed file changes (path/content) under a hook profile. Query this BEFORE acting.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        targets: { type: 'array', description: 'AnchorMatchTarget[] ({ path?, content? })' },
+        profile: { type: 'string', enum: ['minimal', 'standard', 'strict'], description: 'hook profile (default standard)' },
+        anchors: { type: 'object', description: 'optional AnchorCollection override; defaults to built-ins' },
+      },
+      required: ['targets'],
+    },
+  },
+  {
+    name: 'list_anchors',
+    description: 'Return the built-in risk anchor library so an agent can introspect the active policy.',
+    inputSchema: { type: 'object', properties: {} },
+  },
+  {
+    name: 'audit_query',
+    description: 'Query the tamper-evident run ledger (filter by kind/since) and return counts + a spend summary.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        kind: { type: 'string', description: 'decision | run | spend | note' },
+        since: { type: 'string', description: 'ISO-8601 lower bound (inclusive)' },
+      },
+    },
+  },
 ];
 
 function ledgerFile(): string {
@@ -80,12 +113,22 @@ export function callTool(name: string, args: Record<string, unknown>): unknown {
       return verifyAutonomy(args.score as number, args.thresholds as ConfidenceThresholds);
     case 'log_decision':
       return logDecision(args, { ledgerFile: ledgerFile() });
+    case 'evaluate_change':
+      return evaluateChangeTool(args as unknown as EvaluateChangeInput);
+    case 'list_anchors':
+      return listAnchors();
+    case 'audit_query':
+      return auditQuery({
+        ledgerFile: ledgerFile(),
+        kind: args.kind as LedgerKind | undefined,
+        since: args.since as string | undefined,
+      });
     default:
       throw new Error(`Unknown tool: ${name}`);
   }
 }
 
-/** Build a real MCP server (stdio-ready) exposing the 3 governance tools. */
+/** Build a real MCP server (stdio-ready) exposing the governance tools. */
 export function createMcpServer(): Server {
   const server = new Server(
     { name: MCP_SERVER_NAME, version: MCP_SERVER_VERSION },
