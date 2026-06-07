@@ -54,8 +54,8 @@ function showBudget(root: string): void {
   table.push([
     'tokens',
     `${spend.totalTokens}`,
-    '—',
-    '—',
+    evalProject.tokens.cap != null ? `${evalProject.tokens.cap}` : '—',
+    evalProject.tokens.cap != null ? `${Math.round(evalProject.tokens.pct * 100)}%` : '—',
     STATUS_TEXT[evalProject.tokens.status],
   ]);
   console.log(table.toString());
@@ -107,6 +107,11 @@ export const budgetCommand = new Command('budget')
       const tokens = options.tokens != null ? Number(options.tokens) : undefined;
       if (usd == null && tokens == null) {
         log.error('Provide --usd and/or --tokens to record spend.');
+        process.exitCode = 1;
+        return;
+      }
+      if ((usd != null && !Number.isFinite(usd)) || (tokens != null && !Number.isFinite(tokens))) {
+        log.error('--usd and --tokens must be finite numbers.');
         process.exitCode = 1;
         return;
       }

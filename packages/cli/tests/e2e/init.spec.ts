@@ -50,6 +50,10 @@ describe.skipIf(!cliBuilt)('cli e2e init', () => {
     expect(existsSync(path.join(TEST_DIR, 'CLAUDE.md'))).toBe(true);
     expect(existsSync(path.join(TEST_DIR, '.cursor', 'rules', 'mbf.mdc'))).toBe(true);
     expect(existsSync(path.join(TEST_DIR, 'AGENTS.md'))).toBe(true);
+
+    const skillPath = path.join(TEST_DIR, '.claude', 'skills', 'north-star', 'SKILL.md');
+    expect(existsSync(skillPath)).toBe(true);
+    expect(readFileSync(skillPath, 'utf-8').startsWith('---')).toBe(true);
   });
 
   it('generated YAML is valid', () => {
@@ -88,7 +92,16 @@ describe.skipIf(!cliBuilt)('cli e2e init', () => {
     mkdirSync(path.join(TEST_DIR, '.mbf'), { recursive: true });
     writeFileSync(path.join(TEST_DIR, '.mbf', 'mbf-governance.yaml'), 'version: "1.0"');
 
-    expect(() => runCli('init --yes')).toThrow();
+    let collisionOut = '';
+    try {
+      runCli('init --yes');
+      throw new Error('expected init to refuse overwrite');
+    } catch (err) {
+      collisionOut = String((err as { stdout?: Buffer | string }).stdout ?? '');
+    }
+    // Clean, user-facing refusal — not a raw Node stack trace.
+    expect(collisionOut).toContain('Refusing to overwrite');
+    expect(collisionOut).not.toContain('at Command');
 
     const output = runCli('init --yes --force');
     expect(output).toContain('Initialization Complete');

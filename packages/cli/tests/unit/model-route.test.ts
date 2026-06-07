@@ -39,4 +39,14 @@ describe('recommendRoute', () => {
     );
     expect(d.model).toBe('custom-orchestrator');
   });
+
+  it('cheap tier does NOT leak a custom subtask override (regression)', () => {
+    const d = recommendRoute({ kind: 'chat', risk: 'low', confidence: 'high' }, { subtask: 'custom-mid' });
+    expect(d.model).toBe(CHEAP_MODEL);
+  });
+
+  it('honours an explicit cheap model override', () => {
+    const d = recommendRoute({ kind: 'implement', risk: 'low', confidence: 'high' }, { cheap: 'my-cheap' });
+    expect(d.model).toBe('my-cheap');
+  });
 });

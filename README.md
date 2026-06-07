@@ -83,7 +83,9 @@ regenerate everywhere with `nsb update`.
 - **Hook profiles** `minimal | standard | strict` — rendered into instructions; map to gate strictness.
 - **Budgets & permissions** — per-run/per-project cost caps and an allow/deny + destructive-gate
   model (advisory; rendered into instructions and checked by `nsb budget`).
-- **Run ledger** — a tamper-evident, hash-chained JSONL audit trail (`nsb budget verify`).
+- **Run ledger** — a hash-chained JSONL integrity log (`nsb budget verify`): detects naive edits,
+  but is **not** forgery-resistant (a writer can recompute the chain) and is single-writer. See
+  [`SECURITY.md`](./SECURITY.md).
 
 See [`SECURITY.md`](./SECURITY.md) for the security posture (1Password `op://`, sandboxing,
 prompt-injection stance, least privilege).
@@ -94,7 +96,9 @@ prompt-injection stance, least privilege).
 
 `nsb-mcp` is a genuine [Model Context Protocol](https://modelcontextprotocol.io) server over stdio
 (built on `@modelcontextprotocol/sdk`) exposing `check_confidence`, `verify_autonomy`, and
-`log_decision`. A legacy plain-HTTP API (`startServer`) remains for backward compatibility.
+`log_decision`. A legacy plain-HTTP API (`startServer`) remains for backward compatibility — it is
+**unauthenticated and unencrypted, binds to loopback (127.0.0.1) only, and must never be exposed to
+a network**. Prefer the stdio MCP server.
 
 Example MCP client config:
 

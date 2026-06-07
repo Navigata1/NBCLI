@@ -102,29 +102,43 @@ export const initCommand = new Command('init')
     log.blank();
 
     const createdFiles: string[] = [];
-    const spinner = ora({ text: 'Creating governance directory...', color: 'cyan' }).start();
+    let spinner: ReturnType<typeof ora> | undefined;
 
-    ensureDir(mbfDir);
-    spinner.succeed('Created .mbf directory');
+    try {
+      spinner = ora({ text: 'Creating governance directory...', color: 'cyan' }).start();
+      ensureDir(mbfDir);
+      spinner.succeed('Created .mbf directory');
 
-    spinner.start('Generating governance configuration...');
-    writeFileSafe(configPath, serializeConfig(config), force);
-    createdFiles.push('.mbf/mbf-governance.yaml');
-    spinner.succeed('Generated governance config');
+      spinner.start('Generating governance configuration...');
+      writeFileSafe(configPath, serializeConfig(config), force);
+      createdFiles.push('.mbf/mbf-governance.yaml');
+      spinner.succeed('Generated governance config');
 
-    spinner.start('Merging anchor collections...');
-    writeFileSafe(anchorsPath, stringify(mergedAnchors), force);
-    createdFiles.push('.mbf/anchors.yaml');
-    if (!fileExists(customAnchorsPath)) {
-      writeFileSafe(customAnchorsPath, '# Add custom anchors here\n', true);
-      createdFiles.push('.mbf/custom-anchors.yaml');
+      spinner.start('Merging anchor collections...');
+      writeFileSafe(anchorsPath, stringify(mergedAnchors), force);
+      createdFiles.push('.mbf/anchors.yaml');
+      if (!fileExists(customAnchorsPath)) {
+        writeFileSafe(customAnchorsPath, '# Add custom anchors here\n', true);
+        createdFiles.push('.mbf/custom-anchors.yaml');
+      }
+      spinner.succeed('Merged anchor collections');
+
+      spinner.start('Generating tool instructions...');
+      const generated = generateToolFiles(root, config, mergedAnchors, answers.tools, force);
+      generated.forEach((file) => createdFiles.push(path.relative(root, file.path)));
+      spinner.succeed('Generated tool instructions');
+    } catch (err) {
+      spinner?.stop();
+      if (err instanceof Error && err.message.startsWith('File already exists')) {
+        const file = err.message.replace('File already exists: ', '');
+        log.blank();
+        log.error(`Refusing to overwrite existing file: ${file}`);
+        log.error('Re-run with --force to overwrite, or remove the file first.');
+        process.exitCode = 1;
+        return;
+      }
+      throw err;
     }
-    spinner.succeed('Merged anchor collections');
-
-    spinner.start('Generating tool instructions...');
-    const generated = generateToolFiles(root, config, mergedAnchors, answers.tools, force);
-    generated.forEach((file) => createdFiles.push(path.relative(root, file.path)));
-    spinner.succeed('Generated tool instructions');
 
     log.blank();
 

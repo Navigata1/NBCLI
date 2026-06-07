@@ -61,6 +61,24 @@ NBCLI runs fully offline (no telemetry, no network). Model execution is delegate
 choose a local/offline model there if required. There is no opt-out needed because there is nothing
 to opt out of.
 
+## Run ledger integrity (limitations)
+
+The run ledger (`.mbf/ledger/runs.jsonl`, `nsb budget verify`) is a **hash-chained integrity log**,
+not a cryptographic audit trail. It detects *naive* in-place edits (the SHA-256 chain stops
+matching), but it is **not forgery-resistant**: anyone who can write the file can recompute the
+whole chain from the edited entry forward (there is no HMAC/secret/signature/external anchor). It is
+also **single-writer** — concurrent appenders (e.g. the CLI and a running MCP server writing the
+same file) can race and produce a duplicate `seq`, which `verify` reports as a false mismatch. To
+harden: HMAC each hash with a secret the writer does not control, anchor the head hash to an
+external witness, and serialize writers.
+
+## Legacy HTTP API
+
+`startServer` (port 3333) is a legacy plain-HTTP API kept for backward compatibility. It is
+**unauthenticated, unencrypted, and has no rate limiting**; it binds to **127.0.0.1 only** and
+rejects malformed JSON with 400. Never expose it to a network. The real **stdio MCP server**
+(`nsb-mcp`) supersedes it and is the recommended transport.
+
 ## Reporting
 
 Open a security issue at https://github.com/Navigata1/NBCLI/issues (or privately contact the

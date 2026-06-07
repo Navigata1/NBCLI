@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync } from 'fs';
+import { mkdtempSync, readFileSync, rmSync } from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
@@ -7,7 +7,7 @@ import { verifyLedger } from '@nsb/core';
 import { checkConfidence } from '../src/tools/check-confidence';
 import { verifyAutonomy } from '../src/tools/verify-autonomy';
 import { logDecision } from '../src/tools/log-decision';
-import { MCP_TOOLS, callTool, createMcpServer } from '../src/mcp';
+import { MCP_SERVER_VERSION, MCP_TOOLS, callTool, createMcpServer } from '../src/mcp';
 
 const config: GovernanceConfig = {
   version: '1.0',
@@ -84,5 +84,10 @@ describe('MCP server wiring', () => {
 
   it('createMcpServer builds without connecting', () => {
     expect(createMcpServer()).toBeTruthy();
+  });
+
+  it('MCP_SERVER_VERSION matches package.json (no drift)', () => {
+    const pkg = JSON.parse(readFileSync(path.resolve(__dirname, '../package.json'), 'utf-8'));
+    expect(MCP_SERVER_VERSION).toBe(pkg.version);
   });
 });

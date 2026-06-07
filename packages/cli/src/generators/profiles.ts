@@ -46,7 +46,12 @@ export const PROFILES: Record<GovernanceProfile, GovernanceConfig> = {
       allow: ['read', 'format', 'lint', 'test'],
       destructive_gates: ['rm -rf', 'git push --force', 'db migrate'],
     },
-    routing: { orchestrator: 'claude-opus-4-8', subtask: 'claude-sonnet-4-6', fast: false },
+    routing: {
+      orchestrator: 'claude-opus-4-8',
+      subtask: 'claude-sonnet-4-6',
+      cheap: 'claude-haiku-4-5',
+      fast: false,
+    },
   },
   enterprise: {
     version: '1.0',
@@ -62,13 +67,26 @@ export const PROFILES: Record<GovernanceProfile, GovernanceConfig> = {
     },
     tools: { enabled: [] },
     hooks: { profile: 'strict' },
-    budgets: { per_run_usd: 10, per_project_usd: 100, per_run_tokens: 200000, warn_at: 0.75, currency: 'USD' },
+    budgets: {
+      per_run_usd: 10,
+      per_project_usd: 100,
+      per_run_tokens: 200000,
+      per_project_tokens: 2000000,
+      warn_at: 0.75,
+      currency: 'USD',
+    },
     permissions: {
       allow: ['read', 'format', 'lint', 'test'],
       deny: ['curl | sh', 'npx --yes'],
       destructive_gates: ['rm -rf', 'git push --force', 'db migrate', 'deploy prod', 'payment'],
     },
-    routing: { orchestrator: 'claude-opus-4-8', subtask: 'claude-sonnet-4-6', fast: false, effort: 'xhigh' },
+    routing: {
+      orchestrator: 'claude-opus-4-8',
+      subtask: 'claude-sonnet-4-6',
+      cheap: 'claude-haiku-4-5',
+      fast: false,
+      effort: 'xhigh',
+    },
   },
 };
 

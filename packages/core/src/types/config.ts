@@ -66,6 +66,7 @@ export interface BudgetConfig {
   per_run_usd?: number;
   per_project_usd?: number;
   per_run_tokens?: number;
+  per_project_tokens?: number;
   /** Warn when spend reaches this fraction of a cap (0..1). Default 0.8. */
   warn_at?: number;
   currency?: string;
@@ -90,6 +91,8 @@ export interface PermissionConfig {
 export interface RoutingConfig {
   orchestrator?: string;
   subtask?: string;
+  /** Cheap/fast tier model for low-risk, high-confidence, routine work. */
+  cheap?: string;
   fast?: boolean;
   effort?: string;
 }

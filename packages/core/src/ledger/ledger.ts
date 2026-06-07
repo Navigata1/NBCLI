@@ -43,8 +43,18 @@ export function readLedger(file: string): LedgerEntry[] {
 
 /**
  * Append a sealed entry to the append-only ledger. Each entry chains to the
- * previous one via `prevHash`, making the log tamper-evident: editing any past
- * entry breaks the chain and is detected by {@link verifyLedger}.
+ * previous one via `prevHash` (plain SHA-256, no secret key).
+ *
+ * INTEGRITY MODEL — read carefully:
+ * - Detects NAIVE in-place edits of an entry (its hash / the chain stops matching).
+ * - NOT forgery-resistant. Anyone who can WRITE the file can recompute the whole
+ *   chain from the edited entry forward; there is no HMAC, signature, or external
+ *   anchor. Treat this as an integrity log, not a cryptographic audit trail. To
+ *   harden: HMAC each hash with a secret the writer does not control, and/or
+ *   anchor the head hash to an external witness (git commit / notary).
+ * - SINGLE-WRITER. seq/prevHash derive from a prior read, so two processes
+ *   appending to the same file concurrently can produce a duplicate seq (which
+ *   verifyLedger then reports as a false "seq mismatch"). Serialize writers.
  *
  * `now` is injectable for deterministic tests.
  */

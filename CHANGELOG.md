@@ -13,7 +13,7 @@ v2" brand and the v2.5 edition (see [`MIGRATION.md`](./MIGRATION.md)).
   `ready | warning | blocked`) and a standalone `nsb preview`.
 - **Hook profiles** `minimal | standard | strict`, rendered into instructions; env-var disabling.
 - New commands: `model-route` (Opus 4.8 orchestration / cheaper subtasks / fast + effort flags —
-  a recommender), `budget` (cost caps + tamper-evident run ledger), `skill` (list/add/eval/stocktake),
+  a recommender), `budget` (cost caps + hash-chained run ledger (naive-edit-evident, not forgery-resistant)), `skill` (list/add/eval/stocktake),
   `workflow` (bounded parallel sub-agent plan), `home` (dynamic ASCII visual).
 - **Real MCP server** (`nsb-mcp`, stdio, `@modelcontextprotocol/sdk`) exposing
   `check_confidence` / `verify_autonomy` / `log_decision`.

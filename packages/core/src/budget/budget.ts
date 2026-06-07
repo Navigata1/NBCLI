@@ -45,7 +45,7 @@ export function evaluateBudget(
 ): BudgetEvaluation {
   const warnAt = budget?.warn_at ?? 0.8;
   const usdCap = scope === 'run' ? budget?.per_run_usd : budget?.per_project_usd;
-  const tokenCap = scope === 'run' ? budget?.per_run_tokens : undefined;
+  const tokenCap = scope === 'run' ? budget?.per_run_tokens : budget?.per_project_tokens;
   const usd = evaluateCap(spent.usd, usdCap, warnAt);
   const tokens = evaluateCap(spent.tokens, tokenCap, warnAt);
   const status = RANK[usd.status] >= RANK[tokens.status] ? usd.status : tokens.status;

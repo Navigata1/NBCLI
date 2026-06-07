@@ -30,8 +30,9 @@ The version is now **single-sourced** in `packages/cli/src/version.ts` (test-enf
 
 ## Behavioral notes
 
-- `log_decision` (MCP/HTTP) now **persists** to the tamper-evident run ledger when a ledger path or
-  `$NSB_LEDGER` is set; otherwise it echoes with `persisted: false` (no silent "audit trail").
+- `log_decision` (MCP/HTTP) now **persists** to the hash-chained run ledger (naive-edit-evident, not
+  forgery-resistant — see [`SECURITY.md`](./SECURITY.md)) when a ledger path or `$NSB_LEDGER` is set;
+  otherwise it echoes with `persisted: false` (no silent "audit trail").
 - The HTTP server on port 3333 still exists but is documented honestly as an **HTTP API**, not MCP.
 
 ## License

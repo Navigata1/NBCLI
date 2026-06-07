@@ -113,6 +113,7 @@
         "per_run_usd": { "type": "number", "minimum": 0 },
         "per_project_usd": { "type": "number", "minimum": 0 },
         "per_run_tokens": { "type": "number", "minimum": 0 },
+        "per_project_tokens": { "type": "number", "minimum": 0 },
         "warn_at": { "type": "number", "minimum": 0, "maximum": 1 },
         "currency": { "type": "string" }
       },
@@ -132,6 +133,7 @@
       "properties": {
         "orchestrator": { "type": "string" },
         "subtask": { "type": "string" },
+        "cheap": { "type": "string" },
         "fast": { "type": "boolean" },
         "effort": { "type": "string" }
       },

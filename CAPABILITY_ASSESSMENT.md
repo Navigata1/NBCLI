@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **96 tests** green (core 35, schema 12, cli 41, mcp-server 8); `build`,
+Verification baseline: **116 tests** green (core 35, schema 17, cli 55, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -45,8 +45,8 @@ Verification baseline: **96 tests** green (core 35, schema 12, cli 41, mcp-serve
 ## BATCH 4 — Governance / security
 | Capability | Status | Notes |
 |---|---|---|
-| Immutable run ledger | ✅ | hash-chained JSONL; tamper detection unit-tested; `nsb budget verify` |
-| Per-run/per-project hard cost caps + auto-throttle signal | 🟡 | `evaluateBudget` returns a throttle decision (REAL); enforcement is the harness pausing on it |
+| Hash-chained integrity log (run ledger) | ✅ | detects naive in-place edits (unit-tested); **not** forgery-resistant — a writer can recompute the chain (no HMAC/signature); single-writer. See SECURITY.md. `nsb budget verify` |
+| Per-project cost caps (USD + tokens) + auto-throttle signal | 🟡 | `nsb budget` evaluates cumulative spend vs per-project caps and sets exit 1 on breach (REAL); per-run caps are advisory (rendered into instructions, not aggregated by the flat ledger); harness must pause on the throttle signal |
 | Permission model (allow/deny/destructive gates) | 🟡 | declared in schema/profiles, rendered into instructions; advisory |
 | 1Password `op://` + `op run --` pattern | ✅ doc / 🟡 runtime | documented in `SECURITY.md`; `preview` detects `op` CLI + `op://` refs |
 | Sensitive-path protection, URL validation, Stripe test-mode | 🟡 | encoded as anchors + guidance; `scan-secrets` flags `sk_live_`/keys (REAL) |
@@ -56,8 +56,8 @@ Verification baseline: **96 tests** green (core 35, schema 12, cli 41, mcp-serve
 ## BATCH 5 — Distribution / verification
 | Capability | Status | Notes |
 |---|---|---|
-| UTF-8 byte-safe; mojibake/U+FFFD scan | ✅ | `pnpm scan` (170 files clean), in CI |
-| Secret scan | ✅ | high-signal provider/key scanner (180 files clean), in CI |
+| UTF-8 byte-safe; mojibake/U+FFFD scan | ✅ | `pnpm scan` (all tracked text files clean), in CI |
+| Secret scan | ✅ | high-signal provider/key scanner (all tracked files clean), in CI |
 | Build / test / lint / typecheck green | ✅ | all gates; typecheck was previously broken and is now enforced |
 | Monolithic distributable | ✅ | `build:standalone` → single file, run from `/tmp` with no node_modules |
 | npm provenance on release | 🟡 | release workflow adds `--provenance` + `id-token: write`; **not run** this pass (Jon-owned) |

@@ -39,7 +39,9 @@ export interface RouteDecision {
 export function recommendRoute(input: RouteInput, routing?: RoutingConfig): RouteDecision {
   const orchestrator = routing?.orchestrator ?? ORCHESTRATOR_MODEL;
   const subtask = routing?.subtask ?? SUBTASK_MODEL;
-  const cheap = routing?.subtask ?? CHEAP_MODEL;
+  // The cheap tier reads its OWN field; it must NOT fall back to `subtask`,
+  // otherwise any config that sets `subtask` makes CHEAP_MODEL unreachable.
+  const cheap = routing?.cheap ?? CHEAP_MODEL;
 
   const highRisk = input.risk === 'high';
   const lowConfidence = input.confidence === 'low' || input.confidence === 'uncertain';

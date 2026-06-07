@@ -27,4 +27,15 @@ describe('composeHome', () => {
     const out = composeHome({ version: '2.5.0', initialized: false }, 0, 100);
     expect(out).toContain('nsb init');
   });
+
+  it('renders tools, hook profile, and the MCP wired/available state', () => {
+    const wired = composeHome({ ...status, mcp: true }, 0, 100);
+    expect(wired).toContain('wired');
+    expect(wired).toContain('standard');
+    expect(wired).toContain('claude');
+
+    const avail = composeHome({ ...status, mcp: false, tools: [] }, 0, 100);
+    expect(avail).toContain('available');
+    expect(avail).toContain('(none)');
+  });
 });
