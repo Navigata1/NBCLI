@@ -185,7 +185,6 @@ export async function printHome(status: HomeStatus): Promise<void> {
     process.stdout.write(composeHome(status, frame, columns) + '\n');
     if (frame < FRAMES - 1) {
       process.stdout.write(`\x1b[${height + 1}A`);
-      // eslint-disable-next-line no-await-in-loop
       await sleep(FRAME_MS);
     }
   }

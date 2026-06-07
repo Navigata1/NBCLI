@@ -3,8 +3,7 @@ import path from 'path';
 import { existsSync, readFileSync } from 'fs';
 import { parse } from 'yaml';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
-import { getAnchorFiles } from '@nsb/anchors';
-import { loadAnchorsFromFile, mergeAnchorCollections } from '@nsb/core';
+import { getBuiltInAnchors } from '@nsb/anchors';
 import { DEFAULT_TOOLS } from '../generators/registry';
 import { mergeAnchors } from '../utils/anchors';
 import { gatherPreview, renderPreview } from '../utils/preview';
@@ -31,7 +30,7 @@ export const previewCommand = new Command('preview')
     }
 
     const config = parse(readFileSync(configPath, 'utf-8')) as GovernanceConfig;
-    const builtIn = mergeAnchorCollections(...getAnchorFiles().map((file) => loadAnchorsFromFile(file)));
+    const builtIn = getBuiltInAnchors();
 
     let custom: AnchorCollection = {};
     if (existsSync(customAnchorsPath)) {

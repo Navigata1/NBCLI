@@ -6,12 +6,12 @@
   "author": "Navigata1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "url": "https://github.com/Navigata1/NBCLI.git",
     "directory": "packages/core"
   },
   "homepage": "https://northstarbuild.dev",
   "bugs": {
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+    "url": "https://github.com/Navigata1/NBCLI/issues"
   },
   "keywords": ["ai", "governance", "ssap", "anchor", "rules"],
   "main": "dist/index.js",

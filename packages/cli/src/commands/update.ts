@@ -2,8 +2,7 @@ import { Command } from 'commander';
 import path from 'path';
 import { existsSync, readFileSync } from 'fs';
 import { parse, stringify } from 'yaml';
-import { getAnchorFiles } from '@nsb/anchors';
-import { loadAnchorsFromFile, mergeAnchorCollections } from '@nsb/core';
+import { getBuiltInAnchors } from '@nsb/anchors';
 import { DEFAULT_TOOLS } from '../generators/registry';
 import { generateToolFiles } from '../utils/generate';
 import { getPlannedWrites, setDryRun, writeFileSafe } from '../utils/files';
@@ -38,8 +37,7 @@ export const updateCommand = new Command('update')
 
     const config = parse(readFileSync(configPath, 'utf-8')) as GovernanceConfig;
 
-    const anchorCollections = getAnchorFiles().map((file) => loadAnchorsFromFile(file));
-    const builtInAnchors = mergeAnchorCollections(...anchorCollections);
+    const builtInAnchors = getBuiltInAnchors();
 
     let customAnchors: AnchorCollection = {};
     if (existsSync(customAnchorsPath)) {

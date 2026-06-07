@@ -4,8 +4,7 @@ import path from 'path';
 import { stringify } from 'yaml';
 import ora from 'ora';
 import Table from 'cli-table3';
-import { getAnchorFiles } from '@nsb/anchors';
-import { loadAnchorsFromFile, mergeAnchorCollections } from '@nsb/core';
+import { getBuiltInAnchors } from '@nsb/anchors';
 import { loadProfileConfig, serializeConfig } from '../generators/config.js';
 import { DEFAULT_TOOLS, TOOL_GENERATORS } from '../generators/registry.js';
 import { generateToolFiles } from '../utils/generate.js';
@@ -77,8 +76,7 @@ export const initCommand = new Command('init')
     config.governance.profile = answers.profile;
     config.tools = { enabled: answers.tools };
 
-    const anchorCollections = getAnchorFiles().map((file) => loadAnchorsFromFile(file));
-    const mergedAnchors = mergeAnchorCollections(...anchorCollections);
+    const mergedAnchors = getBuiltInAnchors();
 
     // ---- Dry-run: account for every write, render a verdict, touch nothing. ----
     if (dryRun) {

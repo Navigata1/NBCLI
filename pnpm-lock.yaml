@@ -79,7 +79,11 @@ importers:
         specifier: ^5.6.3
         version: 5.9.3
 
-  packages/anchors: {}
+  packages/anchors:
+    dependencies:
+      '@nsb/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/cli:
     dependencies:

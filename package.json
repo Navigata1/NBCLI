@@ -4,11 +4,11 @@
   "packageManager": "pnpm@10.26.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git"
+    "url": "https://github.com/Navigata1/NBCLI.git"
   },
   "homepage": "https://northstarbuild.dev",
   "bugs": {
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+    "url": "https://github.com/Navigata1/NBCLI/issues"
   },
   "author": "Navigata1",
   "keywords": ["ai", "governance", "cli", "claude", "cursor", "codex", "agents"],

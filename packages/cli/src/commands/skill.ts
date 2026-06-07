@@ -2,8 +2,7 @@ import { Command } from 'commander';
 import path from 'path';
 import { existsSync, readdirSync, readFileSync, statSync } from 'fs';
 import { parse } from 'yaml';
-import { getAnchorFiles } from '@nsb/anchors';
-import { loadAnchorsFromFile, mergeAnchorCollections } from '@nsb/core';
+import { getBuiltInAnchors } from '@nsb/anchors';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
 import { generateSkillMd } from '../generators/skill-md';
 import { mergeAnchors } from '../utils/anchors';
@@ -66,7 +65,7 @@ function loadConfigAndAnchors(root: string): { config: GovernanceConfig; anchors
   const configPath = path.resolve(root, '.mbf', 'mbf-governance.yaml');
   if (!existsSync(configPath)) return null;
   const config = parse(readFileSync(configPath, 'utf-8')) as GovernanceConfig;
-  const builtIn = mergeAnchorCollections(...getAnchorFiles().map((file) => loadAnchorsFromFile(file)));
+  const builtIn = getBuiltInAnchors();
   const customPath = path.resolve(root, '.mbf', 'custom-anchors.yaml');
   let custom: AnchorCollection = {};
   if (existsSync(customPath)) {
