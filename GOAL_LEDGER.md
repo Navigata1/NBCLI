@@ -12,14 +12,16 @@ and the next slice begins. The release tag / npm publish stays owner-controlled.
   PreToolUse) that deterministically block risky changes; precise enforce-flagged anchors; fail-closed.
 - **v2.8.0** (PR #4, merged) — portability moat: 8 instruction-file adapters (Claude/Cursor/Codex/
   SKILL/Windsurf/Cline/Gemini/Copilot) + `nsb adapters`.
-- **v2.9.0** (PR #5) — eval harness: `nsb eval` scores the governance engine on labeled fixtures
-  (accuracy/precision/recall, fail on false negatives); `scoreEval` in core.
+- **v2.9.0** (PR #5, merged) — eval harness: `nsb eval` scores the governance engine on labeled
+  fixtures (accuracy/precision/recall, fail on false negatives); `scoreEval` in core.
+- **v2.10.0** (PR #6) — audit/observability: `nsb audit` report/verify/export (JSON/CSV for SIEM,
+  offline); core `filterEntries`/`toCsv`.
 
 ## In progress
-- **v2.10.0 — Audit/observability**: decision-log sinks (file/webhook/SIEM), `nsb audit` reporting.
+- **v2.11.0 — Distribution**: npm publish readiness, Dockerfile, GitHub Action, Homebrew, SBOM/provenance.
 
 ## Planned
-- **v2.11.0 — Distribution**: npm publish readiness, Dockerfile, GitHub Action, Homebrew, SBOM/provenance.
+- (roadmap continues per owner direction)
 - **Deferred (honest)**: ACP handshake runtime, Docker isolation, compression proxy, telemetry,
   install-on-demand plugins, workflow executor.
 

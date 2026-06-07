@@ -49,6 +49,7 @@ node packages/cli/dist/nsb-standalone.js --help
 | `nsb hooks` | Install/remove enforcement hooks (git pre-commit + Claude Code PreToolUse) |
 | `nsb adapters` | List instruction-file adapters (Claude/Cursor/Codex/SKILL/Windsurf/Cline/Gemini/Copilot) |
 | `nsb eval` | Score the governance engine against labeled fixtures (accuracy / precision / recall) |
+| `nsb audit` | Report / verify / export the run ledger (JSON/CSV for SIEM) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash

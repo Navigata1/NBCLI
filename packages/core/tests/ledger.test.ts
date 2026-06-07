@@ -2,7 +2,7 @@ import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
-import { appendEntry, readLedger, summarizeSpend, verifyLedger } from '../src/ledger';
+import { appendEntry, filterEntries, readLedger, summarizeSpend, toCsv, verifyLedger } from '../src/ledger';
 
 let dir: string;
 let file: string;
@@ -125,5 +125,37 @@ describe('ledger HMAC signing + runId', () => {
     expect(summarizeSpend(hfile, 'r1').totalUsd).toBe(5);
     expect(summarizeSpend(hfile, 'r2').totalUsd).toBe(2);
     expect(summarizeSpend(hfile).totalUsd).toBe(7);
+  });
+});
+
+describe('ledger filter + CSV export', () => {
+  let fdir: string;
+  let ffile: string;
+  const fnow = () => new Date(Date.UTC(2026, 5, 7, 1, 0, 0)).toISOString();
+
+  beforeEach(() => {
+    fdir = mkdtempSync(path.join(tmpdir(), 'nbcli-ledger-csv-'));
+    ffile = path.join(fdir, 'runs.jsonl');
+  });
+  afterEach(() => rmSync(fdir, { recursive: true, force: true }));
+
+  it('filters entries by kind', () => {
+    appendEntry(ffile, { kind: 'spend', costUsd: 1 }, fnow);
+    appendEntry(ffile, { kind: 'decision', summary: 'd' }, fnow);
+    expect(filterEntries(readLedger(ffile), { kind: 'spend' })).toHaveLength(1);
+    expect(filterEntries(readLedger(ffile), {})).toHaveLength(2);
+  });
+
+  it('exports CSV with a header and proper escaping', () => {
+    appendEntry(ffile, { kind: 'note', summary: 'has, comma' }, fnow);
+    const csv = toCsv(readLedger(ffile));
+    expect(csv.split('\n')[0]).toContain('seq,timestamp,kind');
+    expect(csv).toContain('"has, comma"');
+  });
+
+  it('neutralizes spreadsheet formula injection', () => {
+    appendEntry(ffile, { kind: 'note', summary: '=HYPERLINK("http://evil","x")' }, fnow);
+    const csv = toCsv(readLedger(ffile));
+    expect(csv).toContain("'=HYPERLINK");
   });
 });
