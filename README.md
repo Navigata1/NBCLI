@@ -66,6 +66,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb eval` | Score the governance engine against labeled fixtures (accuracy / precision / recall) |
 | `nsb audit` | Report / verify / export the run ledger (JSON/CSV for SIEM) |
 | `nsb stats` | Local-only ledger metrics — no network (`--json` for agents) |
+| `nsb policy` | Export anchors as policy-as-code (OPA/Rego, Cedar) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash

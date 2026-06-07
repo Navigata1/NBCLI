@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.15.0 - 2026-06-07 — Policy-as-code export
+
+### Added
+- **`nsb policy export --format rego|cedar`** — compile governance anchors into policy-as-code:
+  matcher-faithful **OPA/Rego** (case-insensitive; substring/regex/glob; enforced → `deny`, advisory → `warn`) and **Cedar** (path
+  anchors only — Cedar has no content/regex matching; those are emitted as skip comments). `--out`
+  writes a file. Positions NBCLI as policy-as-code for agents (OWASP Agentic Top-10: goal hijacking).
+- core pure compilers `toRego` / `toCedar`.
+
+### Changed
+- Version 2.14.0 → 2.15.0.
+
+### Honesty
+- NBCLI emits the policy; the operator validates/runs it (`opa check`, Cedar). The `evaluate_change`
+  MCP tool already answers "is this allowed?" at runtime — no separate policy MCP tool was needed.
+
 ## 2.14.0 - 2026-06-07 — MCP 2026: agent-facing governance tools
 
 ### Added
