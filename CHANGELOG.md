@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.10.0 - 2026-06-07 — Audit / observability
+
+### Added
+- **`nsb audit`** (`summary` | `verify` | `export`) — report the run ledger (counts by kind, spend,
+  integrity), verify the hash chain, or export filtered entries as **JSON/CSV for SIEM** ingestion.
+  `--kind` / `--since` filters; `--out` writes a file. Stays offline: NBCLI writes the export; you ship it.
+- core `filterEntries` + `toCsv` (pure, unit-tested).
+
+### Changed
+- Version 2.9.0 → 2.10.0.
+
 ## 2.9.0 - 2026-06-07 — Eval harness
 
 ### Added

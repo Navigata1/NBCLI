@@ -1,6 +1,6 @@
 {
   "name": "@nsb/anchors",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "description": "Built-in anchor rule libraries for NorthStarBuild",
   "license": "MIT",
   "author": "Navigata1",

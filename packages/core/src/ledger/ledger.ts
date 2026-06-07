@@ -12,6 +12,7 @@ import { createHash, createHmac } from 'crypto';
 import type {
   LedgerEntry,
   LedgerEntryInput,
+  LedgerKind,
   LedgerOptions,
   LedgerVerification,
   SpendSummary,
@@ -186,4 +187,44 @@ export function summarizeSpend(file: string, runId?: string): SpendSummary {
       }),
       { totalUsd: 0, totalTokens: 0, count: 0 },
     );
+}
+
+const CSV_FIELDS = [
+  'seq',
+  'timestamp',
+  'kind',
+  'actor',
+  'model',
+  'runId',
+  'costUsd',
+  'tokens',
+  'signed',
+  'summary',
+  'hash',
+] as const;
+
+/** Filter entries by kind and/or ISO timestamp lower bound (inclusive). Pure. */
+export function filterEntries(
+  entries: LedgerEntry[],
+  opts: { kind?: LedgerKind; since?: string } = {},
+): LedgerEntry[] {
+  return entries.filter(
+    (e) => (!opts.kind || e.kind === opts.kind) && (!opts.since || e.timestamp >= opts.since),
+  );
+}
+
+/** Serialize entries to CSV for SIEM / audit export. Pure. */
+export function toCsv(entries: LedgerEntry[]): string {
+  const esc = (value: unknown) => {
+    let s = value == null ? '' : String(value);
+    // Neutralize spreadsheet formula injection: a cell starting with = + - @ (or
+    // tab/CR) executes when the CSV is opened in Excel/Sheets. Prefix with a quote.
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const rows = entries.map((entry) => {
+    const rec = entry as unknown as Record<string, unknown>;
+    return CSV_FIELDS.map((f) => esc(rec[f])).join(',');
+  });
+  return `${[CSV_FIELDS.join(','), ...rows].join('\n')}\n`;
 }
