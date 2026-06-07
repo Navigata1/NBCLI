@@ -3,4 +3,8 @@ export * from './claude-md';
 export * from './cursor-rules';
 export * from './agents-md';
 export * from './skill-md';
+export * from './windsurf-rules';
+export * from './cline-rules';
+export * from './gemini-md';
+export * from './copilot-md';
 export * from './registry';

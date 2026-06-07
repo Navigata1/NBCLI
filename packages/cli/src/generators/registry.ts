@@ -4,6 +4,10 @@ import { generateClaudeMd } from './claude-md';
 import { generateCursorRules } from './cursor-rules';
 import { generateAgentsMd } from './agents-md';
 import { generateSkillMd } from './skill-md';
+import { generateWindsurfRules } from './windsurf-rules';
+import { generateClineRules } from './cline-rules';
+import { generateGeminiMd } from './gemini-md';
+import { generateCopilotMd } from './copilot-md';
 
 /**
  * One generator descriptor per portable instruction target. This registry is
@@ -48,6 +52,30 @@ export const TOOL_GENERATORS: ToolGenerator[] = [
     label: 'Claude Skill (.claude/skills/north-star/SKILL.md)',
     relPath: path.join('.claude', 'skills', 'north-star', 'SKILL.md'),
     render: generateSkillMd,
+  },
+  {
+    tool: 'windsurf',
+    label: 'Windsurf (.windsurf/rules/north-star.md)',
+    relPath: path.join('.windsurf', 'rules', 'north-star.md'),
+    render: generateWindsurfRules,
+  },
+  {
+    tool: 'cline',
+    label: 'Cline (.clinerules/north-star.md)',
+    relPath: path.join('.clinerules', 'north-star.md'),
+    render: generateClineRules,
+  },
+  {
+    tool: 'gemini',
+    label: 'Gemini CLI (GEMINI.md)',
+    relPath: 'GEMINI.md',
+    render: generateGeminiMd,
+  },
+  {
+    tool: 'copilot',
+    label: 'GitHub Copilot (.github/copilot-instructions.md)',
+    relPath: path.join('.github', 'copilot-instructions.md'),
+    render: generateCopilotMd,
   },
 ];
 

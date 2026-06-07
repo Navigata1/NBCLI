@@ -47,6 +47,7 @@ node packages/cli/dist/nsb-standalone.js --help
 | `nsb worktree` | Isolated parallel runs via real `git worktree` (create / list / remove) |
 | `nsb check` | Enforce risk anchors over files / staged changes — exit nonzero to **block** |
 | `nsb hooks` | Install/remove enforcement hooks (git pre-commit + Claude Code PreToolUse) |
+| `nsb adapters` | List instruction-file adapters (Claude/Cursor/Codex/SKILL/Windsurf/Cline/Gemini/Copilot) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash
