@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.5.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.6.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **116 tests** green (core 35, schema 17, cli 55, mcp-server 9); `build`,
+Verification baseline: **126 tests** green (core 39, schema 17, cli 61, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -26,7 +26,7 @@ Verification baseline: **116 tests** green (core 35, schema 17, cli 55, mcp-serv
 | `workflow` bounded parallel sub-agent plan (typed IO, caps, adversarial verify) | 🟡 plan / ⛔ executor | emits a valid plan spec (tested); the executor is the harness's job, not NBCLI's |
 | Real MCP (stdio) adapter | ✅ | `nsb-mcp` via `@modelcontextprotocol/sdk`; live `initialize`+`tools/list` verified |
 | ACP-native IDE handshake | ⛔ | not implemented; Cursor/Codex/Claude targets are covered via generated instruction files |
-| Worktree/Docker isolation flags | ⛔ | deferred; `SECURITY.md` documents the intended sandboxing posture |
+| Worktree isolation (`nsb worktree`) | ✅ | real `git worktree` create/list/remove (arg-mapping unit-tested); Docker isolation still deferred |
 
 ## BATCH 2 — Skills / plugins
 | Capability | Status | Notes |
@@ -45,8 +45,8 @@ Verification baseline: **116 tests** green (core 35, schema 17, cli 55, mcp-serv
 ## BATCH 4 — Governance / security
 | Capability | Status | Notes |
 |---|---|---|
-| Hash-chained integrity log (run ledger) | ✅ | detects naive in-place edits (unit-tested); **not** forgery-resistant — a writer can recompute the chain (no HMAC/signature); single-writer. See SECURITY.md. `nsb budget verify` |
-| Per-project cost caps (USD + tokens) + auto-throttle signal | 🟡 | `nsb budget` evaluates cumulative spend vs per-project caps and sets exit 1 on breach (REAL); per-run caps are advisory (rendered into instructions, not aggregated by the flat ledger); harness must pause on the throttle signal |
+| Hash-chained run ledger (optional HMAC) | ✅ | detects naive edits; **forgery-resistant when keyed** (`NSB_LEDGER_KEY` → HMAC, `signed:true`); cross-process **write lock** prevents the concurrent-writer race; unit-tested. `nsb budget verify` |
+| Per-run AND per-project cost caps (USD + tokens) + auto-throttle | ✅ | `nsb budget [--scope run --run <id>]` evaluates run-id-grouped spend vs caps, exit 1 on breach (unit-tested); harness must pause on the throttle signal |
 | Permission model (allow/deny/destructive gates) | 🟡 | declared in schema/profiles, rendered into instructions; advisory |
 | 1Password `op://` + `op run --` pattern | ✅ doc / 🟡 runtime | documented in `SECURITY.md`; `preview` detects `op` CLI + `op://` refs |
 | Sensitive-path protection, URL validation, Stripe test-mode | 🟡 | encoded as anchors + guidance; `scan-secrets` flags `sk_live_`/keys (REAL) |
@@ -68,9 +68,9 @@ Verification baseline: **116 tests** green (core 35, schema 17, cli 55, mcp-serv
   be reviewed against the current model list before relying on them.
 - **MCP SDK `^1.29.0`** and **ACP** maturity are point-in-time; re-verify before publishing.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.5.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.6.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
-ACP handshake runtime · Docker/worktree isolation backend · compression proxy · telemetry ·
+ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·
 install-on-demand plugins · workflow executor · automated version-bump/changeset in release.
 These are documented, not faked.

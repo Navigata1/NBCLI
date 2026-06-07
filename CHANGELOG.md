@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.6.0 - 2026-06-07 — Hardening
+
+### Added
+- **Optional HMAC-signed ledger** (`NSB_LEDGER_KEY`): entries become keyed-HMAC + `signed:true`, so
+  the chain is **forgery-resistant** (an editor without the key cannot recompute a valid digest).
+  `verifyLedger` requires the key for signed entries (reported, never silently OK).
+- **Cross-process write lock** on the ledger (O_EXCL) — fixes the concurrent-writer seq race.
+- **Per-run budgets**: ledger entries carry a `runId`; `nsb budget --scope run --run <id>` (or
+  `$NSB_RUN_ID`) evaluates per-run caps; `nsb budget record --run <id>` tags spend.
+- **`nsb worktree`** (create | list | remove) — isolated parallel runs via real `git worktree`.
+
+### Changed
+- Version 2.5.0 → 2.6.0 (single-sourced + test-enforced across packages and the MCP server).
+- Ledger hash material now includes `runId` (format bump; pre-2.6 ledgers will not verify — see MIGRATION).
+- Docs: ledger is now forgery-resistant **when keyed** and lock-protected; per-run caps and worktree
+  isolation are now REAL (were ADVISORY/DEFERRED in 2.5.0).
+
 ## 2.5.0 - 2026-06-06 — NBCLI (NorthStar Bootstrap CLI edition)
 
 Modernization of the North Star Build CLI for the mid-2026 agentic landscape. Published to

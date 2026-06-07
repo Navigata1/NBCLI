@@ -63,14 +63,18 @@ to opt out of.
 
 ## Run ledger integrity (limitations)
 
-The run ledger (`.mbf/ledger/runs.jsonl`, `nsb budget verify`) is a **hash-chained integrity log**,
-not a cryptographic audit trail. It detects *naive* in-place edits (the SHA-256 chain stops
-matching), but it is **not forgery-resistant**: anyone who can write the file can recompute the
-whole chain from the edited entry forward (there is no HMAC/secret/signature/external anchor). It is
-also **single-writer** — concurrent appenders (e.g. the CLI and a running MCP server writing the
-same file) can race and produce a duplicate `seq`, which `verify` reports as a false mismatch. To
-harden: HMAC each hash with a secret the writer does not control, anchor the head hash to an
-external witness, and serialize writers.
+The run ledger (`.mbf/ledger/runs.jsonl`, `nsb budget verify`) is a hash-chained log with two modes:
+
+- **Unkeyed (default):** a plain SHA-256 chain. Detects *naive* in-place edits, but is **not**
+  forgery-resistant — a writer can recompute the chain from the edited entry forward.
+- **Keyed (recommended for audit):** set **`NSB_LEDGER_KEY`** and entries are HMAC-SHA256 signed
+  (`signed: true`). The chain is then **forgery-resistant**: an editor without the key cannot
+  recompute a valid digest, and `verify` requires the key — signed entries are reported as
+  unverifiable without it, never silently "OK". Keep the key out of the repo (use `op://`).
+
+Writes are serialized with a cross-process **O_EXCL lock**, so concurrent appenders (the CLI and a
+running MCP server) no longer race into a duplicate `seq`. For still-stronger guarantees, anchor the
+head hash to an external witness (e.g. a signed git commit).
 
 ## Legacy HTTP API
 

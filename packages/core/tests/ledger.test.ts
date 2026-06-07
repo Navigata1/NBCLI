@@ -81,3 +81,49 @@ describe('ledger append + chain', () => {
     expect(summarizeSpend(missing).count).toBe(0);
   });
 });
+
+describe('ledger HMAC signing + runId', () => {
+  let hdir: string;
+  let hfile: string;
+  const hnow = () => new Date(Date.UTC(2026, 5, 7, 0, 0, 0)).toISOString();
+
+  beforeEach(() => {
+    hdir = mkdtempSync(path.join(tmpdir(), 'nbcli-ledger-hmac-'));
+    hfile = path.join(hdir, 'runs.jsonl');
+  });
+  afterEach(() => rmSync(hdir, { recursive: true, force: true }));
+
+  it('signs entries when a key is provided and verifies with it', () => {
+    appendEntry(hfile, { kind: 'decision', summary: 'a' }, hnow, { key: 'secret' });
+    const entry = appendEntry(hfile, { kind: 'decision', summary: 'b' }, hnow, { key: 'secret' });
+    expect(entry.signed).toBe(true);
+    expect(verifyLedger(hfile, { key: 'secret' }).valid).toBe(true);
+  });
+
+  it('detects tampering on a signed chain (hmac mismatch)', () => {
+    appendEntry(hfile, { kind: 'decision', summary: 'original' }, hnow, { key: 'secret' });
+    const lines = readFileSync(hfile, 'utf-8').split('\n').filter(Boolean);
+    const e = JSON.parse(lines[0]);
+    e.summary = 'TAMPERED';
+    writeFileSync(hfile, `${JSON.stringify(e)}\n`, 'utf-8');
+    const result = verifyLedger(hfile, { key: 'secret' });
+    expect(result.valid).toBe(false);
+    expect(result.reason).toBe('hmac mismatch');
+  });
+
+  it('signed entries are unverifiable without the key', () => {
+    appendEntry(hfile, { kind: 'decision', summary: 'a' }, hnow, { key: 'secret' });
+    const result = verifyLedger(hfile);
+    expect(result.valid).toBe(false);
+    expect(result.reason).toContain('NSB_LEDGER_KEY');
+  });
+
+  it('summarizeSpend filters by runId', () => {
+    appendEntry(hfile, { kind: 'spend', costUsd: 1, runId: 'r1' }, hnow);
+    appendEntry(hfile, { kind: 'spend', costUsd: 2, runId: 'r2' }, hnow);
+    appendEntry(hfile, { kind: 'spend', costUsd: 4, runId: 'r1' }, hnow);
+    expect(summarizeSpend(hfile, 'r1').totalUsd).toBe(5);
+    expect(summarizeSpend(hfile, 'r2').totalUsd).toBe(2);
+    expect(summarizeSpend(hfile).totalUsd).toBe(7);
+  });
+});

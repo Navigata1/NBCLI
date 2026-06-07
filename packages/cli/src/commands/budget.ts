@@ -28,17 +28,19 @@ const STATUS_TEXT: Record<BudgetStatus, string> = {
   unset: colors.muted('no cap'),
 };
 
-function showBudget(root: string): void {
+function showBudget(root: string, scope: 'run' | 'project' = 'project', runId?: string): void {
   const config = readConfig(root);
   const budgets = config?.budgets;
-  const spend = summarizeSpend(ledgerPath(root));
+  const spend = summarizeSpend(ledgerPath(root), scope === 'run' ? runId : undefined);
   const evalProject = evaluateBudget(
     { usd: spend.totalUsd, tokens: spend.totalTokens },
     budgets,
-    'project',
+    scope,
   );
 
-  log.subheader('Budget — cumulative project spend');
+  log.subheader(
+    scope === 'run' ? `Budget — run ${runId ?? '(unset)'} spend` : 'Budget — cumulative project spend',
+  );
   log.blank();
   const table = new Table({
     head: ['dimension', 'spent', 'cap', 'used', 'status'].map((h) => colors.primary(h)),
@@ -74,7 +76,9 @@ function showBudget(root: string): void {
   }
   if (evalProject.throttle) {
     log.blank();
-    log.error('Project budget exceeded — auto-throttle should engage (pause autonomous work).');
+    log.error(
+      `${scope === 'run' ? 'Run' : 'Project'} budget exceeded — auto-throttle should engage (pause autonomous work).`,
+    );
     process.exitCode = 1;
   }
 }
@@ -87,9 +91,13 @@ export const budgetCommand = new Command('budget')
   .option('--summary <text>', 'record: short description')
   .option('--model <model>', 'record: model id')
   .option('--actor <actor>', 'record: agent/human id')
+  .option('--scope <scope>', 'run | project', 'project')
+  .option('--run <id>', 'run id for run-scoped budgets (default $NSB_RUN_ID)')
   .action((action: string, options) => {
     printMini();
     const root = process.cwd();
+    const scope: 'run' | 'project' = options.scope === 'run' ? 'run' : 'project';
+    const runId: string | undefined = options.run ?? process.env.NSB_RUN_ID;
 
     if (action === 'verify') {
       const result = verifyLedger(ledgerPath(root));
@@ -122,11 +130,12 @@ export const budgetCommand = new Command('budget')
         summary: options.summary,
         model: options.model,
         actor: options.actor,
+        runId,
       });
       log.success(`Recorded spend (seq ${entry.seq}) ${icons.arrow} ledger sealed.`);
-      showBudget(root);
+      showBudget(root, scope, runId);
       return;
     }
 
-    showBudget(root);
+    showBudget(root, scope, runId);
   });
