@@ -64,7 +64,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb hooks` | Install/remove enforcement hooks (git pre-commit + Claude Code PreToolUse) |
 | `nsb adapters` | List/detect adapters — 11 adapters (10 files; codex+grok share AGENTS.md) incl. Grok/Aider/Junie (`--detect` scans the repo) |
 | `nsb eval` | Score the governance engine against labeled fixtures (accuracy / precision / recall) |
-| `nsb audit` | Report / verify / export the run ledger (JSON/CSV for SIEM) |
+| `nsb audit` | Report / verify / export / **sync** the run ledger (JSON/CSV; opt-in webhook) |
 | `nsb stats` | Local-only ledger metrics — no network (`--json` for agents) |
 | `nsb policy` | Export anchors as policy-as-code (OPA/Rego, Cedar) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |

@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.15.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.16.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **214 tests** green (core 63, schema 17, cli 121, mcp-server 13); `build`,
+Verification baseline: **218 tests** green (core 65, schema 17, cli 123, mcp-server 13); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -49,12 +49,13 @@ Verification baseline: **214 tests** green (core 63, schema 17, cli 121, mcp-ser
 | Hash-chained run ledger (optional HMAC) | ✅ | detects naive edits; **forgery-resistant when keyed** (`NSB_LEDGER_KEY` → HMAC, `signed:true`); cross-process **write lock** prevents the concurrent-writer race; unit-tested. `nsb budget verify` |
 | Per-run AND per-project cost caps (USD + tokens) + auto-throttle | ✅ | `nsb budget [--scope run --run <id>]` evaluates run-id-grouped spend vs caps, exit 1 on breach (unit-tested); harness must pause on the throttle signal |
 | Audit reporting + export (`nsb audit`) | ✅ | report/verify the ledger; export filtered entries as JSON / **formula-injection-safe** CSV for SIEM (offline — NBCLI writes the file, you ship it); `filterEntries`/`toCsv` unit-tested |
+| Opt-in audit sink (`nsb audit sync`) | ✅ | POST ledger entries to a webhook/SIEM; **OFF by default** (`sinks.webhooks` / `--webhook`); payload redaction; the only outbound path |
 | Policy-as-code export (`nsb policy export`) | ✅ | compiles anchors → OPA/Rego (matcher-faithful: case-insensitive substring/regex/glob) + Cedar (path anchors only, honest limitation); pure compilers unit-tested; validate with the engine |
 | Permission model (allow/deny/destructive gates) | 🟡 | declared in schema/profiles, rendered into instructions; advisory |
 | 1Password `op://` + `op run --` pattern | ✅ doc / 🟡 runtime | documented in `SECURITY.md`; `preview` detects `op` CLI + `op://` refs |
 | Sensitive-path protection, URL validation, Stripe test-mode | 🟡 | encoded as anchors + guidance; `scan-secrets` flags `sk_live_`/keys (REAL) |
 | Prompt-injection refusal posture; screenshot/action audit trail | 🟡 | refusal stance rendered into instructions; ledger can record actions |
-| Local-first / offline | ✅ | NBCLI makes zero network calls |
+| Local-first / offline by default | ✅ | zero network calls **except** the opt-in `nsb audit sync` webhook (off unless `sinks.webhooks` is configured or `--webhook` passed) |
 
 ## BATCH 5 — Distribution / verification
 | Capability | Status | Notes |
@@ -83,7 +84,7 @@ Verification baseline: **214 tests** green (core 63, schema 17, cli 121, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.15.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.16.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

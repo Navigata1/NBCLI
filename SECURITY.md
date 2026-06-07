@@ -1,7 +1,7 @@
 # Security posture — NBCLI
 
 NBCLI is a **least-privilege, local-first** CLI. It reads/writes files in the current project,
-runs no network calls of its own, and **never executes models** — it emits instructions, configs,
+makes no network calls by default (the only outbound path is the opt-in `nsb audit sync` webhook), and **never executes models** — it emits instructions, configs,
 plans, and recommendations. The strongest control is honesty about what is and isn't enforced
 (see [`CAPABILITY_ASSESSMENT.md`](./CAPABILITY_ASSESSMENT.md)).
 
@@ -60,9 +60,11 @@ user's intent. Anchors raise scrutiny on content that looks like injected direct
 
 ## Local-first / offline
 
-NBCLI runs fully offline (no telemetry, no network). Model execution is delegated to your harness;
-choose a local/offline model there if required. There is no opt-out needed because there is nothing
-to opt out of.
+NBCLI runs offline by default (no telemetry). The ONLY outbound path is the opt-in `nsb audit sync`
+webhook — off unless you set `sinks.webhooks` or pass `--webhook`. The sink URL is operator/config-
+controlled: treat `.mbf/mbf-governance.yaml` as trusted — an agent that can edit it (or run
+`audit sync --webhook`) can change the egress target. Model execution is delegated to your harness;
+choose a local/offline model there if required. Leave `sinks` unset to keep NBCLI fully offline.
 
 ## Enforcement (git + agent hooks)
 

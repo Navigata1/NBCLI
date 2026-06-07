@@ -1,6 +1,6 @@
 {
   "name": "@nsb/cli",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "description": "CLI tool for AI governance - generate instruction files for Claude, Cursor, and Codex",
   "license": "MIT",
   "author": "Navigata1",

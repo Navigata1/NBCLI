@@ -32,7 +32,8 @@ Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetr
   HTTP transport + run_eval-over-MCP remain forward-looking (stdio canonical; ACP reached via MCP).
 - **v2.15 — Policy-as-code** (PR #11, shipped): `nsb policy export --format rego|cedar` (Rego full;
   Cedar path-only). The `evaluate_change` MCP tool already answers "is this allowed?" at runtime.
-- **v2.16 — Opt-in sinks**: `sinks` config + `nsb audit sync` webhook (OFF by default; offline-by-default re-claim).
+- **v2.16 — Opt-in sinks** (PR #12, shipped): `sinks` config + `nsb audit sync --webhook` (OFF by
+  default; payload redaction). Offline claim re-scoped honestly to "offline by default".
 - **v2.17 — Sandbox/isolation**: `nsb worktree --backend docker` + `nsb workflow validate` / reference runner.
 - **v2.18 — Supply-chain trust + plugins**: minisign signing (`audit export --sign`, `nsb verify`) + signed `nsb plugin`.
 
