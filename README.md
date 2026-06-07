@@ -45,6 +45,8 @@ node packages/cli/dist/nsb-standalone.js --help
 | `nsb skill` | `list` / `add` / `eval` / `stocktake` the generated Claude skill |
 | `nsb workflow` | Emit a bounded parallel sub-agent plan (typed IO, caps, adversarial verify) |
 | `nsb worktree` | Isolated parallel runs via real `git worktree` (create / list / remove) |
+| `nsb check` | Enforce risk anchors over files / staged changes — exit nonzero to **block** |
+| `nsb hooks` | Install/remove enforcement hooks (git pre-commit + Claude Code PreToolUse) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash
@@ -90,6 +92,27 @@ regenerate everywhere with `nsb update`.
 
 See [`SECURITY.md`](./SECURITY.md) for the security posture (1Password `op://`, sandboxing,
 prompt-injection stance, least privilege).
+
+---
+
+## Enforcement (not just advice)
+
+Governance is advisory until you install hooks — then it actually **blocks**:
+
+```bash
+nsb hooks install      # git pre-commit + Claude Code PreToolUse
+nsb check --staged     # what the pre-commit hook runs
+```
+
+- **git pre-commit** → `nsb check --staged` blocks risky **commits** (exit 1).
+- **Claude Code PreToolUse** → `nsb check --hook` blocks an **agent's** Write/Edit/MultiEdit/
+  NotebookEdit to risky paths (exit 2; Bash-driven writes are out of scope; **fails closed** if
+  `nsb` is missing).
+
+The block/warn/allow decision follows the hook profile: **strict** blocks any anchor, **standard**
+blocks security/high-risk, **minimal** warns only. This is what makes NBCLI an *enforcement* tool,
+not a prompt generator. Enforcement is local (your machine + agent harness) and requires
+`nsb hooks install`.
 
 ---
 

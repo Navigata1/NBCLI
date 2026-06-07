@@ -68,6 +68,7 @@ const matchRule = (rule: AnchorRule, targets: AnchorMatchTarget[], source?: stri
             pattern,
             target: field,
             source,
+            enforce: rule.enforce,
           });
         }
       }

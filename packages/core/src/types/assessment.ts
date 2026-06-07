@@ -17,6 +17,8 @@ export interface AnchorMatch {
   pattern: string;
   target: AnchorTarget;
   source?: string;
+  /** Propagated from the rule — block-worthy (enforced) vs advisory. */
+  enforce?: boolean;
 }
 
 export interface ConfidenceAssessment {

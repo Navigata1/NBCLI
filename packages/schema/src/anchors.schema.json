@@ -16,7 +16,8 @@
         "adjustment": { "type": "number" },
         "reason": { "type": "string" },
         "target": { "type": "string", "enum": ["path", "content", "any"] },
-        "match": { "type": "string", "enum": ["substring", "regex", "glob"] }
+        "match": { "type": "string", "enum": ["substring", "regex", "glob"] },
+        "enforce": { "type": "boolean" }
       },
       "additionalProperties": false
     }
