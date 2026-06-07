@@ -18,6 +18,8 @@ import { auditCommand } from './commands/audit';
 import { statsCommand } from './commands/stats';
 import { policyCommand } from './commands/policy';
 import { sandboxCommand } from './commands/sandbox';
+import { signCommand, verifyCommand } from './commands/sign';
+import { pluginCommand } from './commands/plugin';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -37,6 +39,9 @@ program.addCommand(modelRouteCommand);
 program.addCommand(workflowCommand);
 program.addCommand(worktreeCommand);
 program.addCommand(sandboxCommand);
+program.addCommand(signCommand);
+program.addCommand(verifyCommand);
+program.addCommand(pluginCommand);
 program.addCommand(checkCommand);
 program.addCommand(hooksCommand);
 program.addCommand(evalCommand);

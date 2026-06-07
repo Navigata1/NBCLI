@@ -68,6 +68,9 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb audit` | Report / verify / export / **sync** the run ledger (JSON/CSV; opt-in webhook) |
 | `nsb stats` | Local-only ledger metrics — no network (`--json` for agents) |
 | `nsb policy` | Export anchors as policy-as-code (OPA/Rego, Cedar) |
+| `nsb sign` | Ed25519 detached signing of artifacts (keygen | file) |
+| `nsb verify` | Verify an Ed25519 detached signature |
+| `nsb plugin` | Manage local signature-verified plugins (list | install | remove) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash

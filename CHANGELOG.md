@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.18.0 - 2026-06-07 — Supply-chain trust + plugins (capstone)
+
+### Added
+- **`nsb sign keygen | file` + `nsb verify`** — Ed25519 detached signing of artifacts (SBOM, audit
+  exports, any file) via Node crypto; fully offline. Tamper or wrong key → `verify` exits 1. core
+  `generateKeypair` / `signContent` / `verifyContent` (pure, unit-tested).
+- **`nsb plugin list | install | remove`** — local, signature-verified plugins under `.mbf/plugins`;
+  `install --pub` verifies the plugin's **whole-tree** Ed25519 signature (`nsb plugin sign`) and refuses on mismatch; plugin names are path-traversal-sanitized.
+
+### Changed
+- Version 2.17.0 → 2.18.0. Completes the v2.12 → v2.18 run.
+
+### Honesty
+- Signatures are base64 **Ed25519 detached** blobs (the same primitive minisign uses), NOT the
+  minisign on-disk format — interop is via `nsb verify`. Plugin **network/registry** install stays
+  deferred (offline-first); local signed install is real.
+
 ## 2.17.0 - 2026-06-07 — Sandbox isolation + workflow validation
 
 ### Added
