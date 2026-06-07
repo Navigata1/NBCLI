@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.23.0 - 2026-06-07 — NBB re-alignment Slice 5: skills supply-chain parity
+
+### Added
+- **`nsb skill vet [file]`** — ports NBB's `vet_skill.sh` default-deny gate to a pure `vetSkill()`:
+  scans for pipe-to-shell, reverse shells, fork bombs, credential reads, prompt-injection, exfil,
+  destructive `rm`, and the `--dangerously-skip-permissions` flag. Verdict PASS/WARN/FAIL → exit
+  0/2/1 (mirrors `vet_skill.sh`). FAIL blocks; WARN → manual review (security-education is never
+  silently passed). `skill stocktake` now shows a vet verdict per skill.
+- `skill list` references the canonical skill set + UNPINNED honesty markers (`vendor/nbb/SKILLS_REGISTRY.md`).
+
+### Changed
+- Refinement vs the bash source (more accurate): the bare word "skip-permissions" is WARN (review)
+  while the actual `--dangerously-skip-permissions` flag is FAIL — so forbidding/governance prose
+  isn't false-FAILed (NBCLI's own generated SKILL now vets WARN, not FAIL).
+- Version 2.22.0 → 2.23.0.
+
 ## 2.22.0 - 2026-06-07 — NBB re-alignment Slice 4: protocols + memory
 
 ### Added

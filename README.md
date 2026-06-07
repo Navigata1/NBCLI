@@ -57,7 +57,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 | `nsb doctor` | Environment + config + hook-profile + run-ledger diagnostics |
 | `nsb model-route` | Recommend a model tier + effort/fast flags for a task (recommends, never executes) |
 | `nsb budget` | Spend vs caps; `record` / `verify` the tamper-evident run ledger |
-| `nsb skill` | `list` / `add` / `eval` / `stocktake` the generated Claude skill |
+| `nsb skill` | `list` / `add` / `eval` / `stocktake` / `vet` (default-deny supply-chain gate) |
 | `nsb workflow` | Emit / validate a bounded parallel sub-agent plan (typed IO, caps, adversarial verify) |
 | `nsb worktree` | Isolated parallel runs via real `git worktree` (create / list / remove) |
 | `nsb sandbox` | Run a command in an isolated Docker container (network off by default) |

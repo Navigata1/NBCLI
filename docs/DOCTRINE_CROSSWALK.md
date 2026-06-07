@@ -59,9 +59,9 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 
 | NBB doctrine | NBCLI mechanism | Status |
 |---|---|---|
-| **`vet_skill.sh` default-deny gate** (FAIL/WARN/PASS: prompt-injection, pipe-to-shell, exfil, destructive) | align `skill.ts` + pipeline to the vet/pin/default-deny gate | SLICE 5 |
-| **`SKILLS_REGISTRY.md` + `packs/` (core-100/extended-300)** | NBCLI emits/references the NBB canonical skill set + registry | SLICE 5 |
-| **UNPINNED honesty markers** (understand-first/context-compression remain UNPINNED until vetted) | carry the markers verbatim; never mark vetted what isn't | SLICE 5 |
+| **`vet_skill.sh` default-deny gate** (FAIL/WARN/PASS: prompt-injection, pipe-to-shell, exfil, destructive) | `nsb skill vet` ports vet_skill.sh (FAIL/WARN/PASS; default-deny exit 0/2/1); vet shown in `skill stocktake` | REAL (Slice 5) |
+| **`SKILLS_REGISTRY.md` + `packs/` (core-100/extended-300)** | `skill list` references `vendor/nbb/SKILLS_REGISTRY.md` (the canonical set) | REAL (Slice 5) |
+| **UNPINNED honesty markers** (understand-first/context-compression remain UNPINNED until vetted) | vendored SKILLS_REGISTRY.md carries the UNPINNED markers verbatim; vet never silent-passes (WARN) | REAL (Slice 5) |
 
 ## Self-application + distribution (Slices 6-7)
 

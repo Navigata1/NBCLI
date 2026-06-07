@@ -4,6 +4,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'fs';
 import { parse } from 'yaml';
 import { getBuiltInAnchors } from '@nsb/anchors';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
+import { vetExitCode, vetSkill } from '@nsb/core';
 import { generateSkillMd } from '../generators/skill-md';
 import { mergeAnchors } from '../utils/anchors';
 import { writeFileSafe } from '../utils/files';
@@ -94,9 +95,10 @@ function findSkillFiles(root: string): string[] {
 }
 
 export const skillCommand = new Command('skill')
-  .description('Manage the generated Claude skill: list | add | eval | stocktake')
-  .argument('[action]', 'list | add | eval | stocktake', 'list')
-  .action((action: string) => {
+  .description('Manage the generated Claude skill: list | add | eval | stocktake | vet')
+  .argument('[action]', 'list | add | eval | stocktake | vet', 'list')
+  .argument('[file]', 'skill file (for vet; defaults to the north-star skill)')
+  .action((action: string, file: string | undefined) => {
     printMini();
     const root = process.cwd();
     const skillPath = path.resolve(root, SKILL_REL);
@@ -129,13 +131,34 @@ export const skillCommand = new Command('skill')
       return;
     }
 
+    if (action === 'vet') {
+      const target = file ? path.resolve(root, file) : skillPath;
+      if (!existsSync(target)) {
+        log.error(`No skill file: ${file ?? SKILL_REL}`);
+        process.exitCode = 1;
+        return;
+      }
+      const result = vetSkill(readFileSync(target, 'utf-8'));
+      log.subheader(`Skill vet: ${result.verdict} — ${path.relative(root, target)}`);
+      result.findings.forEach((f) =>
+        console.log(`  ${f.severity === 'FAIL' ? icons.error : icons.warning} [${f.severity}] ${f.label}`),
+      );
+      if (result.verdict === 'PASS') log.success('PASS — no dangerous patterns.');
+      else if (result.verdict === 'WARN') log.warn('WARN — manual review required before inclusion (default-deny).');
+      else log.error('FAIL — blocked from inclusion (default-deny).');
+      process.exitCode = vetExitCode(result.verdict);
+      return;
+    }
+
     if (action === 'stocktake') {
       const files = findSkillFiles(root);
       log.subheader(`Skills stocktake — ${files.length} found`);
-      files.forEach((file) => {
-        const size = statSync(file).size;
-        const evalResult = evaluateSkill(readFileSync(file, 'utf-8'));
-        log.keyValue(path.relative(root, file), `${size} B · quality ${evalResult.score}/100`);
+      files.forEach((skillFile) => {
+        const content = readFileSync(skillFile, 'utf-8');
+        const size = statSync(skillFile).size;
+        const evalResult = evaluateSkill(content);
+        const vet = vetSkill(content);
+        log.keyValue(path.relative(root, skillFile), `${size} B · quality ${evalResult.score}/100 · vet ${vet.verdict}`);
       });
       if (files.length === 0) log.dim('(none — run `nsb skill add`)');
       return;
@@ -143,8 +166,11 @@ export const skillCommand = new Command('skill')
 
     // default: list
     log.subheader('Skills');
-    findSkillFiles(root).forEach((file) => log.step(path.relative(root, file)));
+    findSkillFiles(root).forEach((skillFile) => log.step(path.relative(root, skillFile)));
     if (!existsSync(skillPath)) {
       log.dim(`north-star skill not generated yet — run \`nsb skill add\``);
     }
+    log.blank();
+    log.dim('External skills must pass `nsb skill vet` (default-deny: FAIL blocks, WARN -> review).');
+    log.dim('Canonical skill set + UNPINNED honesty markers: vendor/nbb/SKILLS_REGISTRY.md.');
   });
