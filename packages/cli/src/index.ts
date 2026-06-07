@@ -9,6 +9,7 @@ import { modelRouteCommand } from './commands/model-route';
 import { budgetCommand } from './commands/budget';
 import { skillCommand } from './commands/skill';
 import { workflowCommand } from './commands/workflow';
+import { worktreeCommand } from './commands/worktree';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -25,6 +26,7 @@ program.addCommand(previewCommand);
 program.addCommand(doctorCommand);
 program.addCommand(modelRouteCommand);
 program.addCommand(workflowCommand);
+program.addCommand(worktreeCommand);
 program.addCommand(budgetCommand);
 program.addCommand(skillCommand);
 program.addCommand(homeCommand);

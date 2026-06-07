@@ -44,6 +44,7 @@ node packages/cli/dist/nsb-standalone.js --help
 | `nsb budget` | Spend vs caps; `record` / `verify` the tamper-evident run ledger |
 | `nsb skill` | `list` / `add` / `eval` / `stocktake` the generated Claude skill |
 | `nsb workflow` | Emit a bounded parallel sub-agent plan (typed IO, caps, adversarial verify) |
+| `nsb worktree` | Isolated parallel runs via real `git worktree` (create / list / remove) |
 | `nsb-mcp` | Start the real MCP (stdio) server exposing the governance tools |
 
 ```bash
@@ -83,9 +84,9 @@ regenerate everywhere with `nsb update`.
 - **Hook profiles** `minimal | standard | strict` — rendered into instructions; map to gate strictness.
 - **Budgets & permissions** — per-run/per-project cost caps and an allow/deny + destructive-gate
   model (advisory; rendered into instructions and checked by `nsb budget`).
-- **Run ledger** — a hash-chained JSONL integrity log (`nsb budget verify`): detects naive edits,
-  but is **not** forgery-resistant (a writer can recompute the chain) and is single-writer. See
-  [`SECURITY.md`](./SECURITY.md).
+- **Run ledger** — a hash-chained JSONL log (`nsb budget verify`), lock-protected against concurrent
+  writers. Set **`NSB_LEDGER_KEY`** to HMAC-sign entries (**forgery-resistant**); unkeyed, it detects
+  naive edits only. Supports per-run budgets via `runId`. See [`SECURITY.md`](./SECURITY.md).
 
 See [`SECURITY.md`](./SECURITY.md) for the security posture (1Password `op://`, sandboxing,
 prompt-injection stance, least privilege).
