@@ -1,0 +1,8 @@
+**/node_modules
+**/dist
+**/.turbo
+**/.next
+**/.astro
+.git
+*.log
+sbom.json

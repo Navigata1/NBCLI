@@ -1,0 +1,45 @@
+name: 'NBCLI Governance'
+description: 'Run NorthStar Bootstrap CLI governance in CI — nsb check (enforce) or nsb eval (score).'
+author: 'Navigata1'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  mode:
+    description: 'check | eval'
+    required: false
+    default: 'check'
+  profile:
+    description: 'minimal | standard | strict'
+    required: false
+    default: 'strict'
+  paths:
+    description: 'space-separated files for check mode (default: --staged)'
+    required: false
+    default: ''
+  version:
+    description: 'npm version/tag of @nsb/cli to install'
+    required: false
+    default: 'latest'
+runs:
+  using: 'composite'
+  steps:
+    # Inputs are passed via env (NOT interpolated into the script) to avoid
+    # GitHub Actions script injection.
+    - shell: bash
+      env:
+        NBCLI_MODE: ${{ inputs.mode }}
+        NBCLI_PROFILE: ${{ inputs.profile }}
+        NBCLI_PATHS: ${{ inputs.paths }}
+        NBCLI_VERSION: ${{ inputs.version }}
+      run: |
+        set -euo pipefail
+        npm i -g "@nsb/cli@${NBCLI_VERSION}"
+        if [ "$NBCLI_MODE" = "eval" ]; then
+          nsb eval --profile "$NBCLI_PROFILE"
+        elif [ -n "$NBCLI_PATHS" ]; then
+          # shellcheck disable=SC2086 -- intentional word-splitting for multiple paths
+          nsb check $NBCLI_PATHS --profile "$NBCLI_PROFILE"
+        else
+          nsb check --staged --profile "$NBCLI_PROFILE"
+        fi

@@ -3,7 +3,7 @@
 // IMPORTANT: NBCLI_VERSION MUST equal `version` in packages/cli/package.json.
 // This invariant is enforced by tests/unit/version.test.ts so the two can never
 // silently drift (the pre-modernization code hardcoded "0.1.0" in three places).
-export const NBCLI_VERSION = '2.10.0';
+export const NBCLI_VERSION = '2.11.0';
 
 // Display name for banners and help. The npm bin names remain `northstarbuild`
 // and `nsb` for backward compatibility.

@@ -10,8 +10,4 @@ coverage/
 apps/docs/dist/
 apps/web/.next/
 pnpm-debug.log
-.next/
-.astro/
-apps/docs/dist/
-apps/web/.next/
-pnpm-debug.log
+sbom.json

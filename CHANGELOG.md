@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.11.0 - 2026-06-07 — Distribution
+
+### Added
+- **Reusable GitHub Action** (`action.yml`): add NBCLI governance to any repo's CI in ~3 lines
+  (`uses: Navigata1/NBCLI@v2.11.0` with `mode: check|eval`, `profile`, `paths`).
+- **Dockerfile** (multi-stage) building the standalone monolith into a tiny `node:22-alpine` image
+  with `nsb` as entrypoint; `.dockerignore`.
+- **`pnpm sbom`** (`scripts/gen-sbom.mjs`) — deterministic CycloneDX SBOM from the workspace manifests.
+- **npm publish-readiness**: `@nsb/cli` `publishConfig` (public + provenance); release workflow emits `--provenance`.
+- **Homebrew formula template** (`packaging/homebrew/nbcli.rb`) — ready to fill in on first release.
+
+### Changed
+- Version 2.10.0 → 2.11.0.
+
 ## 2.10.0 - 2026-06-07 — Audit / observability
 
 ### Added
