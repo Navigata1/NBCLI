@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.10.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.11.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -63,7 +63,11 @@ Verification baseline: **189 tests** green (core 55, schema 17, cli 108, mcp-ser
 | Build / test / lint / typecheck green | ✅ | all gates; typecheck was previously broken and is now enforced |
 | Governance eval harness (`nsb eval`) | ✅ | labeled fixtures → accuracy / block precision / recall; bundled set scores 100% (unit-tested, per-fixture); exits nonzero on any false negative |
 | Monolithic distributable | ✅ | `build:standalone` → single file, run from `/tmp` with no node_modules |
-| npm provenance on release | 🟡 | release workflow adds `--provenance` + `id-token: write`; **not run** this pass (Jon-owned) |
+| Reusable GitHub Action (`action.yml`) | ✅ artifact / 🟡 runtime | composite action runs `nsb check`/`nsb eval`; **install depends on npm publish** |
+| Docker image (`Dockerfile`) | ✅ | multi-stage → standalone monolith on `node:22-alpine`, `nsb` entrypoint; buildable (not pushed here) |
+| SBOM (`pnpm sbom`) | ✅ | deterministic CycloneDX from workspace manifests |
+| Homebrew formula | 🟡 template | `packaging/homebrew/nbcli.rb` — ready on first release (needs tarball url + sha256) |
+| npm provenance on release | 🟡 | release workflow `--provenance` + `id-token: write` + cli `publishConfig`; **not run** this pass (Jon-owned) |
 
 ## Unverifiable / time-sensitive (mid-June-2026) claims
 - **Model IDs** (`claude-opus-4-8`, `claude-sonnet-4-6`, `claude-haiku-4-5`) reflect the stated
@@ -77,7 +81,7 @@ Verification baseline: **189 tests** green (core 55, schema 17, cli 108, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.10.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.11.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

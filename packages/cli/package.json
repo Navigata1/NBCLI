@@ -1,6 +1,6 @@
 {
   "name": "@nsb/cli",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "description": "CLI tool for AI governance - generate instruction files for Claude, Cursor, and Codex",
   "license": "MIT",
   "author": "Navigata1",
@@ -23,6 +23,10 @@
   "files": [
     "dist/**"
   ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "tsup",
     "build:standalone": "tsup --config tsup.standalone.config.ts",

@@ -17,13 +17,15 @@ and the next slice begins. The release tag / npm publish stays owner-controlled.
 - **v2.10.0** (PR #6) — audit/observability: `nsb audit` report/verify/export (JSON/CSV for SIEM,
   offline); core `filterEntries`/`toCsv`.
 
-## In progress
-- **v2.11.0 — Distribution**: npm publish readiness, Dockerfile, GitHub Action, Homebrew, SBOM/provenance.
+- **v2.11.0** (PR #7) — distribution: reusable GitHub Action (`action.yml`), Dockerfile (standalone
+  monolith image), `pnpm sbom` (CycloneDX), npm `publishConfig` (+provenance), Homebrew formula template.
 
-## Planned
-- (roadmap continues per owner direction)
-- **Deferred (honest)**: ACP handshake runtime, Docker isolation, compression proxy, telemetry,
-  install-on-demand plugins, workflow executor.
+## Roadmap complete
+The planned v2.5 → v2.11 arc is delivered (7 gated, auto-merged PRs). Remaining items are owner-directed:
+- **Deferred (honest, documented)**: ACP handshake runtime, Docker isolation backend, compression
+  proxy, telemetry uploader, install-on-demand plugins, workflow executor.
+- **Owner-controlled**: the release tag + npm publish (then the GitHub Action / Homebrew / `npm i -g`
+  install paths go live).
 
 ## Principles
 Zero over-claiming · every shipped capability real + tested · honest DEFERRED labels · least privilege.

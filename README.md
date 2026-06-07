@@ -28,6 +28,21 @@ pnpm --filter @nsb/cli build:standalone
 node packages/cli/dist/nsb-standalone.js --help
 ```
 
+**Docker:**
+
+```bash
+docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run --yes
+```
+
+**GitHub Action (CI):**
+
+```yaml
+- uses: Navigata1/NBCLI@v2.11.0
+  with: { mode: check, profile: strict }   # or mode: eval
+```
+
+(npm/Action install depends on `@nsb/cli` being published — see `CAPABILITY_ASSESSMENT.md` for release status.)
+
 ---
 
 ## Commands
