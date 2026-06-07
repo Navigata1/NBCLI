@@ -1,23 +1,35 @@
 import { Command } from 'commander';
 import path from 'path';
-import { writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { parse } from 'yaml';
 import Table from 'cli-table3';
-import type { LedgerKind } from '@nsb/core';
-import { filterEntries, readLedger, summarizeSpend, toCsv, verifyLedger } from '@nsb/core';
+import type { GovernanceConfig, LedgerKind, WebhookSink } from '@nsb/core';
+import { buildWebhookBody, filterEntries, readLedger, summarizeSpend, toCsv, verifyLedger } from '@nsb/core';
 import { log } from '../utils/logger';
 import { printMini } from '../utils/banner';
 import { colors } from '../utils/theme';
 
 const ledgerPath = (root: string) => path.resolve(root, '.mbf', 'ledger', 'runs.jsonl');
 
+function readGovConfig(root: string): GovernanceConfig | undefined {
+  const file = path.resolve(root, '.mbf', 'mbf-governance.yaml');
+  if (!existsSync(file)) return undefined;
+  try {
+    return parse(readFileSync(file, 'utf-8')) as GovernanceConfig;
+  } catch {
+    return undefined;
+  }
+}
+
 export const auditCommand = new Command('audit')
-  .description('Report / verify / export the run ledger (offline — you ship the export to your SIEM)')
-  .argument('[action]', 'summary | export | verify', 'summary')
+  .description('Report / verify / export / sync the run ledger (export is offline; sync is the opt-in outbound path)')
+  .argument('[action]', 'summary | export | verify | sync', 'summary')
   .option('--format <fmt>', 'export format: json | csv', 'json')
   .option('--out <file>', 'export: write to a file (default stdout)')
   .option('--kind <kind>', 'filter: decision | run | spend | note')
   .option('--since <iso>', 'filter: ISO-8601 timestamp lower bound (inclusive)')
-  .action((action: string, options) => {
+  .option('--webhook <url>', 'sync: POST entries to this webhook, full payload (config sinks.redactPayload to redact)')
+  .action(async (action: string, options) => {
     const root = process.cwd();
     const file = ledgerPath(root);
     const entries = filterEntries(readLedger(file), {
@@ -45,6 +57,43 @@ export const auditCommand = new Command('audit')
         log.success(`Exported ${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} → ${options.out}`);
       } else {
         process.stdout.write(payload);
+      }
+      return;
+    }
+
+    // sync — the ONLY outbound path; OFF unless a webhook is configured/passed.
+    if (action === 'sync') {
+      printMini();
+      const config = readGovConfig(root);
+      const configured = (config?.sinks?.webhooks ?? []).filter((w) => w.enabled !== false);
+      const targets: WebhookSink[] = options.webhook ? [{ url: options.webhook as string }] : configured;
+      if (targets.length === 0) {
+        log.warn('No sinks configured (config.sinks.webhooks) and no --webhook given. Nothing sent — NBCLI stayed offline.');
+        return;
+      }
+      for (const sink of targets) {
+        const body = buildWebhookBody(entries, sink);
+        const controller = new globalThis.AbortController();
+        const timer = setTimeout(() => controller.abort(), 5000);
+        try {
+          const res = await globalThis.fetch(sink.url, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body,
+            signal: controller.signal,
+          });
+          if (res.ok) {
+            log.success(`Synced ${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} → ${sink.url} (${res.status})`);
+          } else {
+            log.error(`Sink ${sink.url} returned ${res.status}.`);
+            process.exitCode = 1;
+          }
+        } catch (err) {
+          log.error(`Sink ${sink.url} failed: ${(err as Error).message}`);
+          process.exitCode = 1;
+        } finally {
+          clearTimeout(timer);
+        }
       }
       return;
     }

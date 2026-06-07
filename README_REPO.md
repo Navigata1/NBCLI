@@ -27,7 +27,7 @@ NBCLI/
 pnpm install
 pnpm build          # turbo build all packages
 pnpm typecheck
-pnpm test           # vitest across packages (214 tests)
+pnpm test           # vitest across packages (218 tests)
 pnpm lint
 pnpm scan           # encoding (mojibake/U+FFFD) + secret scan
 ```

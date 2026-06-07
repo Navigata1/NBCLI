@@ -119,6 +119,18 @@ export interface GovernanceConfig {
   budgets?: BudgetConfig;
   permissions?: PermissionConfig;
   routing?: RoutingConfig;
+  sinks?: SinksConfig;
+}
+
+export interface WebhookSink {
+  url: string;
+  enabled?: boolean;
+  /** Drop the freeform `payload` field before sending (keeps seq/timestamp/kind/hash/cost/tokens). */
+  redactPayload?: boolean;
+}
+
+export interface SinksConfig {
+  webhooks?: WebhookSink[];
 }
 
 /** Default hook profile for each governance profile. */

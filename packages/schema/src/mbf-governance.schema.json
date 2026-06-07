@@ -138,6 +138,25 @@
         "effort": { "type": "string" }
       },
       "additionalProperties": false
+    },
+    "sinks": {
+      "type": "object",
+      "properties": {
+        "webhooks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url"],
+            "properties": {
+              "url": { "type": "string" },
+              "enabled": { "type": "boolean" },
+              "redactPayload": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

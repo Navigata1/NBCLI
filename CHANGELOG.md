@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.16.0 - 2026-06-07 — Opt-in sinks (webhook / SIEM)
+
+### Added
+- **`nsb audit sync [--webhook <url>]`** — POST ledger entries to a webhook/SIEM. **OFF by default**:
+  nothing is sent unless `sinks.webhooks` is configured or `--webhook` is passed (5s timeout, per-sink
+  result, exit 1 on failure). Optional `redactPayload` drops the freeform payload.
+- `sinks` config section (schema + types); core `buildWebhookBody` / `redactEntry` (pure, tested).
+
+### Changed
+- **Honesty re-scope:** the "zero network calls" claim is now "**offline by default**; the opt-in
+  `audit sync` webhook is the only outbound path" (CAPABILITY_ASSESSMENT, README, SECURITY).
+- Version 2.15.0 → 2.16.0.
+
 ## 2.15.0 - 2026-06-07 — Policy-as-code export
 
 ### Added
