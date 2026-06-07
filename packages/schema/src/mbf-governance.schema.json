@@ -91,6 +91,51 @@
         }
       },
       "additionalProperties": false
+    },
+    "hooks": {
+      "type": "object",
+      "required": ["profile"],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": ["minimal", "standard", "strict"]
+        },
+        "disabled": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "budgets": {
+      "type": "object",
+      "properties": {
+        "per_run_usd": { "type": "number", "minimum": 0 },
+        "per_project_usd": { "type": "number", "minimum": 0 },
+        "per_run_tokens": { "type": "number", "minimum": 0 },
+        "warn_at": { "type": "number", "minimum": 0, "maximum": 1 },
+        "currency": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "allow": { "type": "array", "items": { "type": "string" } },
+        "deny": { "type": "array", "items": { "type": "string" } },
+        "destructive_gates": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "routing": {
+      "type": "object",
+      "properties": {
+        "orchestrator": { "type": "string" },
+        "subtask": { "type": "string" },
+        "fast": { "type": "boolean" },
+        "effort": { "type": "string" }
+      },
+      "additionalProperties": false
     }
   }
 }

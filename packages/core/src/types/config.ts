@@ -1,5 +1,11 @@
 export type GovernanceProfile = 'starter' | 'professional' | 'enterprise';
 
+/**
+ * Hook strictness tiers (NBCLI v2.5). Defaults are derived from the governance
+ * profile via {@link HOOK_PROFILE_BY_GOVERNANCE} but can be set explicitly.
+ */
+export type HookProfile = 'minimal' | 'standard' | 'strict';
+
 export interface ConfidenceFactorDefinition {
   weight: number;
   description?: string;
@@ -39,6 +45,55 @@ export interface AutonomyConfig {
   }[];
 }
 
+/**
+ * Hook-profile governance (NBCLI v2.5). Rendered into the generated instruction
+ * files so an agent knows which gates to run for this project.
+ */
+export interface HooksConfig {
+  profile: HookProfile;
+  /** Hook ids that are always disabled regardless of profile. */
+  disabled?: string[];
+}
+
+/**
+ * Per-run / per-project cost & token budgets (NBCLI v2.5).
+ *
+ * These are advisory caps: they are rendered into the instruction files and
+ * enforced cooperatively by `nsb budget` against the local run ledger. They are
+ * NOT an OS-level spend kill-switch — see CAPABILITY_ASSESSMENT.md.
+ */
+export interface BudgetConfig {
+  per_run_usd?: number;
+  per_project_usd?: number;
+  per_run_tokens?: number;
+  /** Warn when spend reaches this fraction of a cap (0..1). Default 0.8. */
+  warn_at?: number;
+  currency?: string;
+}
+
+/**
+ * Permission model (NBCLI v2.5). Advisory: rendered into tool instructions and
+ * emittable as a least-privilege allowlist. Real OS/agent enforcement depends
+ * on the consuming harness honoring these declarations.
+ */
+export interface PermissionConfig {
+  allow?: string[];
+  deny?: string[];
+  /** Operations that always require explicit human confirmation. */
+  destructive_gates?: string[];
+}
+
+/**
+ * Model-routing defaults (NBCLI v2.5). Consumed by `nsb model-route` to
+ * recommend (not execute) a model tier per task.
+ */
+export interface RoutingConfig {
+  orchestrator?: string;
+  subtask?: string;
+  fast?: boolean;
+  effort?: string;
+}
+
 export interface GovernanceConfig {
   version: string;
   governance: {
@@ -50,4 +105,15 @@ export interface GovernanceConfig {
   tools?: {
     enabled?: string[];
   };
+  hooks?: HooksConfig;
+  budgets?: BudgetConfig;
+  permissions?: PermissionConfig;
+  routing?: RoutingConfig;
 }
+
+/** Default hook profile for each governance profile. */
+export const HOOK_PROFILE_BY_GOVERNANCE: Record<GovernanceProfile, HookProfile> = {
+  starter: 'minimal',
+  professional: 'standard',
+  enterprise: 'strict',
+};

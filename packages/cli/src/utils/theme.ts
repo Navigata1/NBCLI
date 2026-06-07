@@ -1,5 +1,9 @@
 import chalk from 'chalk';
-import gradient, { type GradientFunction } from 'gradient-string';
+import gradient from 'gradient-string';
+
+// gradient-string v3 removed the `GradientFunction` named export. A configured
+// gradient is just a string->string colorizer, so we type it by its usage.
+type GradientFn = (input: string) => string;
 
 export const colors = {
   primary: chalk.hex('#00d9ff'),
@@ -13,7 +17,7 @@ export const colors = {
   white: chalk.white,
 };
 
-export const gradients: Record<string, GradientFunction> = {
+export const gradients: Record<string, GradientFn> = {
   primary: gradient(['#00d9ff', '#e040fb']),
   success: gradient(['#00e676', '#00d9ff']),
   error: gradient(['#ff1744', '#e040fb']),
