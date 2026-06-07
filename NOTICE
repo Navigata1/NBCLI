@@ -1,0 +1,25 @@
+# NOTICE — license seam (NBCLI)
+
+NBCLI combines two licensed bodies of work. The boundary is intentional and documented here and in
+`docs/ADR-001-nbb-realignment.md`.
+
+## MIT — the engine
+All NBCLI engine code is MIT (see root `LICENSE`):
+- `packages/**` (TypeScript), `scripts/`, CI workflows, build config.
+- Copyright (c) 2024-2026 NorthStarBuild Contributors.
+
+## CC BY-NC-SA 4.0 — NBB methodology (NonCommercial + ShareAlike + Attribution)
+Methodology / governance-doctrine content derived from NBB (`Navigata1/NBB`) is licensed
+CC BY-NC-SA 4.0, (c) North Star Build / @NavigatingTruth:
+- `vendor/nbb/**` — the pinned NBB doctrine subset (see `vendor/nbb/LICENSE`).
+- `superseded/**` — archived legacy methodology (v6.0 / v2.0).
+- Methodology / bootstrap **text** emitted by `nsb init` that is derived from NBB doctrine carries
+  the same CC BY-NC-SA notice + attribution.
+
+The engine code that COMPILES and ENFORCES the methodology is MIT; the methodology TEXT it vendors,
+archives, or emits is CC BY-NC-SA. Attribution: North Star Build / @NavigatingTruth.
+
+## OWNER ACTION (flagged; not legal advice)
+Confirm the CC BY-NC-SA (NonCommercial) <-> MIT interaction for a distributed tool that EMITS
+NC-licensed methodology content, before any commercial distribution. This NOTICE records the
+structural separation; it is not a legal determination.

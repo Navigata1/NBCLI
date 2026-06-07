@@ -1,0 +1,59 @@
+{
+  "repo": "https://github.com/Navigata1/NBB",
+  "pinned_sha": "282028336df169d73e49a2d3b6a12acc95896399",
+  "note": "Vendored NBB doctrine subset (CC BY-NC-SA 4.0). Do not edit by hand — run `nsb sync` to refresh from NBB@pinned_sha. Verify with `nsb sync --check`.",
+  "files": [
+    {
+      "path": "HARD_STOPS.md",
+      "sha256": "0c21327e168f643e8f99d1b115a05ccc626251122a106570492f72184ac67f9b"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "a8d64630e1d8999c2c4a7336619ecf41d08bf80855962de410bf212564868d79"
+    },
+    {
+      "path": "SKILLS_REGISTRY.md",
+      "sha256": "f2a3983b5563c7c08816a50b1da4ff3c6f448cf678aeac72c6c76d17546c68cb"
+    },
+    {
+      "path": "bootstrap/NBB_CORE.md",
+      "sha256": "4b299b1f700c05aaadcdbeac816c67b3fab7a0c76f3fc4f8749f86bacbb5342a"
+    },
+    {
+      "path": "bootstrap/context-budget.json",
+      "sha256": "68299677b3456140d55dfaac701de709d4e9a7e9786aceed9077f0130d74d0e7"
+    },
+    {
+      "path": "docs/TOKENOMICS.md",
+      "sha256": "b9b3baea73c49ef88048c7dcdfa421da606b1122866345682b3f423420a2f70b"
+    },
+    {
+      "path": "docs/governance/LOCAL_FIRST.md",
+      "sha256": "a01d3076b1f4f6061a35eb4891e68505a8e6d6e3fd976ed9386e9757c3f30513"
+    },
+    {
+      "path": "docs/governance/PERMISSIONS_AND_SANDBOXING.md",
+      "sha256": "9392473f7c1cbd63699093540e7cc47f24c5a60a26a60eed15c319f778691515"
+    },
+    {
+      "path": "docs/governance/README.md",
+      "sha256": "c732ea3c91a8d69453aa8f7871841ddd0af2c10a0430d408734bca0a86a60f64"
+    },
+    {
+      "path": "docs/governance/SECRETS.md",
+      "sha256": "af69b4c33de47a7cd236657ae47f927bcecd1e923a63f50e2f6950393ab701e3"
+    },
+    {
+      "path": "docs/protocols/MEMORY_BACKEND.md",
+      "sha256": "47bc4815c6707d19085192147e4caa89b9cf9133351cea1c63168b3c51210d39"
+    },
+    {
+      "path": "docs/protocols/README.md",
+      "sha256": "aec5ccee70d754930b7855648b3a574c642a40fa2335b672fe618308e546ca57"
+    },
+    {
+      "path": "scripts/vet_skill.sh",
+      "sha256": "716d3069e00fc049c5fbd6bf788d4756bafe8271ac0e3b332b1c217c7a1f91f3"
+    }
+  ]
+}

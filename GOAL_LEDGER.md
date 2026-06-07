@@ -50,7 +50,7 @@ Blueprint v6.5 / MBF v2.5) is NBCLI's single source of truth; NBCLI becomes NBB'
 enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slice rides `pnpm dogfood`.
 - **Slice 0 — Decision record + doctrine ingest** *(this slice)*: `docs/ADR-001-nbb-realignment.md`
   (Option A, pinned SHA, license seam) + `docs/DOCTRINE_CROSSWALK.md` (NBB concept -> NBCLI mechanism).
-- **Slice 1 — Canonical sync + dedupe (G1+G2):** pinned `vendor/nbb/` + `nsb sync --check` in the gate;
+- **Slice 1 — Canonical sync + dedupe (G1+G2)** (PR #16, shipped): pinned `vendor/nbb/` + `nsb sync --check` in the gate;
   quarantine/remove the stale v6.0/v2.0 methodology trees; LICENSE/NOTICE seam (CC BY-NC-SA <-> MIT).
 - **Slice 2 — Governance unification (G3):** crosswalk made real — HARD_STOPS/blast-radius -> anchors+
   policy; deny-all + denylist -> hook profiles; `op://`/RAK -> generators+scan; tokenomics -> budget;

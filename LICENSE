@@ -1,3 +1,8 @@
+NBCLI license seam (see NOTICE + docs/ADR-001-nbb-realignment.md):
+  - NBCLI ENGINE code (packages/**, scripts/, CI) is MIT, below.
+  - NBB-derived METHODOLOGY content (vendor/nbb/**, superseded/**, and NBB-derived
+    text emitted by `nsb init`) is CC BY-NC-SA 4.0 (c) North Star Build / @NavigatingTruth.
+
 MIT License
 
 Copyright (c) 2024-2026 NorthStarBuild Contributors

@@ -45,7 +45,6 @@ nsb update                 # --dry-run to preview the diff
 
 ## Optional: the methodology documents
 
-`NORTH_STAR_BOOTSTRAP.md` (ignition key) · `BRIDGE.md` (routing) · `north-star-blueprint/` (HOW) ·
-`master-build-framework/` (WHAT).
+`NORTH_STAR_BOOTSTRAP.md` (ignition key) · `BRIDGE.md` (routing) · the NBB Blueprint v6.5 (HOW) + MBF v2.5 (WHAT), canonical in `Navigata1/NBB` (doctrine in `vendor/nbb/`).
 
 Build with intention. Ship with confidence.

@@ -1,5 +1,11 @@
 # NORTH STAR BOOTSTRAP
 
+> **SUPERSEDED — legacy v6.0 bootstrap.** The canonical methodology is now **NBB v6.5 / MBF v2.5**
+> (`Navigata1/NBB`); enforced doctrine is vendored in `vendor/nbb/` and the portable NBB bootstrap is
+> emitted by `nsb init` (NBB re-alignment Slice 3). This file is retained for provenance only; its
+> internal links to `north-star-blueprint/` / `master-build-framework/` now live under `superseded/`.
+> See `docs/ADR-001-nbb-realignment.md`.
+
 ## The Ignition Key for Production-Ready Development
 
 ---

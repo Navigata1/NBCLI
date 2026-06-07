@@ -20,6 +20,7 @@ import { policyCommand } from './commands/policy';
 import { sandboxCommand } from './commands/sandbox';
 import { signCommand, verifyCommand } from './commands/sign';
 import { pluginCommand } from './commands/plugin';
+import { syncCommand } from './commands/sync';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -42,6 +43,7 @@ program.addCommand(sandboxCommand);
 program.addCommand(signCommand);
 program.addCommand(verifyCommand);
 program.addCommand(pluginCommand);
+program.addCommand(syncCommand);
 program.addCommand(checkCommand);
 program.addCommand(hooksCommand);
 program.addCommand(evalCommand);
