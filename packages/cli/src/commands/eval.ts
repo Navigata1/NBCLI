@@ -9,6 +9,7 @@ import { getBuiltInAnchors } from '@nsb/anchors';
 import { mergeAnchors } from '../utils/anchors';
 import { DEFAULT_FIXTURES, type EvalFixture } from '../evals/fixtures';
 import { log } from '../utils/logger';
+import { emitJson } from '../utils/output';
 import { printMini } from '../utils/banner';
 import { colors, icons } from '../utils/theme';
 
@@ -52,8 +53,9 @@ export const evalCommand = new Command('eval')
   .description('Evaluate the governance engine against labeled fixtures (proves it classifies risk)')
   .option('-p, --profile <profile>', 'minimal | standard | strict (fixtures labeled for strict)', 'strict')
   .option('--min-accuracy <n>', 'fail below this accuracy (0..1)', '1')
+  .option('--json', 'emit machine-readable JSON (no banner)', false)
   .action((options) => {
-    printMini();
+    if (!options.json) printMini();
     const root = process.cwd();
     const profile = (['minimal', 'standard', 'strict'].includes(options.profile)
       ? options.profile
@@ -64,7 +66,7 @@ export const evalCommand = new Command('eval')
       process.exitCode = 1;
       return;
     }
-    if (profile !== 'strict') {
+    if (profile !== 'strict' && !options.json) {
       log.warn('Bundled fixtures are labeled for the strict profile — results under other profiles may differ.');
     }
     const anchors = loadAnchors(root);
@@ -75,6 +77,12 @@ export const evalCommand = new Command('eval')
       return { name: f.name, expected: f.expect, actual: evaluateChange(matches, profile).verdict };
     });
     const score = scoreEval(cases);
+
+    if (options.json) {
+      emitJson({ profile, ...score, cases });
+      if (score.falseNegatives > 0 || score.accuracy < minAccuracy) process.exitCode = 1;
+      return;
+    }
 
     log.subheader(`Governance eval (${profile}) — ${fixtures.length} fixtures`);
     log.blank();

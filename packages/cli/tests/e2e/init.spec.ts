@@ -97,9 +97,10 @@ describe.skipIf(!cliBuilt)('cli e2e init', () => {
       runCli('init --yes');
       throw new Error('expected init to refuse overwrite');
     } catch (err) {
-      collisionOut = String((err as { stdout?: Buffer | string }).stdout ?? '');
+      const e = err as { stdout?: Buffer | string; stderr?: Buffer | string };
+      collisionOut = `${String(e.stdout ?? '')}${String(e.stderr ?? '')}`;
     }
-    // Clean, user-facing refusal — not a raw Node stack trace.
+    // Clean, user-facing refusal — not a raw Node stack trace. (Errors go to stderr.)
     expect(collisionOut).toContain('Refusing to overwrite');
     expect(collisionOut).not.toContain('at Command');
 

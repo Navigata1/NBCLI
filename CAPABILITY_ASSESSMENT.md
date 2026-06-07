@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.12.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.13.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **193 tests** green (core 55, schema 17, cli 112, mcp-server 9); `build`,
+Verification baseline: **199 tests** green (core 55, schema 17, cli 118, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -62,6 +62,7 @@ Verification baseline: **193 tests** green (core 55, schema 17, cli 112, mcp-ser
 | Secret scan | ✅ | high-signal provider/key scanner (all tracked files clean), in CI |
 | Build / test / lint / typecheck green | ✅ | all gates; typecheck was previously broken and is now enforced |
 | Governance eval harness (`nsb eval`) | ✅ | labeled fixtures → accuracy / block precision / recall; bundled set scores 100% (unit-tested, per-fixture); exits nonzero on any false negative |
+| Machine-readable surface (`--json`) + `nsb stats` | ✅ | `--json` on check/eval/model-route/stats; exit-code contract (docs/EXIT_CODES.md); local-only stats (no network) |
 | Monolithic distributable | ✅ | `build:standalone` → single file, run from `/tmp` with no node_modules |
 | Reusable GitHub Action (`action.yml`) | ✅ artifact / 🟡 runtime | composite action runs `nsb check`/`nsb eval`; **install depends on npm publish** |
 | Docker image (`Dockerfile`) | ✅ | multi-stage → standalone monolith on `node:22-alpine`, `nsb` entrypoint; buildable (not pushed here) |
@@ -81,7 +82,7 @@ Verification baseline: **193 tests** green (core 55, schema 17, cli 112, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.12.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.13.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

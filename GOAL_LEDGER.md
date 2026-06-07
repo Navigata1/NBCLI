@@ -25,7 +25,8 @@ and the next slice begins. The release tag / npm publish stays owner-controlled.
 ## v2 run (v2.12 → v2.18) — in progress
 Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetry stays deferred
 (local `nsb stats` only); ACP reached via MCP (ACP-native deferred); signing via minisign/age (offline).
-- **v2.13 — Machine-readable surface**: `--json` on all commands + `docs/EXIT_CODES.md` + local `nsb stats`.
+- **v2.13 — Machine-readable surface** (PR #9, shipped): `--json` on check/eval/model-route +
+  `docs/EXIT_CODES.md` + local `nsb stats` (no network).
 - **v2.14 — MCP 2026**: new MCP tools (evaluate_change/run_eval/audit_query/list_anchors); Streamable
   HTTP + authenticated surface (replaces legacy unauth loopback HTTP); registry readiness.
 - **v2.15 — Policy-as-code**: `nsb policy export --format rego|cedar` + a `policy` MCP tool.

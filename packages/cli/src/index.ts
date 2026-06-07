@@ -15,6 +15,7 @@ import { hooksCommand } from './commands/hooks';
 import { adaptersCommand } from './commands/adapters';
 import { evalCommand } from './commands/eval';
 import { auditCommand } from './commands/audit';
+import { statsCommand } from './commands/stats';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -38,6 +39,7 @@ program.addCommand(hooksCommand);
 program.addCommand(evalCommand);
 program.addCommand(budgetCommand);
 program.addCommand(auditCommand);
+program.addCommand(statsCommand);
 program.addCommand(skillCommand);
 program.addCommand(homeCommand);
 
