@@ -13,6 +13,7 @@ import { worktreeCommand } from './commands/worktree';
 import { checkCommand } from './commands/check';
 import { hooksCommand } from './commands/hooks';
 import { adaptersCommand } from './commands/adapters';
+import { evalCommand } from './commands/eval';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -33,6 +34,7 @@ program.addCommand(workflowCommand);
 program.addCommand(worktreeCommand);
 program.addCommand(checkCommand);
 program.addCommand(hooksCommand);
+program.addCommand(evalCommand);
 program.addCommand(budgetCommand);
 program.addCommand(skillCommand);
 program.addCommand(homeCommand);

@@ -4,3 +4,4 @@ export * from './anchors';
 export * from './ledger';
 export * from './budget';
 export * from './enforce';
+export * from './eval';
