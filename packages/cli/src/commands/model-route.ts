@@ -5,6 +5,7 @@ import { parse } from 'yaml';
 import Table from 'cli-table3';
 import type { GovernanceConfig, RoutingConfig } from '@nsb/core';
 import { log } from '../utils/logger';
+import { emitJson } from '../utils/output';
 import { printMini } from '../utils/banner';
 import { colors } from '../utils/theme';
 
@@ -92,22 +93,38 @@ export const modelRouteCommand = new Command('model-route')
   .option('-r, --risk <risk>', 'low | medium | high', 'medium')
   .option('-c, --confidence <level>', 'high | medium | low | uncertain', 'medium')
   .option('--matrix', 'print the full routing matrix instead of a single recommendation', false)
+  .option('--json', 'emit machine-readable JSON (no banner)', false)
   .action((options) => {
-    printMini();
+    if (!options.json) printMini();
     const routing = readRouting(process.cwd());
 
     if (options.matrix) {
+      const rows: Array<{
+        kind: TaskKind;
+        risk: RiskLevel;
+        confidence: ConfidenceLevel;
+        model: string;
+        effort: Effort;
+        fast: boolean;
+      }> = [];
+      for (const kind of KIND) {
+        for (const risk of RISK) {
+          const d = recommendRoute({ kind, risk, confidence: 'medium' }, routing);
+          rows.push({ kind, risk, confidence: 'medium', model: d.model, effort: d.effort, fast: d.fast });
+        }
+      }
+      if (options.json) {
+        emitJson(rows);
+        return;
+      }
       log.subheader('Model routing matrix');
       const table = new Table({
         head: ['kind', 'risk', 'confidence', 'model', 'effort', 'fast'].map((h) => colors.primary(h)),
         style: { head: [], border: ['gray'] },
       });
-      for (const kind of KIND) {
-        for (const risk of RISK) {
-          const d = recommendRoute({ kind, risk, confidence: 'medium' }, routing);
-          table.push([kind, risk, 'medium', d.model, d.effort, d.fast ? 'yes' : 'no']);
-        }
-      }
+      rows.forEach((r) =>
+        table.push([r.kind, r.risk, r.confidence, r.model, r.effort, r.fast ? 'yes' : 'no']),
+      );
       console.log(table.toString());
       return;
     }
@@ -117,6 +134,10 @@ export const modelRouteCommand = new Command('model-route')
     const confidence = (CONF.has(options.confidence) ? options.confidence : 'medium') as ConfidenceLevel;
 
     const decision = recommendRoute({ kind, risk, confidence }, routing);
+    if (options.json) {
+      emitJson({ kind, risk, confidence, ...decision });
+      return;
+    }
     log.subheader('Recommended route');
     log.keyValue('Task', `${kind} · risk ${risk} · confidence ${confidence}`);
     log.keyValue('Model', colors.primary(decision.model));

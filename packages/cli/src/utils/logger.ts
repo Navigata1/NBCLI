@@ -10,12 +10,13 @@ export const log = {
     console.log(`  ${icons.success}  ${colors.success(message)}`);
   },
 
+  // Diagnostics go to stderr so stdout stays clean for `--json` consumers.
   warn: (message: string) => {
-    console.log(`  ${icons.warning}  ${colors.warning(message)}`);
+    console.error(`  ${icons.warning}  ${colors.warning(message)}`);
   },
 
   error: (message: string) => {
-    console.log(`  ${icons.error}  ${colors.error(message)}`);
+    console.error(`  ${icons.error}  ${colors.error(message)}`);
   },
 
   step: (message: string) => {

@@ -8,6 +8,7 @@ import { HOOK_PROFILE_BY_GOVERNANCE, evaluateChange, matchAnchors } from '@nsb/c
 import { getBuiltInAnchors } from '@nsb/anchors';
 import { mergeAnchors } from '../utils/anchors';
 import { log } from '../utils/logger';
+import { emitJson } from '../utils/output';
 import { colors, icons } from '../utils/theme';
 
 interface CheckTarget {
@@ -140,6 +141,7 @@ export const checkCommand = new Command('check')
   .option('--hook', 'read a Claude Code PreToolUse JSON from stdin (exit 2 = block the edit)', false)
   .option('-p, --profile <profile>', 'minimal | standard | strict (override the project profile)')
   .option('--warn-only', 'report but never block (exit 0)', false)
+  .option('--json', 'emit machine-readable JSON (no banner)', false)
   .action((paths: string[], options) => {
     const root = process.cwd();
     const profile = resolveProfile(root, options.profile);
@@ -179,6 +181,19 @@ export const checkCommand = new Command('check')
         );
         process.exit(2);
       }
+      return;
+    }
+
+    if (options.json) {
+      emitJson({
+        profile,
+        verdict: result.verdict,
+        totalAdjustment: result.totalAdjustment,
+        enforceAdjustment: result.enforceAdjustment,
+        reasons: result.reasons,
+        matches: result.matches,
+      });
+      if (result.verdict === 'block' && !options.warnOnly) process.exitCode = 1;
       return;
     }
 

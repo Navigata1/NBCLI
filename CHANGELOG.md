@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.13.0 - 2026-06-07 — Machine-readable surface (`--json`) + exit-code contract + local stats
+
+### Added
+- **`--json`** on `check`, `eval`, and `model-route` — pretty-printed JSON on stdout (banner
+  suppressed) so AI agents and CI can consume verdicts/scores/recommendations programmatically.
+- **`nsb stats`** — local-only metrics over the run ledger (counts by kind, spend); `--json` too.
+  This is the resolved telemetry stance: nothing leaves the machine (network telemetry stays deferred).
+- **`docs/EXIT_CODES.md`** — the stable exit-code contract (0 allow/pass · 1 block/fail · 2 hook-block).
+
+### Changed
+- Version 2.12.0 → 2.13.0.
+
 ## 2.12.0 - 2026-06-07 — Adapter round-out (Grok / Aider / Junie) + AGENTS.md hub
 
 ### Added
