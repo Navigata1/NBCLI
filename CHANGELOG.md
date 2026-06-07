@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.12.0 - 2026-06-07 — Adapter round-out (Grok / Aider / Junie) + AGENTS.md hub
+
+### Added
+- **Three new instruction-file adapters** (now 11): `grok` (xAI Grok Build reads **AGENTS.md**
+  natively — no fabricated GROK.md), `aider` (`CONVENTIONS.md`), `junie` (`.junie/guidelines.md`).
+- **`nsb adapters --detect`** — scans the repo for which agent instruction files exist (a
+  `grok inspect`-style discovery).
+- The writer de-dupes shared targets (codex + grok both → `AGENTS.md` is written once).
+
+### Changed
+- `codex` adapter relabeled as the AGENTS.md standard hub (read by 20+ agents incl. Grok).
+- Version 2.11.0 → 2.12.0.
+
 ## 2.11.0 - 2026-06-07 — Distribution
 
 ### Added

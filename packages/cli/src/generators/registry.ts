@@ -8,6 +8,9 @@ import { generateWindsurfRules } from './windsurf-rules';
 import { generateClineRules } from './cline-rules';
 import { generateGeminiMd } from './gemini-md';
 import { generateCopilotMd } from './copilot-md';
+import { generateGrokAgents } from './grok-agents';
+import { generateAiderConventions } from './aider-conventions';
+import { generateJunieGuidelines } from './junie-guidelines';
 
 /**
  * One generator descriptor per portable instruction target. This registry is
@@ -43,9 +46,15 @@ export const TOOL_GENERATORS: ToolGenerator[] = [
   },
   {
     tool: 'codex',
-    label: 'Codex (AGENTS.md)',
+    label: 'Codex / AGENTS.md standard (read by 20+ agents incl. Grok)',
     relPath: 'AGENTS.md',
     render: generateAgentsMd,
+  },
+  {
+    tool: 'grok',
+    label: 'Grok Build (AGENTS.md — xAI reads it natively)',
+    relPath: 'AGENTS.md',
+    render: generateGrokAgents,
   },
   {
     tool: 'skill',
@@ -76,6 +85,18 @@ export const TOOL_GENERATORS: ToolGenerator[] = [
     label: 'GitHub Copilot (.github/copilot-instructions.md)',
     relPath: path.join('.github', 'copilot-instructions.md'),
     render: generateCopilotMd,
+  },
+  {
+    tool: 'aider',
+    label: 'Aider (CONVENTIONS.md)',
+    relPath: 'CONVENTIONS.md',
+    render: generateAiderConventions,
+  },
+  {
+    tool: 'junie',
+    label: 'JetBrains Junie (.junie/guidelines.md)',
+    relPath: path.join('.junie', 'guidelines.md'),
+    render: generateJunieGuidelines,
   },
 ];
 

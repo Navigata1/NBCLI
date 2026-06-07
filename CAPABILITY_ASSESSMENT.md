@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.11.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.12.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **189 tests** green (core 55, schema 17, cli 108, mcp-server 9); `build`,
+Verification baseline: **193 tests** green (core 55, schema 17, cli 112, mcp-server 9); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -20,7 +20,7 @@ Verification baseline: **189 tests** green (core 55, schema 17, cli 108, mcp-ser
 | Capability | Status | Notes |
 |---|---|---|
 | Global `--dry-run` readiness preview (ready/warning/blocked) | ✅ | `nsb init --dry-run`, `nsb preview`; unit-tested verdict logic; no writes, no model run |
-| Portable one-source-of-truth → **8 adapters** (Claude/Cursor/Codex/SKILL/Windsurf/Cline/Gemini/Copilot) | ✅ | generator registry + `nsb adapters`; e2e + unit tests |
+| Portable one-source-of-truth → **11 adapters** (Claude/Cursor/Codex/Grok/SKILL/Windsurf/Cline/Gemini/Copilot/Aider/Junie) | ✅ | generator registry + `nsb adapters --detect`; e2e + unit tests |
 | Hook profiles `minimal\|standard\|strict` (drive enforcement) | ✅ | select the block/warn verdict in `nsb check` + hooks; rendered into instructions; decision unit-tested |
 | **Enforced governance** (git pre-commit + Claude PreToolUse hooks) | ✅ | `nsb hooks install` + `nsb check` deterministically **block** risky changes (exit 1 / exit 2); only `enforce`-flagged anchors block (precision-tested: `/auth/` ≠ `author/`); covers Write/Edit/MultiEdit/NotebookEdit (Bash writes out of scope); **fails closed** if `nsb` missing or payload unparsable. Local scope (machine + agent harness) |
 | `model-route` (Opus 4.8 orchestration, cheap subtasks, fast/effort) | ✅ (recommender) | deterministic + unit-tested; **recommends**, does not execute models |
@@ -81,7 +81,7 @@ Verification baseline: **189 tests** green (core 55, schema 17, cli 108, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.11.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.12.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

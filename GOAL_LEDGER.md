@@ -17,15 +17,28 @@ and the next slice begins. The release tag / npm publish stays owner-controlled.
 - **v2.10.0** (PR #6) — audit/observability: `nsb audit` report/verify/export (JSON/CSV for SIEM,
   offline); core `filterEntries`/`toCsv`.
 
-- **v2.11.0** (PR #7) — distribution: reusable GitHub Action (`action.yml`), Dockerfile (standalone
-  monolith image), `pnpm sbom` (CycloneDX), npm `publishConfig` (+provenance), Homebrew formula template.
+- **v2.11.0** (PR #7, merged) — distribution: reusable GitHub Action (`action.yml`), Dockerfile
+  (standalone monolith image), `pnpm sbom` (CycloneDX), npm `publishConfig` (+provenance), Homebrew template.
+- **v2.12.0** (PR #8) — adapter round-out: Grok/Aider/Junie adapters (11 total) + `nsb adapters --detect`;
+  AGENTS.md positioned as the standard hub; writer de-dupes shared targets.
 
-## Roadmap complete
-The planned v2.5 → v2.11 arc is delivered (7 gated, auto-merged PRs). Remaining items are owner-directed:
-- **Deferred (honest, documented)**: ACP handshake runtime, Docker isolation backend, compression
-  proxy, telemetry uploader, install-on-demand plugins, workflow executor.
-- **Owner-controlled**: the release tag + npm publish (then the GitHub Action / Homebrew / `npm i -g`
-  install paths go live).
+## v2 run (v2.12 → v2.18) — in progress
+Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetry stays deferred
+(local `nsb stats` only); ACP reached via MCP (ACP-native deferred); signing via minisign/age (offline).
+- **v2.13 — Machine-readable surface**: `--json` on all commands + `docs/EXIT_CODES.md` + local `nsb stats`.
+- **v2.14 — MCP 2026**: new MCP tools (evaluate_change/run_eval/audit_query/list_anchors); Streamable
+  HTTP + authenticated surface (replaces legacy unauth loopback HTTP); registry readiness.
+- **v2.15 — Policy-as-code**: `nsb policy export --format rego|cedar` + a `policy` MCP tool.
+- **v2.16 — Opt-in sinks**: `sinks` config + `nsb audit sync` webhook (OFF by default; offline-by-default re-claim).
+- **v2.17 — Sandbox/isolation**: `nsb worktree --backend docker` + `nsb workflow validate` / reference runner.
+- **v2.18 — Supply-chain trust + plugins**: minisign signing (`audit export --sign`, `nsb verify`) + signed `nsb plugin`.
+
+## Still deferred (honest, documented)
+ACP-native handshake runtime (reached via MCP) · network telemetry/compression (rejected; local stats only) ·
+workflow **executor** (NBCLI emits the plan + a reference runner; the harness runs models).
+
+## Owner-controlled
+The release tag + npm publish (then the GitHub Action / Homebrew / `npm i -g` install paths go live).
 
 ## Principles
 Zero over-claiming · every shipped capability real + tested · honest DEFERRED labels · least privilege.

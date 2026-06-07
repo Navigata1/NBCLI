@@ -7,4 +7,7 @@ export * from './windsurf-rules';
 export * from './cline-rules';
 export * from './gemini-md';
 export * from './copilot-md';
+export * from './grok-agents';
+export * from './aider-conventions';
+export * from './junie-guidelines';
 export * from './registry';

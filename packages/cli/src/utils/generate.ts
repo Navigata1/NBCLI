@@ -22,10 +22,16 @@ export function generateToolFiles(
   force: boolean,
 ): GeneratedFile[] {
   const created: GeneratedFile[] = [];
+  const written = new Set<string>();
   for (const generator of TOOL_GENERATORS) {
     if (!tools.includes(generator.tool)) continue;
     const outPath = resolveOutPath(root, generator);
-    writeFileSafe(outPath, generator.render(config, anchors), force);
+    // De-dupe shared targets (e.g. codex + grok both -> AGENTS.md): write once,
+    // but still record every tool the file serves.
+    if (!written.has(outPath)) {
+      writeFileSafe(outPath, generator.render(config, anchors), force);
+      written.add(outPath);
+    }
     created.push({ tool: generator.tool, label: generator.label, path: outPath });
   }
   return created;
