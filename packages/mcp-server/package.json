@@ -1,6 +1,6 @@
 {
   "name": "@nsb/mcp-server",
-  "version": "2.16.0",
+  "version": "2.17.0",
   "description": "MCP (stdio) + legacy HTTP API server for NorthStarBuild governance checks",
   "license": "MIT",
   "author": "Navigata1",

@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.17.0 - 2026-06-07 — Sandbox isolation + workflow validation
+
+### Added
+- **`nsb sandbox run [--image] [--allow-network] [--memory] [--cpus] [--print] -- <cmd>`** — run a
+  command in an isolated Docker container with the repo mounted at `/work`; **network OFF by default**
+  (`--network none`). `--print` shows the docker command (no Docker needed). Pure `buildSandboxArgs`.
+- **`nsb workflow validate [--file]`** — lint a plan spec (shape + caps; `concurrency_cap ≤ total_agent_cap`).
+  Pure `validateWorkflowPlan`.
+
+### Changed
+- Docker isolation is now **REAL** via `nsb sandbox` (was deferred); the worktree row updated.
+- Version 2.16.0 → 2.17.0.
+
+### Still deferred (honest)
+- The workflow **executor** stays the harness's job — NBCLI emits + now validates the plan, but never runs models.
+
 ## 2.16.0 - 2026-06-07 — Opt-in sinks (webhook / SIEM)
 
 ### Added

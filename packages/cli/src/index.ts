@@ -17,6 +17,7 @@ import { evalCommand } from './commands/eval';
 import { auditCommand } from './commands/audit';
 import { statsCommand } from './commands/stats';
 import { policyCommand } from './commands/policy';
+import { sandboxCommand } from './commands/sandbox';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -35,6 +36,7 @@ program.addCommand(doctorCommand);
 program.addCommand(modelRouteCommand);
 program.addCommand(workflowCommand);
 program.addCommand(worktreeCommand);
+program.addCommand(sandboxCommand);
 program.addCommand(checkCommand);
 program.addCommand(hooksCommand);
 program.addCommand(evalCommand);
