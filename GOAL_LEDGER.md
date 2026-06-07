@@ -22,7 +22,7 @@ and the next slice begins. The release tag / npm publish stays owner-controlled.
 - **v2.12.0** (PR #8) — adapter round-out: Grok/Aider/Junie adapters (11 total) + `nsb adapters --detect`;
   AGENTS.md positioned as the standard hub; writer de-dupes shared targets.
 
-## v2 run (v2.12 → v2.18) — in progress
+## v2 run (v2.12 → v2.18) — COMPLETE
 Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetry stays deferred
 (local `nsb stats` only); ACP reached via MCP (ACP-native deferred); signing via minisign/age (offline).
 - **v2.13 — Machine-readable surface** (PR #9, shipped): `--json` on check/eval/model-route +
@@ -36,7 +36,9 @@ Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetr
   default; payload redaction). Offline claim re-scoped honestly to "offline by default".
 - **v2.17 — Sandbox/isolation** (PR #13, shipped): `nsb sandbox run` (Docker, network-off by default,
   `--print` needs no Docker) + `nsb workflow validate`. The workflow executor stays deferred (harness runs models).
-- **v2.18 — Supply-chain trust + plugins**: minisign signing (`audit export --sign`, `nsb verify`) + signed `nsb plugin`.
+- **v2.18 — Supply-chain trust + plugins** (PR #14, shipped): Ed25519 `nsb sign` / `nsb verify`
+  (offline) + local signature-verified `nsb plugin`. Signing is Ed25519 detached (not the minisign
+  on-disk format); plugin network/registry install stays deferred (offline-first).
 
 ## Still deferred (honest, documented)
 ACP-native handshake runtime (reached via MCP) · network telemetry/compression (rejected; local stats only) ·

@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.17.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.18.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **227 tests** green (core 65, schema 17, cli 132, mcp-server 13); `build`,
+Verification baseline: **236 tests** green (core 69, schema 17, cli 137, mcp-server 13); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -34,7 +34,7 @@ Verification baseline: **227 tests** green (core 65, schema 17, cli 132, mcp-ser
 |---|---|---|
 | `skill` subcommands: list / add / eval / stocktake | ✅ | `eval` is a real static scorer (frontmatter/trigger/body/gate); unit-tested |
 | SKILL.md with valid frontmatter + "use when" trigger | ✅ | generated; scores 100/100 in `skill eval` test |
-| Install-on-demand plugins (Understand-Anything / Headroom) | ⛔ | deferred |
+| Install-on-demand plugins (`nsb plugin`) | ✅ local / 🟡 registry | local **whole-tree** signature-verified install (`nsb plugin sign` + `--pub`); path-traversal-safe; network/registry deferred |
 
 ## BATCH 3 — Tokenomics
 | Capability | Status | Notes |
@@ -69,6 +69,7 @@ Verification baseline: **227 tests** green (core 65, schema 17, cli 132, mcp-ser
 | Reusable GitHub Action (`action.yml`) | ✅ artifact / 🟡 runtime | composite action runs `nsb check`/`nsb eval`; **install depends on npm publish** |
 | Docker image (`Dockerfile`) | ✅ | multi-stage → standalone monolith on `node:22-alpine`, `nsb` entrypoint; buildable (not pushed here) |
 | SBOM (`pnpm sbom`) | ✅ | deterministic CycloneDX from workspace manifests |
+| Artifact signing (`nsb sign` / `nsb verify`) | ✅ | Ed25519 detached signatures via Node crypto (offline; not minisign on-disk format); signs SBOM/audit exports/any file; unit + e2e tested |
 | Homebrew formula | 🟡 template | `packaging/homebrew/nbcli.rb` — ready on first release (needs tarball url + sha256) |
 | npm provenance on release | 🟡 | release workflow `--provenance` + `id-token: write` + cli `publishConfig`; **not run** this pass (Jon-owned) |
 
@@ -84,7 +85,7 @@ Verification baseline: **227 tests** green (core 65, schema 17, cli 132, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.17.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.18.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · compression proxy · telemetry ·
