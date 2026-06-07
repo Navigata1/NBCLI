@@ -4,10 +4,10 @@ import { existsSync, readFileSync } from 'fs';
 import { parse, stringify } from 'yaml';
 import { getAnchorFiles } from '@nsb/anchors';
 import { loadAnchorsFromFile, mergeAnchorCollections } from '@nsb/core';
-import { generateAgentsMd } from '../generators/agents-md';
-import { generateClaudeMd } from '../generators/claude-md';
-import { generateCursorRules } from '../generators/cursor-rules';
-import { writeFileSafe } from '../utils/files';
+import { DEFAULT_TOOLS } from '../generators/registry';
+import { generateToolFiles } from '../utils/generate';
+import { getPlannedWrites, setDryRun, writeFileSafe } from '../utils/files';
+import { buildReport, renderPreview } from '../utils/preview';
 import { log } from '../utils/logger';
 import { mergeAnchors, formatMergeDiff } from '../utils/anchors';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
@@ -22,7 +22,7 @@ const parseTools = (value?: string) =>
 
 export const updateCommand = new Command('update')
   .description('Regenerate tool instructions from current configuration')
-  .option('-t, --tools <tools>', 'comma separated: claude,cursor,codex')
+  .option('-t, --tools <tools>', 'comma separated: claude,cursor,codex,skill')
   .option('--dry-run', 'show what would change without writing files', false)
   .action((options) => {
     const root = process.cwd();
@@ -44,8 +44,7 @@ export const updateCommand = new Command('update')
     let customAnchors: AnchorCollection = {};
     if (existsSync(customAnchorsPath)) {
       try {
-        const customRaw = readFileSync(customAnchorsPath, 'utf-8');
-        const parsed = parse(customRaw);
+        const parsed = parse(readFileSync(customAnchorsPath, 'utf-8'));
         if (parsed && typeof parsed === 'object') {
           customAnchors = parsed as AnchorCollection;
         }
@@ -58,48 +57,25 @@ export const updateCommand = new Command('update')
     const anchors = mergeResult.merged;
 
     const tools = parseTools(options.tools);
-    const resolvedTools = tools.length ? tools : config.tools?.enabled ?? ['claude', 'cursor', 'codex'];
+    const resolvedTools = tools.length ? tools : config.tools?.enabled ?? DEFAULT_TOOLS;
 
     if (options.dryRun) {
-      log.info('Dry run mode - no files will be written.\n');
-
       log.info('Anchor merge summary:');
       console.log(formatMergeDiff(mergeResult));
-      console.log('');
 
-      log.info('Files that would be updated:');
-      console.log(`  - ${anchorsPath}`);
+      setDryRun(true);
+      writeFileSafe(anchorsPath, stringify(anchors), true);
+      generateToolFiles(root, config, anchors, resolvedTools, true);
+      const planned = getPlannedWrites();
+      setDryRun(false);
 
-      if (resolvedTools.includes('claude')) {
-        console.log(`  - ${path.resolve(root, 'CLAUDE.md')}`);
-      }
-      if (resolvedTools.includes('cursor')) {
-        console.log(`  - ${path.resolve(root, '.cursor', 'rules', 'mbf.mdc')}`);
-      }
-      if (resolvedTools.includes('codex')) {
-        console.log(`  - ${path.resolve(root, 'AGENTS.md')}`);
-      }
-
-      log.success('Dry run complete.');
+      const report = buildReport({ root, config, tools: resolvedTools, force: true, planned });
+      renderPreview(report);
       return;
     }
 
     writeFileSafe(anchorsPath, stringify(anchors), true);
-
-    if (resolvedTools.includes('claude')) {
-      const claudePath = path.resolve(root, 'CLAUDE.md');
-      writeFileSafe(claudePath, generateClaudeMd(config, anchors), true);
-    }
-
-    if (resolvedTools.includes('cursor')) {
-      const cursorPath = path.resolve(root, '.cursor', 'rules', 'mbf.mdc');
-      writeFileSafe(cursorPath, generateCursorRules(config, anchors), true);
-    }
-
-    if (resolvedTools.includes('codex')) {
-      const agentsPath = path.resolve(root, 'AGENTS.md');
-      writeFileSafe(agentsPath, generateAgentsMd(config, anchors), true);
-    }
+    generateToolFiles(root, config, anchors, resolvedTools, true);
 
     log.success('Anchors merged and instructions regenerated.');
   });

@@ -32,3 +32,24 @@ autonomy:
       action: "explain_and_confirm"
 tools:
   enabled: []
+hooks:
+  profile: "standard"
+budgets:
+  per_run_usd: 5
+  per_project_usd: 50
+  warn_at: 0.8
+  currency: "USD"
+permissions:
+  allow:
+    - "read"
+    - "format"
+    - "lint"
+    - "test"
+  destructive_gates:
+    - "rm -rf"
+    - "git push --force"
+    - "db migrate"
+routing:
+  orchestrator: "claude-opus-4-8"
+  subtask: "claude-sonnet-4-6"
+  fast: false

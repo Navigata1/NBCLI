@@ -7,6 +7,7 @@ import ora from 'ora';
 import Table from 'cli-table3';
 import { validateAnchorCollection, validateGovernanceConfig } from '@nsb/schema';
 import type { AnchorCollection, GovernanceConfig } from '@nsb/core';
+import { HOOK_PROFILE_BY_GOVERNANCE, verifyLedger } from '@nsb/core';
 import { log } from '../utils/logger.js';
 import { printMini } from '../utils/banner.js';
 import { colors, icons } from '../utils/theme.js';
@@ -207,7 +208,40 @@ export const doctorCommand = new Command('doctor')
         }
       }
 
+      if (tools.includes('skill')) {
+        if (existsSync(path.resolve(root, '.claude', 'skills', 'north-star', 'SKILL.md'))) {
+          results.push({ name: 'SKILL.md', status: 'pass', message: 'Present' });
+        } else {
+          results.push({
+            name: 'SKILL.md',
+            status: 'warn',
+            message: 'Missing',
+            suggestion: 'Run nsb update',
+          });
+          recommendations.push('Run `nsb update` to generate SKILL.md');
+        }
+      }
+
+      const hookProfile =
+        config.hooks?.profile ?? HOOK_PROFILE_BY_GOVERNANCE[config.governance.profile];
+      results.push({ name: 'Hook Profile', status: 'pass', message: hookProfile });
+
       spinner.succeed('Tool outputs checked');
+    }
+
+    const ledgerFile = path.resolve(root, '.mbf', 'ledger', 'runs.jsonl');
+    if (existsSync(ledgerFile)) {
+      const ledger = verifyLedger(ledgerFile);
+      results.push(
+        ledger.valid
+          ? { name: 'Run Ledger', status: 'pass', message: `Intact (${ledger.entries})` }
+          : {
+              name: 'Run Ledger',
+              status: 'fail',
+              message: `Broken at ${ledger.brokenAt}`,
+              suggestion: 'Investigate tampering',
+            },
+      );
     }
 
     log.blank();

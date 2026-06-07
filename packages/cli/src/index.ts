@@ -3,17 +3,35 @@ import { initCommand } from './commands/init';
 import { validateCommand } from './commands/validate';
 import { updateCommand } from './commands/update';
 import { doctorCommand } from './commands/doctor';
+import { previewCommand } from './commands/preview';
+import { homeCommand, runHome } from './commands/home';
+import { modelRouteCommand } from './commands/model-route';
+import { budgetCommand } from './commands/budget';
+import { skillCommand } from './commands/skill';
+import { workflowCommand } from './commands/workflow';
+import { NBCLI_VERSION } from './version';
 
 const program = new Command();
 
 program
   .name('northstarbuild')
-  .description('North Star Build CLI (nsb)')
-  .version('0.1.0');
+  .description('NorthStar Bootstrap CLI (nsb) — governed autonomy for AI-native development')
+  .version(NBCLI_VERSION);
 
 program.addCommand(initCommand);
 program.addCommand(validateCommand);
 program.addCommand(updateCommand);
+program.addCommand(previewCommand);
 program.addCommand(doctorCommand);
+program.addCommand(modelRouteCommand);
+program.addCommand(workflowCommand);
+program.addCommand(budgetCommand);
+program.addCommand(skillCommand);
+program.addCommand(homeCommand);
 
-program.parse();
+// No subcommand → show the dynamic home screen.
+program.action(async () => {
+  await runHome();
+});
+
+program.parseAsync();

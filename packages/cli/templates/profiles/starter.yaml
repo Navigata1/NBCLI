@@ -32,3 +32,12 @@ autonomy:
       action: "explain_and_confirm"
 tools:
   enabled: []
+hooks:
+  profile: "minimal"
+permissions:
+  allow:
+    - "read"
+    - "format"
+  destructive_gates:
+    - "rm -rf"
+    - "git push --force"
