@@ -47,7 +47,7 @@ export const startServer = (port = 3333) => {
   });
 
   server.listen(port, () => {
-    console.log(`NSB MCP server listening on ${port}`);
+    console.log(`NSB HTTP API listening on ${port} (for the MCP stdio server, run nsb-mcp)`);
   });
 
   return server;
