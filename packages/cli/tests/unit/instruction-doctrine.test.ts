@@ -13,12 +13,13 @@ describe('NBB doctrine in the generated instruction body (G3)', () => {
 
   it('carries the NBB safety floor', () => {
     for (const marker of [
+      'North Star bootstrap (ignition)',
+      'Load discipline (tokenomics',
       'HARD STOPS',
       'Blast-radius tiers',
       'Autonomy caps',
       'op run',
       'Prompt-injection',
-      'Load discipline (tokenomics)',
       'vendor/nbb',
     ]) {
       expect(body).toContain(marker);

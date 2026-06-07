@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.21.0 - 2026-06-07 — NBB re-alignment Slice 3: portability output
+
+### Added
+- **`nsb init` now emits NBB's portable bootstrap** into every generated harness file: the ignition
+  sequence (start-here, tier, vertical slice, reference-on-demand, clean exit) + load discipline
+  (Tier 1/2/3, never co-resident, lazy-load mandatory) — on top of the Slice 2 safety floor.
+- **Content-hash discipline:** every generated file is stamped `<!-- nbcli-generated sha256:... -->`;
+  **`nsb update --check`** fails (exit 1) on a hand-edit (stamp mismatch) OR drift from the config —
+  mirrors NBB's `build_bootstrap.sh --check` single-source discipline.
+
+### Changed
+- All 11 generators carry the unified NBB bootstrap + doctrine from the single `instruction-base` source.
+- Version 2.20.0 → 2.21.0.
+
+### Deferred (honest)
+- Generated `.claude/settings.json` deny-list (init output) remains pending — it overlaps the
+  `nsb hooks` settings writer; the denylist is already EMITTED as guidance + enforced via `nsb hooks install`.
+
 ## 2.20.0 - 2026-06-07 — NBB re-alignment Slice 2: governance unification (G3)
 
 ### Added

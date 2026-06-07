@@ -12,7 +12,7 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 > **Slice 2 status:** DONE for the enforceable core -- NBB HARD STOPS compiled to enforced `hard_stops`
 > anchors (block destructive commands) + the full NBB safety floor (hard stops, blast-radius, autonomy
 > caps, op:// secrets, prompt-injection, load discipline) emitted into EVERY generated instruction file
-> via `instruction-base.ts`. Folded into Slice 3: the generated `.claude/settings.json` deny-list.
+> via `instruction-base.ts`. Still PARTIAL (deferred): the generated `.claude/settings.json` deny-list.
 > Deferred (low-value/risky rename): `.mbf` vocabulary aliasing (back-compat shims).
 
 | NBB doctrine (source) | NBCLI mechanism (existing surface) | Status |
@@ -41,10 +41,10 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 
 | NBB doctrine | NBCLI mechanism | Status |
 |---|---|---|
-| **Portable bootstrap from `NBB_CORE.md`** -> CLAUDE.md / AGENTS.md / SKILL.md trio | `nsb init` emits the trio from the unified source via the generators | PARTIAL -> Slice 3 |
+| **Portable bootstrap from `NBB_CORE.md`** -> CLAUDE.md / AGENTS.md / SKILL.md trio | `nsb init` emits the NBB bootstrap (ignition+load-discipline) + governance into the trio | REAL (Slice 3) |
 | **Governance layer** (anchors, policy, hooks, budget) emitted alongside | `nsb init` already emits `.mbf/*`; carry NBB doctrine content | PARTIAL -> Slice 3 |
-| **Content-hash / `--check` on generated files** | stamp generated bootstrap; `nsb init --check` | SLICE 3 |
-| **All generators carry NBB doctrine (not v2.0 text)** — 10 harness generators + `skill-md` (11) | update `generators/*` + `generators.test.ts` fixtures | SLICE 3 |
+| **Content-hash / `--check` on generated files** | content-hash stamp on every generated file + `nsb update --check` (drift/hand-edit guard) | REAL (Slice 3) |
+| **All generators carry NBB doctrine (not v2.0 text)** — 10 harness generators + `skill-md` (11) | NBB doctrine + bootstrap in the shared `instruction-base.ts` body (all 11 generators) | REAL (Slices 2-3) |
 
 ## Protocols + memory (Slice 4)
 
