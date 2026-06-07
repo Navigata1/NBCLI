@@ -200,7 +200,7 @@ Contributors are recognized in:
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the same [CC BY-NC-SA 4.0 License](LICENSE) that covers the project.
+By contributing, you agree that your contributions will be licensed under the same [MIT License License](LICENSE) that covers the project.
 
 For commercial licensing inquiries, please contact the repository owner.
 

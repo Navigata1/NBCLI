@@ -4,11 +4,11 @@
   "packageManager": "pnpm@10.26.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git"
+    "url": "https://github.com/Navigata1/NBCLI.git"
   },
   "homepage": "https://northstarbuild.dev",
   "bugs": {
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+    "url": "https://github.com/Navigata1/NBCLI/issues"
   },
   "author": "Navigata1",
   "keywords": ["ai", "governance", "cli", "claude", "cursor", "codex", "agents"],
@@ -23,7 +23,8 @@
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
     "format": "prettier -w .",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "scan": "node scripts/scan-encoding.mjs && node scripts/scan-secrets.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",

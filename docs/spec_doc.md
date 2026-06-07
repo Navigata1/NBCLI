@@ -22,7 +22,7 @@
 │  │    (HOW)    │    │   (WHAT)    │    │ (WHY NOW)   │    │   (WHERE)   │       │
 │  └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘       │
 │                                                                                  │
-│  LICENSE: CC BY-NC-SA 4.0                                                       │
+│  LICENSE: MIT License                                                       │
 │  For commercial licensing: See repository for contact information               │
 │                                                                                  │
 └─────────────────────────────────────────────────────────────────────────────────┘
@@ -1975,7 +1975,7 @@ security:
 
 ## Appendix D: License
 
-This specification is released under CC BY-NC-SA 4.0.
+This specification is released under MIT License.
 
 For commercial licensing inquiries, see repository for contact information.
 

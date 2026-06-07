@@ -1,5 +1,6 @@
 import http from 'http';
-import { checkConfidence } from './tools/check-confidence';
+import type { ConfidenceThresholds } from '@nsb/core';
+import { checkConfidence, type CheckConfidenceInput } from './tools/check-confidence';
 import { verifyAutonomy } from './tools/verify-autonomy';
 import { logDecision } from './tools/log-decision';
 
@@ -25,16 +26,25 @@ export const startServer = (port = 3333) => {
     }
 
     const raw = await readBody(req);
-    const payload = raw ? JSON.parse(raw) : {};
+    let payload: Record<string, unknown>;
+    try {
+      payload = (raw ? JSON.parse(raw) : {}) as Record<string, unknown>;
+    } catch {
+      sendJson(res, 400, { error: 'Invalid JSON' });
+      return;
+    }
 
     if (req.url === '/check-confidence') {
-      sendJson(res, 200, checkConfidence(payload));
+      sendJson(res, 200, checkConfidence(payload as unknown as CheckConfidenceInput));
       return;
     }
 
     if (req.url === '/verify-autonomy') {
-      const { score, thresholds } = payload;
-      sendJson(res, 200, verifyAutonomy(score, thresholds));
+      sendJson(
+        res,
+        200,
+        verifyAutonomy(payload.score as number, payload.thresholds as ConfidenceThresholds),
+      );
       return;
     }
 
@@ -46,8 +56,9 @@ export const startServer = (port = 3333) => {
     sendJson(res, 404, { error: 'Unknown endpoint' });
   });
 
-  server.listen(port, () => {
-    console.log(`NSB MCP server listening on ${port}`);
+  // Bind to loopback only — this legacy API is unauthenticated and unencrypted.
+  server.listen(port, '127.0.0.1', () => {
+    console.log(`NSB HTTP API listening on 127.0.0.1:${port} (loopback only; for MCP, run nsb-mcp)`);
   });
 
   return server;

@@ -1,17 +1,17 @@
 {
   "name": "@nsb/cli",
-  "version": "0.1.0",
+  "version": "2.5.0",
   "description": "CLI tool for AI governance - generate instruction files for Claude, Cursor, and Codex",
   "license": "MIT",
   "author": "Navigata1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "url": "https://github.com/Navigata1/NBCLI.git",
     "directory": "packages/cli"
   },
   "homepage": "https://northstarbuild.dev",
   "bugs": {
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+    "url": "https://github.com/Navigata1/NBCLI/issues"
   },
   "keywords": ["ai", "governance", "cli", "claude", "cursor", "codex", "agents"],
   "main": "dist/cli.js",
@@ -21,11 +21,11 @@
     "nsb": "dist/cli.js"
   },
   "files": [
-    "dist/**",
-    "templates/**"
+    "dist/**"
   ],
   "scripts": {
     "build": "tsup",
+    "build:standalone": "tsup --config tsup.standalone.config.ts",
     "test": "vitest run",
     "test:e2e": "vitest run --dir tests/e2e",
     "typecheck": "tsc -p tsconfig.json --noEmit",

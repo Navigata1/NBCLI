@@ -1,0 +1,85 @@
+# Security posture — NBCLI
+
+NBCLI is a **least-privilege, local-first** CLI. It reads/writes files in the current project,
+runs no network calls of its own, and **never executes models** — it emits instructions, configs,
+plans, and recommendations. The strongest control is honesty about what is and isn't enforced
+(see [`CAPABILITY_ASSESSMENT.md`](./CAPABILITY_ASSESSMENT.md)).
+
+## Secrets — 1Password (`op://`) pattern
+
+Never hardcode secrets. Reference them with 1Password secret references and inject at runtime:
+
+```bash
+# .env or shell — references, not values
+STRIPE_API_KEY="op://Engineering/stripe/restricted-key"
+
+# resolve only for the duration of a command
+op run --env-file=.env -- nsb doctor
+op run --no-masking -- node ./scripts/release.ts   # avoid; prefer masked
+```
+
+- Store `op://vault/item/field` references in config/env; resolve via `op run --`.
+- The `secrets_handling` and `env_files` anchors lower confidence on changes that touch credentials.
+- `nsb preview` reports whether the `op` CLI is present and whether `op://` references appear in config.
+
+## Permission model & least privilege
+
+Governance profiles declare `permissions` (allow / deny / destructive_gates) and an autonomy
+`escalation_paths` ladder. These are rendered into the instruction files and are **advisory** —
+the consuming harness must honor them.
+
+**When NOT to use "dangerously skip permissions":** never in CI, never for security/auth/payment/
+migration paths, never for outward-facing or destructive operations, and never by default. Skip
+modes defeat the entire point of governed autonomy. Prefer the `strict` hook profile, which
+instructs the agent to confirm before any destructive or outward-facing action.
+
+## Sensitive paths, URLs, payments
+
+- **Sensitive-path protection** — auth/secrets/`.env`/IaC/migration paths carry negative anchors;
+  the `strict` profile blocks edits there without explicit human approval.
+- **URL validation** — validate and allowlist any URL before fetching; treat fetched content as
+  untrusted input. NBCLI itself fetches nothing.
+- **Stripe** — use **restricted keys** and **test mode** (`sk_test_…`) in non-production; never
+  commit live keys (the secret scan flags `sk_live_…`). Resolve via `op://`.
+
+## Computer-use / browser-use
+
+If you wire NBCLI's plans into a computer-use or browser-use agent: sandbox it (container or
+VM), keep a screenshot/action **audit trail**, and gate destructive UI actions behind the
+permission model. NBCLI's `log_decision` ledger is the place to record those actions
+(tamper-evident, `nsb budget verify`).
+
+## Prompt-injection posture
+
+Generated instruction files tell the agent to treat file/web/tool content as **untrusted** and to
+**refuse** instructions embedded in that content that conflict with the governance config or the
+user's intent. Anchors raise scrutiny on content that looks like injected directives.
+
+## Local-first / offline
+
+NBCLI runs fully offline (no telemetry, no network). Model execution is delegated to your harness;
+choose a local/offline model there if required. There is no opt-out needed because there is nothing
+to opt out of.
+
+## Run ledger integrity (limitations)
+
+The run ledger (`.mbf/ledger/runs.jsonl`, `nsb budget verify`) is a **hash-chained integrity log**,
+not a cryptographic audit trail. It detects *naive* in-place edits (the SHA-256 chain stops
+matching), but it is **not forgery-resistant**: anyone who can write the file can recompute the
+whole chain from the edited entry forward (there is no HMAC/secret/signature/external anchor). It is
+also **single-writer** — concurrent appenders (e.g. the CLI and a running MCP server writing the
+same file) can race and produce a duplicate `seq`, which `verify` reports as a false mismatch. To
+harden: HMAC each hash with a secret the writer does not control, anchor the head hash to an
+external witness, and serialize writers.
+
+## Legacy HTTP API
+
+`startServer` (port 3333) is a legacy plain-HTTP API kept for backward compatibility. It is
+**unauthenticated, unencrypted, and has no rate limiting**; it binds to **127.0.0.1 only** and
+rejects malformed JSON with 400. Never expose it to a network. The real **stdio MCP server**
+(`nsb-mcp`) supersedes it and is the recommended transport.
+
+## Reporting
+
+Open a security issue at https://github.com/Navigata1/NBCLI/issues (or privately contact the
+maintainer for sensitive reports).

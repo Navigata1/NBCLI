@@ -1,30 +1,35 @@
 {
   "name": "@nsb/mcp-server",
-  "version": "0.1.0",
-  "description": "HTTP API server for NorthStarBuild governance checks",
+  "version": "2.5.0",
+  "description": "MCP (stdio) + legacy HTTP API server for NorthStarBuild governance checks",
   "license": "MIT",
   "author": "Navigata1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0.git",
+    "url": "https://github.com/Navigata1/NBCLI.git",
     "directory": "packages/mcp-server"
   },
   "homepage": "https://northstarbuild.dev",
   "bugs": {
-    "url": "https://github.com/Navigata1/NorthStarBuild_2.0/issues"
+    "url": "https://github.com/Navigata1/NBCLI/issues"
   },
-  "keywords": ["ai", "governance", "mcp", "server", "api"],
+  "keywords": ["ai", "governance", "mcp", "model-context-protocol", "server"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "nsb-mcp": "dist/mcp-cli.js"
+  },
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs --dts",
+    "build": "tsup",
+    "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@nsb/core": "workspace:*"
+    "@nsb/core": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.29.0"
   }
 }

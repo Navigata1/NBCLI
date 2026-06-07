@@ -112,6 +112,48 @@ describe('validateGovernanceConfig', () => {
   });
 });
 
+describe('validateGovernanceConfig — v2.5 blocks (hooks/budgets/permissions/routing)', () => {
+  const withBlocks = {
+    ...validConfig,
+    hooks: { profile: 'strict' },
+    budgets: {
+      per_run_usd: 5,
+      per_project_usd: 50,
+      per_project_tokens: 2000000,
+      warn_at: 0.8,
+      currency: 'USD',
+    },
+    permissions: { allow: ['read'], deny: ['curl | sh'], destructive_gates: ['rm -rf'] },
+    routing: {
+      orchestrator: 'claude-opus-4-8',
+      subtask: 'claude-sonnet-4-6',
+      cheap: 'claude-haiku-4-5',
+      fast: false,
+      effort: 'xhigh',
+    },
+  };
+
+  it('accepts all new blocks', () => {
+    expect(validateGovernanceConfig(withBlocks).valid).toBe(true);
+  });
+
+  it('rejects hooks.profile not in enum', () => {
+    expect(validateGovernanceConfig({ ...validConfig, hooks: { profile: 'bogus' } }).valid).toBe(false);
+  });
+
+  it('rejects budgets.warn_at > 1', () => {
+    expect(validateGovernanceConfig({ ...validConfig, budgets: { warn_at: 2 } }).valid).toBe(false);
+  });
+
+  it('rejects an unknown routing key (additionalProperties:false)', () => {
+    expect(validateGovernanceConfig({ ...validConfig, routing: { bogusKey: 'x' } }).valid).toBe(false);
+  });
+
+  it('rejects a typo top-level key (budget vs budgets)', () => {
+    expect(validateGovernanceConfig({ ...validConfig, budget: {} }).valid).toBe(false);
+  });
+});
+
 describe('validateAnchorCollection', () => {
   it('accepts a valid anchor collection', () => {
     const anchors = {
