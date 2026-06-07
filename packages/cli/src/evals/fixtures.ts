@@ -34,6 +34,12 @@ export const DEFAULT_FIXTURES: EvalFixture[] = [
   { name: 'immigrations (lookalike)', path: 'db/immigrations_log/x.ts', content: 'const x = 1;', expect: 'allow' },
   { name: 'bare token identifier', path: 'src/t.ts', content: 'function getToken(token) { return token; }', expect: 'allow' },
 
+  // --- NBB HARD STOPS (should BLOCK) ---
+  { name: 'hard-stop: terraform destroy', path: 'infra/teardown.sh', content: 'terraform destroy -auto-approve', expect: 'block' },
+  { name: 'hard-stop: DROP DATABASE', path: 'db/wipe.sql', content: 'DROP DATABASE prod;', expect: 'block' },
+  { name: 'hard-stop: rm -rf root', path: 'scripts/clean.sh', content: 'rm -rf /', expect: 'block' },
+  { name: 'hard-stop: git push --force', path: 'scripts/deploy.sh', content: 'git push --force origin main', expect: 'block' },
+
   // --- should WARN (advisory-only signal) ---
   { name: 'terraform (advisory)', path: 'infra/main.tf', content: 'terraform { backend {} }', expect: 'warn' },
   { name: 'raw sql (advisory)', path: 'q.ts', content: 'const q = "SELECT * FROM users";', expect: 'warn' },

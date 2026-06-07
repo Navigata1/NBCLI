@@ -37,6 +37,19 @@ export const BUILT_IN_ANCHORS: AnchorCollection = {
     { id: 'test_coverage', patterns: ['coverage-final', 'lcov.info', '.nyc_output'], adjustment: -0.1, reason: 'Coverage artifacts may affect quality reporting', target: 'path', match: 'substring' },
     { id: 'snapshot_update', patterns: ['.snap', '__snapshots__'], adjustment: -0.15, reason: 'Snapshot updates should be reviewed', target: 'path', match: 'substring' },
   ],
+  // NBB HARD STOPS (HARD_STOPS.md Tier 5/4) compiled to enforced content anchors. Command-shaped
+  // regexes so ordinary code is not blocked; a file that literally contains a destructive command is
+  // flagged for the human (present-the-command override protocol).
+  hard_stops: [
+    { id: 'destroy_infra', patterns: ['regex:(terraform|pulumi)\\s+destroy', 'regex:terraform\\s+apply\\s+-destroy'], adjustment: -1, reason: 'NBB HARD STOP (Tier 5): infrastructure destroy -- present to a human, never auto-execute', target: 'content', enforce: true },
+    { id: 'drop_database', patterns: ['regex:drop\\s+database\\b', 'regex:drop\\s+schema\\s+.*cascade'], adjustment: -1, reason: 'NBB HARD STOP (Tier 5): destructive database drop', target: 'content', enforce: true },
+    { id: 'force_reset', patterns: ['regex:(db\\s+push|migrate|reset)\\s+[^\\n]*--force(-reset)?', '--force-reset', '--no-confirm'], adjustment: -0.8, reason: 'NBB HARD STOP (Tier 5): production force-reset / confirmation bypass', target: 'content', enforce: true },
+    // Best-effort flag-for-human floor (not a full shell parser): catch rm of root/home across
+    // short flags in any order/separation (-rf, -fr, -f -r), long flags (--recursive --force), and
+    // --no-preserve-root. Root-anchored so `rm -rf ./build` / node_modules / "$TMPDIR" do NOT match.
+    { id: 'rm_rf_root', patterns: ['regex:rm\\s+(-[a-z]+\\s+){1,3}(--no-preserve-root\\s+)?(/|~|\\$HOME)(\\s|$)', 'regex:rm\\s+(--[a-z-]+\\s+){1,3}(/|~|\\$HOME)(\\s|$)'], adjustment: -1, reason: 'NBB HARD STOP (Tier 5): rm -rf on root/home', target: 'content', enforce: true },
+    { id: 'force_push', patterns: ['regex:git\\s+push\\s+[^\\n]*(--force|-f)\\b', 'git clean -fdx'], adjustment: -0.6, reason: 'NBB HARD STOP (Tier 4): force-push / git clean -fdx -- blast-radius assessment + human confirm', target: 'content', enforce: true },
+  ],
 };
 
 /** Deep-clone the built-in anchors (bundling-safe; no filesystem access). */

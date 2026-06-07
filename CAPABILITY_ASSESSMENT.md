@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **241 tests** green (core 69, schema 17, cli 142, mcp-server 13); `build`,
+Verification baseline: **249 tests** green (core 69, schema 17, cli 150, mcp-server 13); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
