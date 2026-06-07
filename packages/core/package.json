@@ -1,6 +1,6 @@
 {
   "name": "@nsb/core",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "description": "Core engine for NorthStarBuild - SSAP calculator and anchor matching",
   "license": "MIT",
   "author": "Navigata1",

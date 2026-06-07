@@ -62,9 +62,12 @@ describe('log_decision persistence', () => {
 });
 
 describe('MCP server wiring', () => {
-  it('exposes exactly the three governance tools', () => {
+  it('exposes the six governance tools', () => {
     expect(MCP_TOOLS.map((t) => t.name).sort()).toEqual([
+      'audit_query',
       'check_confidence',
+      'evaluate_change',
+      'list_anchors',
       'log_decision',
       'verify_autonomy',
     ]);

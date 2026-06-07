@@ -25,6 +25,14 @@ export const startServer = (port = 3333) => {
       return;
     }
 
+    // Optional bearer-token auth: when NSB_HTTP_TOKEN is set, require it. Plain
+    // compare is fine here — the server binds to loopback only (not network-exposed).
+    const token = process.env.NSB_HTTP_TOKEN;
+    if (token && req.headers.authorization !== `Bearer ${token}`) {
+      sendJson(res, 401, { error: 'Unauthorized' });
+      return;
+    }
+
     const raw = await readBody(req);
     let payload: Record<string, unknown>;
     try {

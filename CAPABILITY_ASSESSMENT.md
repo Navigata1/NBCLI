@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.13.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.14.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **199 tests** green (core 55, schema 17, cli 118, mcp-server 9); `build`,
+Verification baseline: **203 tests** green (core 55, schema 17, cli 118, mcp-server 13); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -25,7 +25,7 @@ Verification baseline: **199 tests** green (core 55, schema 17, cli 118, mcp-ser
 | **Enforced governance** (git pre-commit + Claude PreToolUse hooks) | ✅ | `nsb hooks install` + `nsb check` deterministically **block** risky changes (exit 1 / exit 2); only `enforce`-flagged anchors block (precision-tested: `/auth/` ≠ `author/`); covers Write/Edit/MultiEdit/NotebookEdit (Bash writes out of scope); **fails closed** if `nsb` missing or payload unparsable. Local scope (machine + agent harness) |
 | `model-route` (Opus 4.8 orchestration, cheap subtasks, fast/effort) | ✅ (recommender) | deterministic + unit-tested; **recommends**, does not execute models |
 | `workflow` bounded parallel sub-agent plan (typed IO, caps, adversarial verify) | 🟡 plan / ⛔ executor | emits a valid plan spec (tested); the executor is the harness's job, not NBCLI's |
-| Real MCP (stdio) adapter | ✅ | `nsb-mcp` via `@modelcontextprotocol/sdk`; live `initialize`+`tools/list` verified |
+| Real MCP (stdio) adapter | ✅ | `nsb-mcp` via `@modelcontextprotocol/sdk`; **6 tools** (check_confidence/verify_autonomy/log_decision/evaluate_change/list_anchors/audit_query); registry manifest `server.json`; legacy HTTP optionally token-gated (`NSB_HTTP_TOKEN`); live `initialize`+`tools/list` verified |
 | ACP-native IDE handshake | ⛔ | not implemented; Cursor/Codex/Claude targets are covered via generated instruction files |
 | Worktree isolation (`nsb worktree`) | ✅ | real `git worktree` create/list/remove (arg-mapping unit-tested); Docker isolation still deferred |
 
@@ -82,7 +82,7 @@ Verification baseline: **199 tests** green (core 55, schema 17, cli 118, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.13.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.14.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
 ACP handshake runtime · Docker isolation backend · compression proxy · telemetry ·

@@ -27,8 +27,9 @@ Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetr
 (local `nsb stats` only); ACP reached via MCP (ACP-native deferred); signing via minisign/age (offline).
 - **v2.13 — Machine-readable surface** (PR #9, shipped): `--json` on check/eval/model-route +
   `docs/EXIT_CODES.md` + local `nsb stats` (no network).
-- **v2.14 — MCP 2026**: new MCP tools (evaluate_change/run_eval/audit_query/list_anchors); Streamable
-  HTTP + authenticated surface (replaces legacy unauth loopback HTTP); registry readiness.
+- **v2.14 — MCP 2026** (PR #10, shipped): MCP tools `evaluate_change`/`list_anchors`/`audit_query`;
+  registry manifest (`server.json`); legacy HTTP optional bearer-token (`NSB_HTTP_TOKEN`). Streamable
+  HTTP transport + run_eval-over-MCP remain forward-looking (stdio canonical; ACP reached via MCP).
 - **v2.15 — Policy-as-code**: `nsb policy export --format rego|cedar` + a `policy` MCP tool.
 - **v2.16 — Opt-in sinks**: `sinks` config + `nsb audit sync` webhook (OFF by default; offline-by-default re-claim).
 - **v2.17 — Sandbox/isolation**: `nsb worktree --backend docker` + `nsb workflow validate` / reference runner.

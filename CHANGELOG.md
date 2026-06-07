@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.14.0 - 2026-06-07 — MCP 2026: agent-facing governance tools
+
+### Added
+- **Three new MCP tools** (now 6): `evaluate_change` (the allow/warn/block verdict an agent queries
+  **before acting** — policy at the tool-call layer), `list_anchors` (introspect the active policy),
+  `audit_query` (filter the run ledger + spend summary).
+- **MCP registry manifest** (`packages/mcp-server/server.json`) — registry-ready.
+- **Optional bearer-token auth** on the legacy loopback HTTP API (`NSB_HTTP_TOKEN`).
+
+### Changed
+- Version 2.13.0 → 2.14.0.
+
+### Deferred (honest)
+- The MCP 2026-07-28 **Streamable HTTP transport** and `run_eval`-over-MCP remain forward-looking;
+  stdio MCP is canonical. ACP clients (Zed/JetBrains/Codex/Gemini) reach NBCLI via MCP.
+
 ## 2.13.0 - 2026-06-07 — Machine-readable surface (`--json`) + exit-code contract + local stats
 
 ### Added
