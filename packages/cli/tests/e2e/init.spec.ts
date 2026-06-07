@@ -115,4 +115,12 @@ describe.skipIf(!cliBuilt)('cli e2e init', () => {
     expect(existsSync(path.join(TEST_DIR, 'AGENTS.md'))).toBe(false);
     expect(existsSync(path.join(TEST_DIR, '.cursor', 'rules', 'mbf.mdc'))).toBe(false);
   });
+
+  it('generates portability adapters for windsurf/cline/gemini/copilot', () => {
+    runCli('init --yes --tools windsurf,cline,gemini,copilot');
+    expect(existsSync(path.join(TEST_DIR, 'GEMINI.md'))).toBe(true);
+    expect(existsSync(path.join(TEST_DIR, '.github', 'copilot-instructions.md'))).toBe(true);
+    expect(existsSync(path.join(TEST_DIR, '.windsurf', 'rules', 'north-star.md'))).toBe(true);
+    expect(existsSync(path.join(TEST_DIR, '.clinerules', 'north-star.md'))).toBe(true);
+  });
 });

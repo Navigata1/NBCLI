@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.8.0 - 2026-06-07 — Portability moat
+
+### Added
+- **Four new instruction-file adapters** compiled from the one `.mbf` source: Windsurf
+  (`.windsurf/rules/north-star.md`), Cline (`.clinerules/north-star.md`), Gemini CLI (`GEMINI.md`),
+  GitHub Copilot (`.github/copilot-instructions.md`) — joining Claude / Cursor / Codex / SKILL for
+  **8 adapters** total.
+- **`nsb adapters`** — lists every adapter and its output file. Select any subset with
+  `nsb init --tools …` / `nsb update -t …`.
+
+### Changed
+- Version 2.7.0 → 2.8.0.
+
 ## 2.7.0 - 2026-06-07 — Enforcement
 
 The advisory → **enforced** leap: governance can now deterministically block risky changes.

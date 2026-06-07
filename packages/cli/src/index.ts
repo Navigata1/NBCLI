@@ -12,6 +12,7 @@ import { workflowCommand } from './commands/workflow';
 import { worktreeCommand } from './commands/worktree';
 import { checkCommand } from './commands/check';
 import { hooksCommand } from './commands/hooks';
+import { adaptersCommand } from './commands/adapters';
 import { NBCLI_VERSION } from './version';
 
 const program = new Command();
@@ -25,6 +26,7 @@ program.addCommand(initCommand);
 program.addCommand(validateCommand);
 program.addCommand(updateCommand);
 program.addCommand(previewCommand);
+program.addCommand(adaptersCommand);
 program.addCommand(doctorCommand);
 program.addCommand(modelRouteCommand);
 program.addCommand(workflowCommand);

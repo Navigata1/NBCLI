@@ -8,7 +8,7 @@ import { verifyAutonomy } from './tools/verify-autonomy';
 import { logDecision } from './tools/log-decision';
 
 export const MCP_SERVER_NAME = 'north-star-build';
-export const MCP_SERVER_VERSION = '2.7.0';
+export const MCP_SERVER_VERSION = '2.8.0';
 
 // Real MCP tool definitions (JSON Schema), wrapping the same pure governance
 // functions the legacy HTTP server exposes.
