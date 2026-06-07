@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.20.0 - 2026-06-07 — NBB re-alignment Slice 2: governance unification (G3)
+
+### Added
+- **NBB HARD STOPS enforced** — a `hard_stops` anchor category compiles NBB `HARD_STOPS.md` Tier 5/4
+  to enforced content anchors: `terraform`/`pulumi destroy`, `DROP DATABASE` / `SCHEMA ... CASCADE`,
+  `rm -rf /`, force-reset, `git push --force` / `git clean -fdx` now **BLOCK** (precise command-shaped
+  regexes; `terraform plan` / `git push` / `rm -rf ./build` are NOT hard-stopped).
+- **NBB safety floor emitted into every generated instruction file** (`instruction-base.ts`): hard
+  stops + override protocol (STOP/EXPLAIN/PRESENT/WAIT/VERIFY), blast-radius tiers 1-5, autonomy caps
+  (security L4 / DB L3 / deploy L3 / financial L2), `op://` + `op run --` secrets + Stripe RAKs,
+  prompt-injection refusal, load discipline.
+- 4 hard-stop eval fixtures (`nsb eval` now 21 fixtures @ 100% / 0 false negatives) + anchor-precision
+  + instruction-doctrine unit tests.
+
+### Changed
+- Governance is now the machine-enforced instantiation of NBB doctrine (DOCTRINE_CROSSWALK G3 rows REAL).
+- Version 2.19.0 -> 2.20.0.
+
+### Deferred (honest)
+- Generated `.claude/settings.json` deny-list -> Slice 3 (init output). `.mbf` vocabulary aliasing
+  deferred (low-value / risky rename; back-compat preserved).
+
 ## 2.19.0 - 2026-06-07 — NBB re-alignment Slice 1: canonical sync + dedupe
 
 ### Added

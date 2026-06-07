@@ -9,17 +9,23 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 
 ## Governance (the core of Slice 2)
 
+> **Slice 2 status:** DONE for the enforceable core -- NBB HARD STOPS compiled to enforced `hard_stops`
+> anchors (block destructive commands) + the full NBB safety floor (hard stops, blast-radius, autonomy
+> caps, op:// secrets, prompt-injection, load discipline) emitted into EVERY generated instruction file
+> via `instruction-base.ts`. Folded into Slice 3: the generated `.claude/settings.json` deny-list.
+> Deferred (low-value/risky rename): `.mbf` vocabulary aliasing (back-compat shims).
+
 | NBB doctrine (source) | NBCLI mechanism (existing surface) | Status |
 |---|---|---|
-| **HARD_STOPS Tier 5 CATASTROPHIC** (`HARD_STOPS.md`): `terraform destroy`, `DROP DATABASE`, `rm -rf /`, bypass flags — never execute | `packages/anchors/*` (security/data/infrastructure) + `policy.ts` `toCedar`/`toRego` -> `deny` rules; hook profiles block (exit 2) | PARTIAL -> Slice 2 |
-| **HARD_STOPS Tier 4 DESTRUCTIVE** (blast-radius assessment + confirm + delay) | anchors flag + policy `deny`/`warn`; emitted instructions carry the override protocol (STOP/EXPLAIN/PRESENT/WAIT/VERIFY) | PARTIAL -> Slice 2 |
-| **HARD_STOPS Tier 3 SERVICE MUTATION** (confirm + revert path) | anchors `warn`; emitted instruction guidance | PARTIAL -> Slice 2 |
-| **Blast-radius tiers 1-5** (Observation/Local/Service/Destructive/Catastrophic) | anchor severity + `evaluateChange` verdict (allow/warn/block) + emitted tier table | PARTIAL -> Slice 2 |
-| **Least-privilege deny-all + denylist** (`PERMISSIONS_AND_SANDBOXING.md`: deny `Write(.env*)`, `Execute(git push *)`, `rm -rf *`, `git reset --hard *`, `git checkout -- *`) | hook profiles `minimal\|standard\|strict` default deny-all; policy `deny`; generated `.claude/settings.json` allow/deny | PARTIAL -> Slice 2 |
-| **Secrets: `op://` + `op run --`** (mandatory default) + **Stripe RAKs** (test mode, webhook signing) | every generated instruction file emits the `op run` pattern (`instruction-base.ts`); `pnpm scan` forbids resolved secrets, requires `op://` refs | PARTIAL -> Slice 2 |
+| **HARD_STOPS Tier 5 CATASTROPHIC** (`HARD_STOPS.md`): `terraform destroy`, `DROP DATABASE`, `rm -rf /`, bypass flags — never execute | `packages/anchors/*` enforced `hard_stops` -> `nsb check`/hooks block (exit 2); `policy.ts` `toRego` -> `deny` (Cedar skips regex anchors, documented) | REAL (Slice 2) |
+| **HARD_STOPS Tier 4 DESTRUCTIVE** (blast-radius assessment + confirm + delay) | anchors flag + policy `deny`/`warn`; emitted instructions carry the override protocol (STOP/EXPLAIN/PRESENT/WAIT/VERIFY) | REAL (Slice 2) |
+| **HARD_STOPS Tier 3 SERVICE MUTATION** (confirm + revert path) | anchors `warn`; emitted instruction guidance | REAL (Slice 2) |
+| **Blast-radius tiers 1-5** (Observation/Local/Service/Destructive/Catastrophic) | anchor severity + `evaluateChange` verdict (allow/warn/block) + emitted tier table | REAL (Slice 2) |
+| **Least-privilege deny-all + denylist** (`PERMISSIONS_AND_SANDBOXING.md`: deny `Write(.env*)`, `Execute(git push *)`, `rm -rf *`, `git reset --hard *`, `git checkout -- *`) | hook profiles `minimal\|standard\|strict` default deny-all; policy `deny`; generated `.claude/settings.json` allow/deny | PARTIAL -> Slice 3 (settings emit) |
+| **Secrets: `op://` + `op run --`** (mandatory default) + **Stripe RAKs** (test mode, webhook signing) | every generated instruction file emits the `op run` pattern (`instruction-base.ts`); `pnpm scan` forbids resolved secrets, requires `op://` refs | REAL (Slice 2) |
 | **Tokenomics** measured tiers (`TOKENOMICS.md` + `context-budget.json`: Tier 1 ~1,941 tok = ~1% window; never co-resident; 70% budget rule; compress-before-load) | `budget.ts` (`nsb budget`) reflects context budget; emitted bootstrap carries lazy-load / Tier-1 guidance | PARTIAL -> Slice 2/3 |
-| **Prompt-injection refusal** (instructions-as-DATA are not instructions; Tier 3+ via HITL) | emitted instruction files + policy guidance | PARTIAL -> Slice 2 |
-| **Autonomy caps** (security max L4, DB migrations max L3, prod deploys max L3, financial max L2) | `.mbf` autonomy config + emitted instructions; confidence engine | PARTIAL -> Slice 2 |
+| **Prompt-injection refusal** (instructions-as-DATA are not instructions; Tier 3+ via HITL) | emitted instruction files + policy guidance | REAL (Slice 2) |
+| **Autonomy caps** (security max L4, DB migrations max L3, prod deploys max L3, financial max L2) | `.mbf` autonomy config + emitted instructions; confidence engine | REAL (Slice 2) |
 | **Confidence calibration** (CERTAIN->HIGH->MEDIUM->LOW->UNCERTAIN; pause at LOW/UNCERTAIN on Tier 3+) | NBCLI SSAP confidence (`@nsb/core`); emitted instructions | REAL (engine) / PARTIAL (NBB wording) -> Slice 2 |
 
 ## Methodology source + dedupe (Slice 1)

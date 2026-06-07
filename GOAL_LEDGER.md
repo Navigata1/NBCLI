@@ -52,9 +52,9 @@ enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slic
   (Option A, pinned SHA, license seam) + `docs/DOCTRINE_CROSSWALK.md` (NBB concept -> NBCLI mechanism).
 - **Slice 1 — Canonical sync + dedupe (G1+G2)** (PR #16, shipped): pinned `vendor/nbb/` + `nsb sync --check` in the gate;
   quarantine/remove the stale v6.0/v2.0 methodology trees; LICENSE/NOTICE seam (CC BY-NC-SA <-> MIT).
-- **Slice 2 — Governance unification (G3):** crosswalk made real — HARD_STOPS/blast-radius -> anchors+
+- **Slice 2 — Governance unification (G3)** (PR #17, shipped): crosswalk made real — HARD_STOPS/blast-radius -> anchors+
   policy; deny-all + denylist -> hook profiles; `op://`/RAK -> generators+scan; tokenomics -> budget;
-  prompt-injection posture; `.mbf` vocabulary aliased to NBB doctrine (back-compat shims).
+  prompt-injection posture; enforced `hard_stops` anchors + the NBB safety floor emitted into every instruction file. (.claude/settings.json deny-list -> Slice 3; .mbf vocab aliasing deferred.)
 - **Slice 3 — Portability output:** `nsb init` emits NBB bootstrap trio + governance layer with
   content-hash `--check`; all 10 generators carry NBB doctrine (update `generators.test.ts`).
 - **Slice 4 — Protocols + memory:** ACP-native `adapters.ts`; unified MCP boundary; A2A/AG-UI/A2UI
