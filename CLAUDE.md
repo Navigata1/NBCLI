@@ -13,7 +13,7 @@ Values, in strict priority: DEPTH > FOCUS > ACCURACY (never speed). Governance i
 4. Reference on demand: methodology -> Blueprint, technology -> MBF, navigation -> BRIDGE. Do NOT front-load.
 5. Confidence before action; clean exit (remove scaffolding, leave a provenance note).
 
-## Load discipline (tokenomics, measured)
+## Load discipline (tokenomics, measured by NBB)
 Tier 1 (always): this file + the project instruction file. Tier 2 (on demand): the ONE Blueprint Part
 / MBF Category you need. Tier 3 (lookup only): deep tables. Never co-resident full Blueprint + MBF;
 unload on topic change. The full framework is ~258k tokens and exceeds a 200k window -- lazy-load is
@@ -95,4 +95,4 @@ CONFIDENCE ASSESSMENT
 - Final confidence + level
 - Recommendation
 
-<!-- nbcli-generated sha256:16041614f6ee75a385feb1c6de2ec69ef7a54eb15e8984a665d1c0c7c90266e9 -- do not edit; regenerate with `nsb update` -->
+<!-- nbcli-generated sha256:2cfe63c40e0fd86b356e2c36f9bcd265ded7949217a6d960c9db07d655a5248e -- do not edit; regenerate with `nsb update` -->

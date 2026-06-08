@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.25.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.28.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -7,7 +7,7 @@ tested**, what is **ADVISORY** (declared/rendered but honored only by a cooperat
 what is **DEFERRED** (a scaffold or not built). If it's not listed REAL, don't rely on it as
 enforced.
 
-Verification baseline: **265 tests** green (core 73, schema 17, cli 162, mcp-server 13); `build`,
+Verification baseline: **280 tests** green (core 82, schema 17, cli 168, mcp-server 13); `build`,
 `typecheck`, `lint`, and `scan` green; the MCP server proven via a live JSON-RPC `initialize` +
 `tools/list`; the standalone monolith run from `/tmp` with no `node_modules`.
 
@@ -40,7 +40,7 @@ Verification baseline: **265 tests** green (core 73, schema 17, cli 162, mcp-ser
 | Capability | Status | Notes |
 |---|---|---|
 | Tiny always-loaded CLI surface; methodology lazy/embedded | ✅ | profiles/anchors embedded; methodology stays in docs, not loaded by the CLI |
-| Per-command token/cost budgets + batch reporting | ✅ | `nsb budget` over the ledger; `evaluateBudget`/`evaluateCap` unit-tested |
+| Per-command token/cost budgets + batch-boundary reporting | ✅ | `nsb budget` vs caps; `nsb budget --since <seq>` reports the spend delta after a batch boundary (`summarizeSpend` `sinceSeq`); `evaluateBudget`/`evaluateCap` unit-tested |
 | Compression proxy; telemetry uploader | ⛔ | deferred (and NBCLI is intentionally offline/no-telemetry) |
 
 ## BATCH 4 — Governance / security
@@ -51,9 +51,9 @@ Verification baseline: **265 tests** green (core 73, schema 17, cli 162, mcp-ser
 | Audit reporting + export (`nsb audit`) | ✅ | report/verify the ledger; export filtered entries as JSON / **formula-injection-safe** CSV for SIEM (offline — NBCLI writes the file, you ship it); `filterEntries`/`toCsv` unit-tested |
 | Opt-in audit sink (`nsb audit sync`) | ✅ | POST ledger entries to a webhook/SIEM; **OFF by default** (`sinks.webhooks` / `--webhook`); payload redaction; the only outbound path |
 | Policy-as-code export (`nsb policy export`) | ✅ | compiles anchors → OPA/Rego (matcher-faithful: case-insensitive substring/regex/glob) + Cedar (path anchors only, honest limitation); pure compilers unit-tested; validate with the engine |
-| Permission model (allow/deny/destructive gates) | 🟡 | declared in schema/profiles, rendered into instructions; advisory |
+| Permission model (allow/deny/destructive gates) | ✅ enforced / 🟡 allow | `nsb check` compiles user `permissions.deny` + `destructive_gates` into ENFORCED anchors that BLOCK (path-style → anchored path match, command-style → content; ReDoS-safe); also rendered into instructions. `allow` stays advisory guidance |
 | 1Password `op://` + `op run --` pattern | ✅ doc / 🟡 runtime | documented in `SECURITY.md`; `preview` detects `op` CLI + `op://` refs |
-| Sensitive-path protection, URL validation, Stripe test-mode | 🟡 | encoded as anchors + guidance; `scan-secrets` flags `sk_live_`/keys (REAL) |
+| Sensitive-path protection; **egress URL validation**; Stripe test-mode | ✅ URL+secrets / 🟡 path+Stripe | egress URL validation is REAL — `audit sync` is https-only by default + blocks loopback/private/link-local/metadata (incl. IPv4-mapped IPv6 / CGNAT), allowlist + opt-ins (unit+e2e); `scan-secrets` flags `sk_live_`/keys (REAL); sensitive-path + Stripe test-mode are anchors + guidance |
 | Prompt-injection refusal posture; screenshot/action audit trail | 🟡 | refusal stance rendered into instructions; ledger can record actions |
 | Local-first / offline by default | ✅ | zero network calls **except** the opt-in `nsb audit sync` webhook (off unless `sinks.webhooks` is configured or `--webhook` passed) |
 

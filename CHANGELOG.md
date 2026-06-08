@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.28.0 - 2026-06-07 — Conformance audit fix 3/3: truth-sync honesty pass + scorecard
+
+### Added
+- **`docs/CONFORMANCE_BATCH_0_5.md`** — the independent BATCH 0–5 audit verdict + per-finding
+  remediation status (what shipped in v2.26–2.28, what stays honestly deferred).
+- Generated north-star `SKILL.md` now carries a `license` field + a "When NOT to use" section — the one
+  shipped skill now meets the standard the registry states.
+
+### Changed (honesty / truth-sync)
+- `CAPABILITY_ASSESSMENT.md` → v2.28.0 / 280 tests; **permission-deny enforcement**, **egress URL
+  validation**, and **batch-boundary reporting** flipped to REAL (shipped in v2.26–2.27).
+- `nsb skill` output clarified: NBCLI bundles **only** the generated north-star skill;
+  `vendor/nbb/SKILLS_REGISTRY.md` is NBB's catalog (source-map, pinned), not a bundled local inventory.
+- `instruction-base` "load discipline (tokenomics, measured)" → "**measured by NBB**" (correct attribution).
+- README GitHub Action pin bumped off the stale `@v2.11.0` + "not yet published" note.
+- Regenerated NBCLI's own dogfood files for the generator changes (self-portability gate stays green).
+- Version 2.27.0 → 2.28.0.
+
 ## 2.27.0 - 2026-06-07 — Conformance audit fix 2/3: brief-required features (implement, not strike)
 
 The audit flagged three brief-required capabilities as "implement-or-strike". Implemented all three.

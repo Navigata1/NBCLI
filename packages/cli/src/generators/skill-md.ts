@@ -13,9 +13,15 @@ export const generateSkillMd = (config: GovernanceConfig, anchors: AnchorCollect
   return `---
 name: north-star-build
 description: Governed-autonomy guardrails (confidence calibration, risk anchors, hook profile, budgets, permissions) compiled from .mbf/mbf-governance.yaml. Use before file changes, when touching risky paths (auth/secrets/migrations), or before autonomous multi-step work.
+license: CC-BY-NC-SA-4.0
 ---
 
 # North Star Build (Claude Skill)
+
+## When NOT to use
+Skip this skill for trivial, risk-free single-line edits with no anchor match; for pure read/exploration
+with no mutation; and when a more specific project skill already governs the task. It governs change +
+autonomy — it is not a general coding assistant.
 
 ${body}`;
 };

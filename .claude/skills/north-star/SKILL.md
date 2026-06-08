@@ -1,9 +1,15 @@
 ---
 name: north-star-build
 description: Governed-autonomy guardrails (confidence calibration, risk anchors, hook profile, budgets, permissions) compiled from .mbf/mbf-governance.yaml. Use before file changes, when touching risky paths (auth/secrets/migrations), or before autonomous multi-step work.
+license: CC-BY-NC-SA-4.0
 ---
 
 # North Star Build (Claude Skill)
+
+## When NOT to use
+Skip this skill for trivial, risk-free single-line edits with no anchor match; for pure read/exploration
+with no mutation; and when a more specific project skill already governs the task. It governs change +
+autonomy — it is not a general coding assistant.
 
 You are operating under North Star Build (NBB) governance, profile "professional".
 North Star is a methodology (NBB v6.5 / MBF v2.5, source of truth: Navigata1/NBB):
@@ -18,7 +24,7 @@ Values, in strict priority: DEPTH > FOCUS > ACCURACY (never speed). Governance i
 4. Reference on demand: methodology -> Blueprint, technology -> MBF, navigation -> BRIDGE. Do NOT front-load.
 5. Confidence before action; clean exit (remove scaffolding, leave a provenance note).
 
-## Load discipline (tokenomics, measured)
+## Load discipline (tokenomics, measured by NBB)
 Tier 1 (always): this file + the project instruction file. Tier 2 (on demand): the ONE Blueprint Part
 / MBF Category you need. Tier 3 (lookup only): deep tables. Never co-resident full Blueprint + MBF;
 unload on topic change. The full framework is ~258k tokens and exceeds a 200k window -- lazy-load is
@@ -100,4 +106,4 @@ CONFIDENCE ASSESSMENT
 - Final confidence + level
 - Recommendation
 
-<!-- nbcli-generated sha256:b4fde9850f5674db7eca11c990975b5af21b0d0b5402c2659084517f42c01571 -- do not edit; regenerate with `nsb update` -->
+<!-- nbcli-generated sha256:bf7ebcf0d2752fc258b55bb97129d8e2225b65a01256839c8c11e1ceb7642e22 -- do not edit; regenerate with `nsb update` -->

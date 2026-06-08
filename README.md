@@ -37,7 +37,7 @@ docker build -t nbcli . && docker run --rm -v "$PWD:/work" nbcli init --dry-run 
 **GitHub Action (CI):**
 
 ```yaml
-- uses: Navigata1/NBCLI@v2.11.0
+- uses: Navigata1/NBCLI@v2.28.0   # pin a released tag (not yet published — see note below)
   with: { mode: check, profile: strict }   # or mode: eval
 ```
 
