@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.27.0 - 2026-06-07 — Conformance audit fix 2/3: brief-required features (implement, not strike)
+
+The audit flagged three brief-required capabilities as "implement-or-strike". Implemented all three.
+
+### Added
+- **`permissions.deny` / `destructive_gates` are now ENFORCED.** `nsb check` compiles user-declared
+  permission patterns (`Tool(glob)` unwrapped; globs → regex) into enforced anchors, so the operator's
+  own denials actually BLOCK — not just render as instruction prose. (Closes BATCH 4: "permission
+  model with allow/reject + destructive-op gates.")
+- **`NSB_DISABLE_HOOKS=1`** — the brief-required env-var hook disable. Honored in the `nsb check --hook`
+  path only (PreToolUse/pre-commit); prints a loud stderr warning and allows. Manual `nsb check` is
+  unaffected. Documented escape hatch.
+- **`nsb budget --since <seq>`** — batch-boundary reporting: spend delta (USD/tokens/entries) recorded
+  after a marked ledger seq (`budget record` returns the seq). `summarizeSpend` gained a `sinceSeq` filter.
+
+### Changed
+- +5 tests (280 total): permission-deny enforcement e2e (incl. sibling-dir/content over-block
+  regressions), NSB_DISABLE_HOOKS e2e, batch-delta e2e + core `summarizeSpend` sinceSeq unit.
+- Permission denials compile ReDoS-safe (runs of `*` collapsed) and over-block-safe (path-style →
+  anchored PATH match, not unanchored content substring) — hardened in adversarial review.
+- Version 2.26.0 → 2.27.0.
+
 ## 2.26.0 - 2026-06-07 — Conformance audit fix 1/3: egress SSRF guard
 
 Independent BATCH 0–5 conformance audit found one finding with real security weight: `nsb audit sync`
@@ -15,7 +37,7 @@ Independent BATCH 0–5 conformance audit found one finding with real security w
 - Hardened against IPv4-mapped IPv6 literals (`::ffff:127.0.0.1` / `::ffff:7f00:1` decode + re-check),
   CGNAT `100.64.0.0/10`, and the full `fe80::/10` link-local range (caught in adversarial review).
 - `SECURITY.md` corrected to describe the egress guard (no more "fetches nothing").
-- +9 tests (274 total): egress matrix incl. mapped-IPv6/CGNAT bypass regressions (core) + audit-sync
+- +10 tests (275 total): egress matrix incl. mapped-IPv6/CGNAT bypass regressions (core) + audit-sync
   guard e2e (incl. an https host-guard case).
 
 ### Changed

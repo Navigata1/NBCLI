@@ -3,7 +3,7 @@ import path from 'path';
 import { existsSync, readFileSync } from 'fs';
 import { execFileSync } from 'child_process';
 import { parse } from 'yaml';
-import type { AnchorCollection, EnforcementVerdict, GovernanceConfig, HookProfile } from '@nsb/core';
+import type { AnchorCollection, AnchorRule, EnforcementVerdict, GovernanceConfig, HookProfile, PermissionConfig } from '@nsb/core';
 import { HOOK_PROFILE_BY_GOVERNANCE, evaluateChange, matchAnchors } from '@nsb/core';
 import { getBuiltInAnchors } from '@nsb/anchors';
 import { mergeAnchors } from '../utils/anchors';
@@ -34,6 +34,60 @@ export function resolveProfile(root: string, override?: string): HookProfile {
   return 'standard';
 }
 
+/**
+ * Convert a permission glob into a regex body. Escapes regex metachars, then COLLAPSES runs of `*`
+ * into a single bounded wildcard — so `**` can't produce adjacent quantifiers (ReDoS-safe).
+ */
+function globToRegexBody(pat: string): string {
+  return pat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/(?:\\\*)+/g, '[^\\n]*');
+}
+
+const PATH_TOOLS = new Set(['write', 'read', 'edit', 'create', 'append', 'delete']);
+
+/**
+ * Compile user-declared permissions (deny + destructive_gates) into ENFORCED anchors so the operator's
+ * own denials actually block in `nsb check`/hooks — not just render as instruction prose. `Tool(pattern)`
+ * wrappers are unwrapped. Path-style denials (Write/Read/Edit, or a path-like glob) become **anchored
+ * PATH** matches (no content scan, no substring over-block); command/destructive denials become CONTENT
+ * matches (flag a file that contains the command, like the hard-stop anchors). Pure.
+ */
+function permissionAnchors(perm?: PermissionConfig): AnchorCollection {
+  if (!perm) return {};
+  const rules: AnchorRule[] = [];
+  const add = (entry: string, kind: 'deny' | 'destructive') => {
+    const wrapped = entry.match(/^(\w+)\((.+)\)$/);
+    const tool = wrapped?.[1]?.toLowerCase();
+    const pat = (wrapped ? wrapped[2] : entry).trim();
+    if (!pat) return;
+    const body = globToRegexBody(pat);
+    const pathStyle =
+      kind === 'deny' &&
+      (PATH_TOOLS.has(tool ?? '') || (!tool && /[/.]/.test(pat) && !/\s/.test(pat)));
+    rules.push(
+      pathStyle
+        ? {
+            id: `perm_${kind}_${rules.length}`,
+            patterns: [`regex:(^|/)${body}$`], // anchored at a path-segment boundary
+            adjustment: -1,
+            reason: `user permission ${kind}: ${entry}`,
+            target: 'path',
+            enforce: true,
+          }
+        : {
+            id: `perm_${kind}_${rules.length}`,
+            patterns: [`regex:${body}`],
+            adjustment: -1,
+            reason: `user permission ${kind}: ${entry}`,
+            target: 'content',
+            enforce: true,
+          },
+    );
+  };
+  (perm.deny ?? []).forEach((e) => add(e, 'deny'));
+  (perm.destructive_gates ?? []).forEach((e) => add(e, 'destructive'));
+  return rules.length ? { permissions: rules } : {};
+}
+
 function loadAnchors(root: string): AnchorCollection {
   const builtIn = getBuiltInAnchors();
   const customPath = path.resolve(root, '.mbf', 'custom-anchors.yaml');
@@ -46,7 +100,9 @@ function loadAnchors(root: string): AnchorCollection {
       /* ignore malformed custom anchors */
     }
   }
-  return mergeAnchors(builtIn, custom).merged;
+  const withCustom = mergeAnchors(builtIn, custom).merged;
+  const perm = permissionAnchors(readConfig(root)?.permissions);
+  return Object.keys(perm).length ? mergeAnchors(withCustom, perm).merged : withCustom;
 }
 
 const safeRead = (file: string): string | undefined => {
@@ -144,6 +200,14 @@ export const checkCommand = new Command('check')
   .option('--json', 'emit machine-readable JSON (no banner)', false)
   .action((paths: string[], options) => {
     const root = process.cwd();
+    // Env-var hook disabling: a deliberate escape hatch for the hook path only (PreToolUse/pre-commit).
+    // Manual `nsb check <paths>` is unaffected. Do NOT leave this set in normal operation.
+    if (options.hook && process.env.NSB_DISABLE_HOOKS === '1') {
+      process.stderr.write(
+        'NBCLI governance: NSB_DISABLE_HOOKS=1 — hook enforcement DISABLED for this invocation (allowing). Escape hatch; unset it for normal operation.\n',
+      );
+      process.exit(0);
+    }
     const profile = resolveProfile(root, options.profile);
     const anchors = loadAnchors(root);
 

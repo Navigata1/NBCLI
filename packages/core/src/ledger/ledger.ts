@@ -176,9 +176,10 @@ export function verifyLedger(file: string, opts?: LedgerOptions): LedgerVerifica
 }
 
 /** Sum cost/tokens across entries, optionally filtered to a single run. */
-export function summarizeSpend(file: string, runId?: string): SpendSummary {
+export function summarizeSpend(file: string, runId?: string, sinceSeq?: number): SpendSummary {
   return readLedger(file)
     .filter((entry) => runId == null || entry.runId === runId)
+    .filter((entry) => sinceSeq == null || entry.seq > sinceSeq)
     .reduce<SpendSummary>(
       (acc, entry) => ({
         totalUsd: acc.totalUsd + (entry.costUsd ?? 0),
