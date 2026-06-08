@@ -83,6 +83,16 @@ function showBudget(root: string, scope: 'run' | 'project' = 'project', runId?: 
   }
 }
 
+/** Batch-boundary reporting: spend recorded AFTER a marked ledger seq (record returns the seq). */
+function showBatchDelta(root: string, sinceSeq: number, runId?: string): void {
+  const spend = summarizeSpend(ledgerPath(root), runId, sinceSeq);
+  log.subheader(`Budget — batch delta since seq ${sinceSeq}${runId ? ` (run ${runId})` : ''}`);
+  log.blank();
+  log.keyValue('Spend (USD)', `$${spend.totalUsd.toFixed(2)}`);
+  log.keyValue('Spend (tokens)', `${spend.totalTokens}`);
+  log.keyValue('Entries since', `${spend.count}`);
+}
+
 export const budgetCommand = new Command('budget')
   .description('Show spend vs caps, record spend, or verify the run ledger')
   .argument('[action]', 'show | record | verify', 'show')
@@ -93,6 +103,7 @@ export const budgetCommand = new Command('budget')
   .option('--actor <actor>', 'record: agent/human id')
   .option('--scope <scope>', 'run | project', 'project')
   .option('--run <id>', 'run id for run-scoped budgets (default $NSB_RUN_ID)')
+  .option('--since <seq>', 'show: report the spend delta since this ledger seq (a batch boundary)')
   .action((action: string, options) => {
     printMini();
     const root = process.cwd();
@@ -134,6 +145,18 @@ export const budgetCommand = new Command('budget')
       });
       log.success(`Recorded spend (seq ${entry.seq}) ${icons.arrow} ledger sealed.`);
       showBudget(root, scope, runId);
+      return;
+    }
+
+    if (options.since != null) {
+      const raw = String(options.since).trim();
+      const since = Number(raw);
+      if (raw === '' || !Number.isFinite(since)) {
+        log.error('--since must be a ledger seq number.');
+        process.exitCode = 1;
+        return;
+      }
+      showBatchDelta(root, since, runId);
       return;
     }
 
