@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.25.0 - 2026-06-07 — NBB re-alignment Slice 7: distribution + honest assessment + drift guard
+
+### Added
+- **`docs/DRIFT_GUARD.md`** — the 3 layered, offline, deterministic guards that keep NBB ↔ NBCLI in
+  sync (pinned-SHA `nsb sync --check`; content-hash `nsb update --check` / `self-portability`;
+  doctrine-is-enforced), all wired into `pnpm dogfood`, plus how to move the pinned NBB SHA.
+
+### Changed
+- **`CAPABILITY_ASSESSMENT.md` refreshed** to v2.25.0 with a "BATCH 6 — NBB re-alignment" section
+  (REAL capabilities vs the honest DEFERRED list) — zero over-claim.
+- Version 2.24.0 → 2.25.0. **NBB re-alignment run COMPLETE** (Slices 0–7, PRs #15–22): NBCLI is now
+  NBB's executable enforcement + portability compiler, with the engine preserved (ADR-001).
+
 ## 2.24.0 - 2026-06-07 — NBB re-alignment Slice 6: dogfood self-application (G4)
 
 ### Added

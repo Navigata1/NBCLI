@@ -44,7 +44,7 @@ Balanced sequencing; each slice gated + auto-merged. Decisions: network telemetr
 ACP-native handshake runtime (reached via MCP) · network telemetry/compression (rejected; local stats only) ·
 workflow **executor** (NBCLI emits + validates the plan; the harness runs models).
 
-## NBB Re-alignment run (Slices 0-7) — IN PROGRESS
+## NBB Re-alignment run (Slices 0-7) — COMPLETE (PRs #15-22, v2.25.0)
 Repoint + unify + dedupe so **NBB** (`Navigata1/NBB`, pinned `282028336df169d73e49a2d3b6a12acc95896399`,
 Blueprint v6.5 / MBF v2.5) is NBCLI's single source of truth; NBCLI becomes NBB's executable
 enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slice rides `pnpm dogfood`.
@@ -62,7 +62,7 @@ enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slic
   emit/reference NBB skill set + `SKILLS_REGISTRY.md`; carry UNPINNED honesty markers.
 - **Slice 6 — Dogfood self-application (G4)** (PR #21, shipped): run NBCLI generators on its own config -> root
   AGENTS.md/CLAUDE.md/SKILL.md + `.claude/`.
-- **Slice 7 — Distribution + honest assessment:** version bump (see flag), CHANGELOG + MIGRATION,
+- **Slice 7 — Distribution + honest assessment** (PR #22, shipped): version bump (see flag), CHANGELOG + MIGRATION,
   `CAPABILITY_ASSESSMENT.md` refresh, `docs/DRIFT_GUARD.md`.
 
 **VERSION-LINE FLAG (RESOLVED 2026-06-07 — owner chose FORWARD):** the brief says "keep the 2.5.x line / version to 2.5.x", but the
