@@ -60,7 +60,7 @@ enforcement + portability compiler. **Preserve the engine** (ADR-001). Each slic
 - **Slice 4 — Protocols + memory** (PR #19, shipped): `nsb protocols emit` -> mcp.json (wires nsb-mcp) + memory-backend.json + PROTOCOLS.md. ACP reached VIA MCP (no adapters.ts change); A2A/AG-UI/A2UI = emitted guidance, not runtimes.
 - **Slice 5 — Skills supply-chain parity** (PR #20, shipped): `skill.ts` -> NBB `vet_skill.sh` default-deny gate;
   emit/reference NBB skill set + `SKILLS_REGISTRY.md`; carry UNPINNED honesty markers.
-- **Slice 6 — Dogfood self-application (G4):** run NBCLI generators on its own config -> root
+- **Slice 6 — Dogfood self-application (G4)** (PR #21, shipped): run NBCLI generators on its own config -> root
   AGENTS.md/CLAUDE.md/SKILL.md + `.claude/`.
 - **Slice 7 — Distribution + honest assessment:** version bump (see flag), CHANGELOG + MIGRATION,
   `CAPABILITY_ASSESSMENT.md` refresh, `docs/DRIFT_GUARD.md`.
