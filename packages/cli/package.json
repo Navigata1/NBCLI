@@ -30,6 +30,7 @@
   "scripts": {
     "build": "tsup",
     "build:standalone": "tsup --config tsup.standalone.config.ts",
+    "prepack": "tsup --config tsup.standalone.config.ts",
     "test": "vitest run",
     "test:e2e": "vitest run --dir tests/e2e",
     "typecheck": "tsc -p tsconfig.json --noEmit",
