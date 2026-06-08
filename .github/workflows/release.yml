@@ -21,6 +21,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+      # Build + assert the standalone monolith reports the release version BEFORE publishing.
+      # `pnpm build` does not emit the standalone (separate config); prepack also rebuilds it at
+      # pack time, but this fails the release early if a stale/wrong-version monolith would ship.
+      - run: pnpm --filter @nsb/cli build:standalone
+      - name: Assert standalone version matches package
+        run: |
+          PKG=$(node -p "require('./packages/cli/package.json').version")
+          SA=$(node packages/cli/dist/nsb-standalone.js --version | tr -d '[:space:]')
+          echo "package=$PKG standalone=$SA"
+          test "$PKG" = "$SA" || { echo "::error::standalone version $SA != package $PKG"; exit 1; }
       # --provenance emits a signed supply-chain attestation. Versions must be
       # bumped before dispatch (no automated bump); npm rejects re-publishing
       # an existing version.
