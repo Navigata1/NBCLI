@@ -150,11 +150,14 @@
             "properties": {
               "url": { "type": "string" },
               "enabled": { "type": "boolean" },
-              "redactPayload": { "type": "boolean" }
+              "redactPayload": { "type": "boolean" },
+              "allowInsecure": { "type": "boolean" },
+              "allowPrivate": { "type": "boolean" }
             },
             "additionalProperties": false
           }
-        }
+        },
+        "allowlist": { "type": "array", "items": { "type": "string" } }
       },
       "additionalProperties": false
     }
