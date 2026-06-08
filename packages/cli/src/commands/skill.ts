@@ -172,5 +172,6 @@ export const skillCommand = new Command('skill')
     }
     log.blank();
     log.dim('External skills must pass `nsb skill vet` (default-deny: FAIL blocks, WARN -> review).');
-    log.dim('Canonical skill set + UNPINNED honesty markers: vendor/nbb/SKILLS_REGISTRY.md.');
+    log.dim('NBCLI bundles only the generated north-star skill above; `vendor/nbb/SKILLS_REGISTRY.md`');
+    log.dim('is NBB\'s catalog (source-map + UNPINNED honesty markers), not a bundled local inventory.');
   });
