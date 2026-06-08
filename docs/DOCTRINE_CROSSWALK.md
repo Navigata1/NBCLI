@@ -67,7 +67,7 @@ NBB-doctrine content · **SLICE N** = lands in that re-alignment slice. Honesty 
 
 | NBB doctrine | NBCLI mechanism | Status |
 |---|---|---|
-| **Dogfood: eat your own bootstrap** | run NBCLI generators on NBCLI's own config -> root AGENTS.md/CLAUDE.md/SKILL.md + `.claude/` | SLICE 6 |
+| **Dogfood: eat your own bootstrap** | committed root CLAUDE.md/AGENTS.md/.cursor/SKILL.md from NBCLI`s own `.mbf`; `update --check` runs in `pnpm dogfood` (self-portability) | REAL (Slice 6) |
 | **Honest capability assessment** (REAL vs DEFERRED) | update `CAPABILITY_ASSESSMENT.md`; zero over-claim | SLICE 7 |
 | **Drift can never recur** | `docs/DRIFT_GUARD.md`: pinned SHA + `nsb sync --check` in the gate | SLICE 7 |
 

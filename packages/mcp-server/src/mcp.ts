@@ -11,7 +11,7 @@ import { listAnchors } from './tools/list-anchors';
 import { auditQuery } from './tools/audit-query';
 
 export const MCP_SERVER_NAME = 'north-star-build';
-export const MCP_SERVER_VERSION = '2.23.0';
+export const MCP_SERVER_VERSION = '2.24.0';
 
 // Real MCP tool definitions (JSON Schema), wrapping the same pure governance
 // functions the legacy HTTP server exposes.

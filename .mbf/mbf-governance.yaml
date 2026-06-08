@@ -1,0 +1,60 @@
+version: "1.0"
+governance:
+  profile: professional
+confidence:
+  factors:
+    specification_clarity:
+      weight: 0.25
+      description: How clear is the task?
+    solution_certainty:
+      weight: 0.25
+      description: How confident in the approach?
+    reversibility:
+      weight: 0.2
+      description: How easy to undo if wrong?
+    scope_containment:
+      weight: 0.15
+      description: How isolated is the change?
+    precedent_available:
+      weight: 0.15
+      description: Have similar changes been done before?
+  thresholds:
+    high: 0.8
+    medium: 0.5
+    low: 0.3
+    uncertain: 0
+autonomy:
+  default_level: 3
+  escalation_paths:
+    - condition: confidence < 0.30
+      action: require_human_approval
+    - condition: anchor_triggered
+      action: explain_and_confirm
+tools:
+  enabled:
+    - claude
+    - cursor
+    - codex
+    - skill
+hooks:
+  profile: standard
+budgets:
+  per_run_usd: 5
+  per_project_usd: 50
+  warn_at: 0.8
+  currency: USD
+permissions:
+  allow:
+    - read
+    - format
+    - lint
+    - test
+  destructive_gates:
+    - rm -rf
+    - git push --force
+    - db migrate
+routing:
+  orchestrator: claude-opus-4-8
+  subtask: claude-sonnet-4-6
+  cheap: claude-haiku-4-5
+  fast: false

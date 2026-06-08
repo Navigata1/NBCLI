@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.24.0 - 2026-06-07 — NBB re-alignment Slice 6: dogfood self-application (G4)
+
+### Added
+- **NBCLI now eats its own dog food:** ran its generators on its own `.mbf` config to produce the
+  repo's root `CLAUDE.md` / `AGENTS.md` / `.cursor/rules/mbf.mdc` / `.claude/skills/north-star/SKILL.md`
+  (carrying the NBB bootstrap + doctrine + content-hash stamps).
+- **`update --check` wired into `pnpm dogfood`** as the `self-portability` step: NBCLI's own generated
+  agent files must stay in sync + unedited every gate — a live integration test of the generators
+  against NBB doctrine.
+
+### Changed
+- Version 2.23.0 → 2.24.0. Closes **G4** (the self-portability gap).
+
 ## 2.23.0 - 2026-06-07 — NBB re-alignment Slice 5: skills supply-chain parity
 
 ### Added

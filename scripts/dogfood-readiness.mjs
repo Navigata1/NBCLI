@@ -7,6 +7,8 @@ const steps = [
   ['build', 'pnpm build'],
   // NBB drift guard: vendor/nbb must match its MANIFEST + the pinned SHA (offline).
   ['nbb-sync', 'node packages/cli/dist/cli.js sync --check'],
+  // Dogfood: NBCLI's OWN generated agent files (CLAUDE.md/AGENTS.md/SKILL.md) stay in sync + unedited.
+  ['self-portability', 'node packages/cli/dist/cli.js update --check'],
   ['typecheck', 'pnpm typecheck'],
   ['lint', 'pnpm lint'],
   ['test', 'pnpm test'],
