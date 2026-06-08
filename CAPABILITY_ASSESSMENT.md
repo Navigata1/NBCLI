@@ -1,4 +1,4 @@
-# CAPABILITY_ASSESSMENT — NBCLI v2.18.0
+# CAPABILITY_ASSESSMENT — NBCLI v2.25.0
 
 The single most important property of this edition is **accuracy**. The pre-modernization repo
 over-claimed (an HTTP server called "MCP", "enforceable" governance that was instruction text,
@@ -73,6 +73,26 @@ Verification baseline: **265 tests** green (core 73, schema 17, cli 162, mcp-ser
 | Homebrew formula | 🟡 template | `packaging/homebrew/nbcli.rb` — ready on first release (needs tarball url + sha256) |
 | npm provenance on release | 🟡 | release workflow `--provenance` + `id-token: write` + cli `publishConfig`; **not run** this pass (Jon-owned) |
 
+## BATCH 6 — NBB re-alignment (Slices 1–7)
+NBCLI is now NBB's executable enforcement + portability compiler (NBB `Navigata1/NBB`, pinned, Blueprint
+v6.5 / MBF v2.5). See `docs/ADR-001-nbb-realignment.md`, `docs/DOCTRINE_CROSSWALK.md`, `docs/DRIFT_GUARD.md`.
+
+| Capability | Status | Notes |
+|---|---|---|
+| Canonical NBB sync (`nsb sync` / `--check`) | ✅ | `vendor/nbb/` = pinned doctrine subset + MANIFEST; offline drift guard in `pnpm dogfood`. |
+| Dedupe + license seam | ✅ | stale v6.0/v2.0 → `superseded/`; `NOTICE`/`LICENSE` (CC BY-NC-SA methodology / MIT engine). |
+| NBB HARD STOPS enforced | ✅ | `hard_stops` anchors block `terraform destroy`/`DROP DATABASE`/`rm -rf /`/force-push (`nsb check`/hooks/eval). |
+| NBB safety floor emitted | ✅ | hard stops, blast-radius, autonomy caps, `op://` secrets, prompt-injection, load discipline in every generated file. |
+| Portable NBB bootstrap | ✅ | `nsb init` emits the ignition + load-discipline bootstrap into the trio. |
+| Content-hash drift guard | ✅ | stamp + `nsb update --check`; `self-portability` step in `pnpm dogfood`. |
+| Protocols + memory scaffolding | ✅ | `nsb protocols emit` → `mcp.json` (wires `nsb-mcp`) + `memory-backend.json` + `PROTOCOLS.md`. |
+| ACP | 🟡 | reached **via MCP** (hosts consume `nsb-mcp`); NBCLI is a tool/governance provider, not a driven agent. |
+| A2A / AG-UI / A2UI | 🟡 | **emitted guidance**, not runtimes. |
+| Skill supply-chain gate (`nsb skill vet`) | ✅ | ports NBB `vet_skill.sh` (default-deny PASS/WARN/FAIL → 0/2/1). |
+| Dogfood self-application | ✅ | NBCLI generates its own root `CLAUDE.md`/`AGENTS.md`/`SKILL.md`; verified by the gate. |
+| `.claude/settings.json` deny-list emit | ⛔ | deferred (overlaps `nsb hooks`; denylist already emitted as guidance + enforced via `nsb hooks install`). |
+| `.mbf` vocabulary aliasing | ⛔ | deferred (low-value / risky rename; back-compat preserved). |
+
 ## Unverifiable / time-sensitive (mid-June-2026) claims
 - **Model IDs** (`claude-opus-4-8`, `claude-sonnet-4-6`, `claude-haiku-4-5`) reflect the stated
   mid-2026 lineup used by `model-route`. They are configurable via `routing` in `.mbf` and should
@@ -85,9 +105,12 @@ Verification baseline: **265 tests** green (core 73, schema 17, cli 162, mcp-ser
   intended classification, not an independent third-party benchmark. Add your own labeled cases at
   `.mbf/eval/*.json` to measure your project's real risk surface.
 - npm publish (`@nsb/*`) has **not** been performed; `npm i -g @nsb/cli` is aspirational until a
-  release is dispatched. Versions are bumped to 2.18.0 in-tree only.
+  release is dispatched. Versions are bumped to 2.25.0 in-tree only.
 
 ## Deliberately deferred (scaffold or out of scope)
-ACP handshake runtime · compression proxy · telemetry ·
-install-on-demand plugins · workflow executor · automated version-bump/changeset in release.
+ACP-native handshake runtime (reached via MCP) · A2A/AG-UI/A2UI runtimes (emitted guidance only) ·
+network compression proxy · network telemetry (local `nsb stats` only) · network/registry plugin
+install (offline signature-verified `nsb plugin` is REAL) · workflow executor (NBCLI emits + validates
+the plan) · generated `.claude/settings.json` deny-list · `.mbf` vocabulary aliasing ·
+automated version-bump/changeset in release.
 These are documented, not faked.
