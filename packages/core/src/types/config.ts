@@ -127,10 +127,16 @@ export interface WebhookSink {
   enabled?: boolean;
   /** Drop the freeform `payload` field before sending (keeps seq/timestamp/kind/hash/cost/tokens). */
   redactPayload?: boolean;
+  /** Allow plaintext http for THIS sink (default: https-only egress). */
+  allowInsecure?: boolean;
+  /** Allow a loopback/private/link-local host for THIS sink (default: blocked as an SSRF guard). */
+  allowPrivate?: boolean;
 }
 
 export interface SinksConfig {
   webhooks?: WebhookSink[];
+  /** Optional egress allowlist: only these hosts (and their subdomains) may be sync targets. */
+  allowlist?: string[];
 }
 
 /** Default hook profile for each governance profile. */

@@ -4,7 +4,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { parse } from 'yaml';
 import Table from 'cli-table3';
 import type { GovernanceConfig, LedgerKind, WebhookSink } from '@nsb/core';
-import { buildWebhookBody, filterEntries, readLedger, summarizeSpend, toCsv, verifyLedger } from '@nsb/core';
+import { buildWebhookBody, filterEntries, readLedger, summarizeSpend, toCsv, validateEgressUrl, verifyLedger } from '@nsb/core';
 import { log } from '../utils/logger';
 import { printMini } from '../utils/banner';
 import { colors } from '../utils/theme';
@@ -29,6 +29,8 @@ export const auditCommand = new Command('audit')
   .option('--kind <kind>', 'filter: decision | run | spend | note')
   .option('--since <iso>', 'filter: ISO-8601 timestamp lower bound (inclusive)')
   .option('--webhook <url>', 'sync: POST entries to this webhook, full payload (config sinks.redactPayload to redact)')
+  .option('--allow-insecure', 'sync: permit plaintext http for --webhook (default: https-only egress)')
+  .option('--allow-private', 'sync: permit a loopback/private host for --webhook (default: blocked, SSRF guard)')
   .action(async (action: string, options) => {
     const root = process.cwd();
     const file = ledgerPath(root);
@@ -66,12 +68,25 @@ export const auditCommand = new Command('audit')
       printMini();
       const config = readGovConfig(root);
       const configured = (config?.sinks?.webhooks ?? []).filter((w) => w.enabled !== false);
-      const targets: WebhookSink[] = options.webhook ? [{ url: options.webhook as string }] : configured;
+      const targets: WebhookSink[] = options.webhook
+        ? [{ url: options.webhook as string, allowInsecure: Boolean(options.allowInsecure), allowPrivate: Boolean(options.allowPrivate) }]
+        : configured;
       if (targets.length === 0) {
         log.warn('No sinks configured (config.sinks.webhooks) and no --webhook given. Nothing sent — NBCLI stayed offline.');
         return;
       }
       for (const sink of targets) {
+        // SSRF guard: https-only by default; block loopback/private/link-local/metadata; optional allowlist.
+        const egress = validateEgressUrl(sink.url, {
+          allowInsecure: sink.allowInsecure,
+          allowPrivate: sink.allowPrivate,
+          allowlist: config?.sinks?.allowlist,
+        });
+        if (!egress.ok) {
+          log.error(`Refusing to sync to ${sink.url}: ${egress.reason}`);
+          process.exitCode = 1;
+          continue;
+        }
         const body = buildWebhookBody(entries, sink);
         const controller = new globalThis.AbortController();
         const timer = setTimeout(() => controller.abort(), 5000);

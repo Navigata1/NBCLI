@@ -1,6 +1,25 @@
 # Changelog
 
-## 2.25.0 - 2026-06-07 — NBB re-alignment Slice 7: distribution + honest assessment + drift guard
+## 2.26.0 - 2026-06-07 — Conformance audit fix 1/3: egress SSRF guard
+
+Independent BATCH 0–5 conformance audit found one finding with real security weight: `nsb audit sync`
+(the only outbound path) fetched the sink URL with no validation, and `SECURITY.md` wrongly claimed
+"NBCLI fetches nothing."
+
+### Added / Fixed
+- **`validateEgressUrl`** (core): https-only by default, blocks loopback/private/link-local/cloud-metadata
+  hosts (SSRF guard), optional `sinks.allowlist`. Wired into `nsb audit sync` before every POST —
+  refuses + exits 1 on a blocked target. (Host+scheme guard, not DNS-rebind-proof; documented honestly.)
+- Per-sink opt-ins for legit local collectors: `allowInsecure` (http) + `allowPrivate` (loopback/private),
+  via config (`sinks.webhooks[]`) or the new `audit sync --allow-insecure` / `--allow-private` flags.
+- Hardened against IPv4-mapped IPv6 literals (`::ffff:127.0.0.1` / `::ffff:7f00:1` decode + re-check),
+  CGNAT `100.64.0.0/10`, and the full `fe80::/10` link-local range (caught in adversarial review).
+- `SECURITY.md` corrected to describe the egress guard (no more "fetches nothing").
+- +9 tests (274 total): egress matrix incl. mapped-IPv6/CGNAT bypass regressions (core) + audit-sync
+  guard e2e (incl. an https host-guard case).
+
+### Changed
+- Version 2.25.0 → 2.26.0.
 
 ### Added
 - **`docs/DRIFT_GUARD.md`** — the 3 layered, offline, deterministic guards that keep NBB ↔ NBCLI in

@@ -46,7 +46,8 @@ describe.skipIf(!cliBuilt)('cli e2e audit sync (opt-in webhook)', () => {
 
   it('--webhook POSTs the ledger entries to the sink', async () => {
     const port = (server.address() as { port: number }).port;
-    await run(['audit', 'sync', '--webhook', `http://127.0.0.1:${port}/ingest`]);
+    // loopback http mock: explicitly opt in past the SSRF/https egress guard.
+    await run(['audit', 'sync', '--webhook', `http://127.0.0.1:${port}/ingest`, '--allow-insecure', '--allow-private']);
     expect(received).toHaveLength(1);
     const body = JSON.parse(received[0]);
     expect(body.source).toBe('nbcli');

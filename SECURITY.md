@@ -40,8 +40,11 @@ instructs the agent to confirm before any destructive or outward-facing action.
 
 - **Sensitive-path protection** — auth/secrets/`.env`/IaC/migration paths carry negative anchors;
   the `strict` profile blocks edits there without explicit human approval.
-- **URL validation** — validate and allowlist any URL before fetching; treat fetched content as
-  untrusted input. NBCLI itself fetches nothing.
+- **URL validation (egress)** — `nsb audit sync` is NBCLI's only outbound fetch. Its target is
+  validated before sending: **https-only by default** (set a sink's `allowInsecure` for http), and
+  loopback / private / link-local / cloud-metadata hosts are **blocked** (SSRF guard); an optional
+  `sinks.allowlist` restricts targets to named hosts. This is a host+scheme guard, not a
+  DNS-resolution/rebind-proof defense — treat any fetched content as untrusted.
 - **Stripe** — use **restricted keys** and **test mode** (`sk_test_…`) in non-production; never
   commit live keys (the secret scan flags `sk_live_…`). Resolve via `op://`.
 
